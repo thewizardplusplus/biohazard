@@ -8,7 +8,7 @@ local life = require("lualife.life")
 local CELL_SIZE = 20
 local CELL_RADIUS = CELL_SIZE / 4
 local FIELD_SIZE = Size:new(20, 15)
-local FIELD_OFFSET = Point:new(50, 50)
+local FIELD_OFFSET = Point:new(0, 0)
 local FIELD_UPDATE_PERIOD = 0.2
 
 local field = Field:new(FIELD_SIZE)
@@ -16,6 +16,9 @@ local elapsed_time = 0
 
 function love.load()
   math.randomseed(os.time())
+
+  local ok = love.window.setFullscreen(true)
+  assert(ok, "unable to enter fullscreen")
 
   for y = 0, field.size.height - 1 do
     for x = 0, field.size.width - 1 do
