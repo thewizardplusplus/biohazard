@@ -6,17 +6,22 @@ local Field = require("lualife.models.field")
 local life = require("lualife.life")
 
 local CELL_SIZE = 20
+local CELL_RADIUS = CELL_SIZE / 4
 local FIELD_SIZE = Size:new(20, 15)
 local FIELD_OFFSET = Point:new(50, 50)
 local FIELD_UPDATE_PERIOD = 0.2
 
-math.randomseed(os.time())
-
 local field = Field:new(FIELD_SIZE)
-for y = 0, field.size.height - 1 do
-  for x = 0, field.size.width - 1 do
-    if math.random() > 0.5 then
-      field:set(Point:new(x, y))
+local elapsed_time = 0
+
+function love.load()
+  math.randomseed(os.time())
+
+  for y = 0, field.size.height - 1 do
+    for x = 0, field.size.width - 1 do
+      if math.random() > 0.5 then
+        field:set(Point:new(x, y))
+      end
     end
   end
 end
@@ -36,7 +41,7 @@ function love.draw()
           cell_y,
           CELL_SIZE,
           CELL_SIZE,
-          CELL_SIZE / 4
+          CELL_RADIUS
         )
 
         love.graphics.setColor(0, 1, 0)
@@ -47,14 +52,12 @@ function love.draw()
           cell_y,
           CELL_SIZE,
           CELL_SIZE,
-          CELL_SIZE / 4
+          CELL_RADIUS
         )
       end
     end
   end
 end
-
-local elapsed_time = 0
 
 function love.update(dt)
   elapsed_time = elapsed_time + dt
