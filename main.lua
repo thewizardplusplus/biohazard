@@ -7,6 +7,7 @@ local life = require("lualife.life")
 
 local CELL_SIZE = 20
 local FIELD_OFFSET = Point:new(50, 50)
+local FIELD_UPDATE_PERIOD = 0.2
 
 local field = Field:new(Size:new(3, 3))
 field:set(Point:new(0, 1))
@@ -43,5 +44,15 @@ function love.draw()
         )
       end
     end
+  end
+end
+
+local elapsed_time = 0
+
+function love.update(dt)
+  elapsed_time = elapsed_time + dt
+  if elapsed_time > FIELD_UPDATE_PERIOD then
+    field = life.populate(field)
+    elapsed_time = 0
   end
 end
