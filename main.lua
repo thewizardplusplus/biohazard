@@ -6,12 +6,13 @@ local Field = require("lualife.models.field")
 local life = require("lualife.life")
 
 local CELL_SIZE = 20
+local FIELD_SIZE = Size:new(20, 15)
 local FIELD_OFFSET = Point:new(50, 50)
 local FIELD_UPDATE_PERIOD = 0.2
 
 math.randomseed(os.time())
 
-local field = Field:new(Size:new(10, 10))
+local field = Field:new(FIELD_SIZE)
 for y = 0, field.size.height - 1 do
   for x = 0, field.size.width - 1 do
     if math.random() > 0.5 then
@@ -60,5 +61,16 @@ function love.update(dt)
   if elapsed_time > FIELD_UPDATE_PERIOD then
     field = life.populate(field)
     elapsed_time = 0
+  end
+end
+
+function love.mousepressed()
+  field = Field:new(FIELD_SIZE)
+  for y = 0, field.size.height - 1 do
+    for x = 0, field.size.width - 1 do
+      if math.random() > 0.5 then
+        field:set(Point:new(x, y))
+      end
+    end
   end
 end
