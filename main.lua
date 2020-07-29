@@ -9,10 +9,16 @@ local CELL_SIZE = 20
 local FIELD_OFFSET = Point:new(50, 50)
 local FIELD_UPDATE_PERIOD = 0.2
 
-local field = Field:new(Size:new(3, 3))
-field:set(Point:new(0, 1))
-field:set(Point:new(1, 1))
-field:set(Point:new(2, 1))
+math.randomseed(os.time())
+
+local field = Field:new(Size:new(10, 10))
+for y = 0, field.size.height - 1 do
+  for x = 0, field.size.width - 1 do
+    if math.random() > 0.5 then
+      field:set(Point:new(x, y))
+    end
+  end
+end
 
 function love.draw()
   for y = 0, field.size.height - 1 do
