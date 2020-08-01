@@ -22,6 +22,7 @@ local elapsed_time = 0
 
 function love.load()
   math.randomseed(os.time())
+  love.graphics.setBackgroundColor(0.5, 0.5, 0.5)
 
   local ok = love.window.setFullscreen(true)
   assert(ok, "unable to enter fullscreen")
@@ -39,6 +40,15 @@ function love.load()
 end
 
 function love.draw()
+  love.graphics.setColor(1, 1, 1)
+  love.graphics.rectangle(
+    "fill",
+    field_offset.x,
+    field_offset.y,
+    cell_size * field.size.width,
+    cell_size * field.size.height
+  )
+
   field:map(function(point, contains)
     if not contains then
       return
@@ -51,17 +61,6 @@ function love.draw()
     love.graphics.setColor(0, 0, 1)
     love.graphics.rectangle(
       "fill",
-      cell_point.x,
-      cell_point.y,
-      cell_size,
-      cell_size,
-      cell_radius
-    )
-
-    love.graphics.setColor(0, 1, 0)
-    love.graphics.setLineWidth(cell_border)
-    love.graphics.rectangle(
-      "line",
       cell_point.x,
       cell_point.y,
       cell_size,
