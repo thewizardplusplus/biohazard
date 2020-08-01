@@ -40,4 +40,24 @@ function Field:set(point)
   self.cells[tostring(point)] = true
 end
 
+---
+-- @tparam func operation
+-- @treturn Field
+function Field:map(operation)
+  assert(type(operation) == "function")
+
+  local field = Field:new(self.size)
+  for y = 0, self.size.height - 1 do
+    for x = 0, self.size.width - 1 do
+      local point = Point:new(x, y)
+      local contains = self:contains(point)
+      if operation(point, contains) then
+        field:set(point)
+      end
+    end
+  end
+
+  return field
+end
+
 return Field

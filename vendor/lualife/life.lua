@@ -35,19 +35,10 @@ end
 function life.populate(field)
   assert(field:isInstanceOf(Field))
 
-  local next_field = Field:new(field.size)
-  for y = 0, field.size.height - 1 do
-    for x = 0, field.size.width - 1 do
-      local point = Point:new(x, y)
-      local neighbors = life.neighbors(field, point)
-      local alive = field:contains(point)
-      if neighbors == 3 or (neighbors == 2 and alive) then
-        next_field:set(point)
-      end
-    end
-  end
-
-  return next_field
+  return field:map(function(point, contains)
+    local neighbors = life.neighbors(field, point)
+    return neighbors == 3 or (neighbors == 2 and contains)
+  end)
 end
 
 return life

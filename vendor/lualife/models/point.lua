@@ -33,4 +33,13 @@ function Point:translate(point)
   return Point:new(self.x + point.x, self.y + point.y)
 end
 
+---
+-- @tparam Point point
+-- @treturn Point
+function Point:scale(point)
+  assert(point:isInstanceOf(Point))
+
+  return Point:new(self.x * point.x, self.y * point.y)
+end
+
 return Point
