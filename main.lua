@@ -31,7 +31,10 @@ function love.load()
   cell_radius = CELL_RADIUS_FACTOR * cell_size
   cell_border = CELL_BORDER_FACTOR * cell_size
   field_size = Size:new(math.floor(width / cell_size) - 1, FIELD_HEIGHT)
-  field_offset = Point:new(x + cell_size / 2 + (width % cell_size) / 2, y + cell_size / 2)
+  field_offset = Point
+    :new(x, y)
+    :translate(Point:new(width % cell_size, 0):scale(Point:new(0.5, 0.5)))
+    :translate(Point:new(cell_size, cell_size):scale(Point:new(0.5, 0.5)))
   field = random.generate(field_size, FIELD_FILLING)
 end
 
@@ -41,14 +44,15 @@ function love.draw()
       return
     end
 
-    local cell_x = cell_size * point.x + field_offset.x
-    local cell_y = cell_size * point.y + field_offset.y
+    local cell_point = point
+      :scale(Point:new(cell_size, cell_size))
+      :translate(field_offset)
 
     love.graphics.setColor(0, 0, 1)
     love.graphics.rectangle(
       "fill",
-      cell_x,
-      cell_y,
+      cell_point.x,
+      cell_point.y,
       cell_size,
       cell_size,
       cell_radius
@@ -58,8 +62,8 @@ function love.draw()
     love.graphics.setLineWidth(cell_border)
     love.graphics.rectangle(
       "line",
-      cell_x,
-      cell_y,
+      cell_point.x,
+      cell_point.y,
       cell_size,
       cell_size,
       cell_radius
