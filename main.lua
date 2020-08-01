@@ -4,10 +4,12 @@ local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 local life = require("lualife.life")
+local random = require("lualife.random")
 
 local CELL_RADIUS_FACTOR = 0.25
 local CELL_BORDER_FACTOR = 0.1
 local FIELD_HEIGHT = 10
+local FIELD_FILLING = 0.5
 local FIELD_UPDATE_PERIOD = 0.2
 
 local cell_size = 0
@@ -30,15 +32,7 @@ function love.load()
   cell_border = CELL_BORDER_FACTOR * cell_size
   field_size = Size:new(math.floor(width / cell_size) - 1, FIELD_HEIGHT)
   field_offset = Point:new(x + cell_size / 2 + (width % cell_size) / 2, y + cell_size / 2)
-
-  field = Field:new(field_size)
-  for y = 0, field.size.height - 1 do
-    for x = 0, field.size.width - 1 do
-      if math.random() > 0.5 then
-        field:set(Point:new(x, y))
-      end
-    end
-  end
+  field = random.generate(field_size, FIELD_FILLING)
 end
 
 function love.draw()
@@ -83,12 +77,5 @@ function love.update(dt)
 end
 
 function love.mousepressed()
-  field = Field:new(field_size)
-  for y = 0, field.size.height - 1 do
-    for x = 0, field.size.width - 1 do
-      if math.random() > 0.5 then
-        field:set(Point:new(x, y))
-      end
-    end
-  end
+  field = random.generate(field_size, FIELD_FILLING)
 end
