@@ -36,36 +36,35 @@ function love.load()
 end
 
 function love.draw()
-  for y = 0, field.size.height - 1 do
-    for x = 0, field.size.width - 1 do
-      local alive = field:contains(Point:new(x, y))
-      if alive then
-        local cell_x = cell_size * x + field_offset.x
-        local cell_y = cell_size * y + field_offset.y
-
-        love.graphics.setColor(0, 0, 1)
-        love.graphics.rectangle(
-          "fill",
-          cell_x,
-          cell_y,
-          cell_size,
-          cell_size,
-          cell_radius
-        )
-
-        love.graphics.setColor(0, 1, 0)
-        love.graphics.setLineWidth(cell_border)
-        love.graphics.rectangle(
-          "line",
-          cell_x,
-          cell_y,
-          cell_size,
-          cell_size,
-          cell_radius
-        )
-      end
+  field:map(function(point, contains)
+    if not contains then
+      return
     end
-  end
+
+    local cell_x = cell_size * point.x + field_offset.x
+    local cell_y = cell_size * point.y + field_offset.y
+
+    love.graphics.setColor(0, 0, 1)
+    love.graphics.rectangle(
+      "fill",
+      cell_x,
+      cell_y,
+      cell_size,
+      cell_size,
+      cell_radius
+    )
+
+    love.graphics.setColor(0, 1, 0)
+    love.graphics.setLineWidth(cell_border)
+    love.graphics.rectangle(
+      "line",
+      cell_x,
+      cell_y,
+      cell_size,
+      cell_size,
+      cell_radius
+    )
+  end)
 end
 
 function love.update(dt)
