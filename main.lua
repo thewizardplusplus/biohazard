@@ -1,4 +1,4 @@
-package.path = "/sdcard/lovegame/vendor/?.lua"
+package.path = "/sdcard/lovegame/vendor/?.lua;./vendor/?.lua"
 
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
