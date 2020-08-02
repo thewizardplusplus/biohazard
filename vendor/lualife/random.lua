@@ -8,7 +8,7 @@ local random = {}
 
 ---
 -- @tparam Size size
--- @tparam number filling
+-- @tparam number filling [0, 1]
 -- @treturn Field
 function random.generate(size, filling)
   assert(size:isInstanceOf(Size))
@@ -16,7 +16,7 @@ function random.generate(size, filling)
 
   return Field
     :new(size)
-    :map(function(point, contains)
+    :map(function()
       return math.random() < filling
     end)
 end

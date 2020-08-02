@@ -34,8 +34,8 @@ function love.load()
   field_size = Size:new(math.floor(width / cell_size) - 1, FIELD_HEIGHT)
   field_offset = Point
     :new(x, y)
-    :translate(Point:new(width % cell_size, 0):scale(Point:new(0.5, 0.5)))
-    :translate(Point:new(cell_size, cell_size):scale(Point:new(0.5, 0.5)))
+    :translate(Point:new(cell_size, cell_size):scale(0.5))
+    :translate(Point:new(width % cell_size, 0):scale(0.5))
   field = random.generate(field_size, FIELD_FILLING)
 end
 
@@ -55,7 +55,7 @@ function love.draw()
     end
 
     local cell_point = point
-      :scale(Point:new(cell_size, cell_size))
+      :scale(cell_size)
       :translate(field_offset)
 
     love.graphics.setColor(0, 0, 1)

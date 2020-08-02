@@ -7,8 +7,8 @@ local Size = middleclass("Size")
 
 ---
 -- @function new
--- @tparam int width
--- @tparam int height
+-- @tparam int width [0, ∞)
+-- @tparam int height [0, ∞)
 -- @treturn Size
 function Size:initialize(width, height)
   assert(type(width) == "number")

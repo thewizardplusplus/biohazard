@@ -7,8 +7,8 @@ local Point = middleclass("Point")
 
 ---
 -- @function new
--- @tparam int x
--- @tparam int y
+-- @tparam number x
+-- @tparam number y
 -- @treturn Point
 function Point:initialize(x, y)
   assert(type(x) == "number")
@@ -19,9 +19,9 @@ function Point:initialize(x, y)
 end
 
 ---
--- @treturn string
+-- @treturn string e.g. "(23, 42)"
 function Point:__tostring()
-  return string.format("(%d, %d)", self.x, self.y)
+  return string.format("(%g, %g)", self.x, self.y)
 end
 
 ---
@@ -34,12 +34,12 @@ function Point:translate(point)
 end
 
 ---
--- @tparam Point point
+-- @tparam number factor
 -- @treturn Point
-function Point:scale(point)
-  assert(point:isInstanceOf(Point))
+function Point:scale(factor)
+  assert(type(factor) == "number")
 
-  return Point:new(self.x * point.x, self.y * point.y)
+  return Point:new(self.x * factor, self.y * factor)
 end
 
 return Point
