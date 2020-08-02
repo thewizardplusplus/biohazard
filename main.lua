@@ -3,8 +3,8 @@ package.path = "/sdcard/lovegame/vendor/?.lua"
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
-local life = require("lualife.life")
 local random = require("lualife.random")
+local life = require("lualife.life")
 
 local CELL_RADIUS_FACTOR = 0.25
 local FIELD_HEIGHT = 10
