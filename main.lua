@@ -7,15 +7,14 @@ local random = require("lualife.random")
 local life = require("lualife.life")
 
 local CELL_RADIUS_FACTOR = 0.25
-local FIELD_HEIGHT = 10
+local FIELD_SIZE = Size:new(10, 10)
 local FIELD_FILLING = 0.5
 local FIELD_UPDATE_PERIOD = 0.2
 
 local cell_size = 0
 local cell_radius = 0
-local field_size = Size:new(0, 0)
 local field_offset = Point:new(0, 0)
-local field = Field:new(field_size)
+local field = Field:new(FIELD_SIZE)
 local elapsed_time = 0
 
 function love.load()
@@ -26,14 +25,13 @@ function love.load()
   assert(ok, "unable to enter fullscreen")
 
   local x, y, width, height = love.window.getSafeArea()
-  cell_size = height / (FIELD_HEIGHT + 1)
+  cell_size = height / (FIELD_SIZE.height + 1)
   cell_radius = CELL_RADIUS_FACTOR * cell_size
-  field_size = Size:new(math.floor(width / cell_size) - 1, FIELD_HEIGHT)
   field_offset = Point
     :new(x, y)
-    :translate(Point:new(cell_size, cell_size):scale(0.5))
-    :translate(Point:new(width % cell_size, 0):scale(0.5))
-  field = random.generate(field_size, FIELD_FILLING)
+    :translate(Point:new(0, cell_size):scale(0.5))
+    :translate(Point:new(width - cell_size * FIELD_SIZE.width, 0):scale(0.5))
+  field = random.generate(FIELD_SIZE, FIELD_FILLING)
 end
 
 function love.draw()
@@ -76,5 +74,5 @@ function love.update(dt)
 end
 
 function love.mousepressed()
-  field = random.generate(field_size, FIELD_FILLING)
+  field = random.generate(FIELD_SIZE, FIELD_FILLING)
 end
