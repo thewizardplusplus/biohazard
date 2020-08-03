@@ -29,8 +29,10 @@ function love.load()
   cell_radius = CELL_RADIUS_FACTOR * cell_size
   field_offset = Point
     :new(x, y)
-    :translate(Point:new(0, cell_size):scale(0.5))
-    :translate(Point:new(width - cell_size * FIELD_SIZE.width, 0):scale(0.5))
+    :translate(Point:new(
+      (width - cell_size * FIELD_SIZE.width) / 2,
+      cell_size / 2
+    ))
   field = random.generate(FIELD_SIZE, FIELD_FILLING)
 end
 
@@ -40,8 +42,8 @@ function love.draw()
     "fill",
     field_offset.x,
     field_offset.y,
-    cell_size * field.size.width,
-    cell_size * field.size.height
+    cell_size * FIELD_SIZE.width,
+    cell_size * FIELD_SIZE.height
   )
 
   field:map(function(point, contains)
