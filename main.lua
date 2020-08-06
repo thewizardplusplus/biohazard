@@ -8,13 +8,14 @@ local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 local random = require("lualife.random")
+local sets = require("lualife.sets")
 local life = require("lualife.life")
 local suit = require("suit")
 
 local CELL_RADIUS_FACTOR = 0.25
 local FIELD_SIZE = Size:new(10, 10)
 local FIELD_PART_SIZE = Size:new(3, 3)
-local FIELD_FILLING = 0.5
+local FIELD_FILLING = 0.2
 local FIELD_PART_FILLING = 0.5
 local FIELD_PART_COUNT_MIN = 5
 local FIELD_PART_COUNT_MAX = 5
@@ -150,13 +151,38 @@ function love.update()
     end
   end
 
-  suit.Button(
+  local union_button = suit.Button(
     "+",
     right_buttons_offset.x,
     right_buttons_offset.y,
     button_size,
     button_size / 2
   )
+  if union_button.hit then
+    local has_collision = false
+    field_part:map(function(point, contains)
+      local shifted_point = point:translate(field_part_offset)
+      local is_collision = contains and field:contains(shifted_point)
+      has_collision = has_collision or is_collision
+    end)
+
+    if not has_collision then
+      field = sets.union(
+        field,
+        field_part,
+        field_part_offset
+      )
+      field = life.populate(field)
+
+      field_part_offset = Point:new(0, 0)
+      field_part = random.generate_with_limits(
+        FIELD_PART_SIZE,
+        FIELD_PART_FILLING,
+        FIELD_PART_COUNT_MIN,
+        FIELD_PART_COUNT_MAX
+      )
+    end
+  end
 
   local to_top_button = suit.Button(
     "^",
