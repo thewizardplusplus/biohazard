@@ -127,7 +127,9 @@ function love.update()
     button_size
   )
   if to_left_button.hit then
-    field_part_offset.x = field_part_offset.x - 1
+    if field_part_offset.x > 0 then
+      field_part_offset.x = field_part_offset.x - 1
+    end
   end
 
   local to_right_button = suit.Button(
@@ -138,7 +140,10 @@ function love.update()
     button_size
   )
   if to_right_button.hit then
-    field_part_offset.x = field_part_offset.x + 1
+    local x_max = FIELD_SIZE.width - FIELD_PART_SIZE.width
+    if field_part_offset.x < x_max then
+      field_part_offset.x = field_part_offset.x + 1
+    end
   end
 
   suit.Button(
@@ -157,7 +162,9 @@ function love.update()
     button_size / 2
   )
   if to_top_button.hit then
-    field_part_offset.y = field_part_offset.y - 1
+    if field_part_offset.y > 0 then
+      field_part_offset.y = field_part_offset.y - 1
+    end
   end
 
   local to_bottom_button = suit.Button(
@@ -168,6 +175,9 @@ function love.update()
     button_size / 2
   )
   if to_bottom_button.hit then
-    field_part_offset.y = field_part_offset.y + 1
+    local y_max = FIELD_SIZE.height - FIELD_PART_SIZE.height
+    if field_part_offset.y < y_max then
+      field_part_offset.y = field_part_offset.y + 1
+    end
   end
 end
