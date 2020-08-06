@@ -119,20 +119,27 @@ function love.draw()
 end
 
 function love.update()
-  suit.Button(
+  local to_left_button = suit.Button(
     "<",
     left_buttons_offset.x,
     left_buttons_offset.y,
     button_size / 2,
     button_size
   )
-  suit.Button(
+  if to_left_button.hit then
+    field_part_offset.x = field_part_offset.x - 1
+  end
+
+  local to_right_button = suit.Button(
     ">",
     left_buttons_offset.x + button_size / 2 + cell_size / 2,
     left_buttons_offset.y,
     button_size / 2,
     button_size
   )
+  if to_right_button.hit then
+    field_part_offset.x = field_part_offset.x + 1
+  end
 
   suit.Button(
     "+",
@@ -141,18 +148,26 @@ function love.update()
     button_size,
     button_size / 2
   )
-  suit.Button(
+
+  local to_top_button = suit.Button(
     "^",
     right_buttons_offset.x,
     right_buttons_offset.y + button_size / 2 + cell_size / 2,
     button_size,
     button_size / 2
   )
-  suit.Button(
+  if to_top_button.hit then
+    field_part_offset.y = field_part_offset.y - 1
+  end
+
+  local to_bottom_button = suit.Button(
     "v",
     right_buttons_offset.x,
     right_buttons_offset.y + button_size + cell_size,
     button_size,
     button_size / 2
   )
+  if to_bottom_button.hit then
+    field_part_offset.y = field_part_offset.y + 1
+  end
 end
