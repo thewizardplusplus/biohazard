@@ -1,20 +1,29 @@
-package.path = "/sdcard/lovegame/vendor/?.lua;./vendor/?.lua"
+package.path =
+  "/sdcard/lovegame/vendor/?.lua;"
+  .. "/sdcard/lovegame/vendor/?/init.lua;"
+  .. "./vendor/?.lua;"
+  .. "./vendor/?/init.lua"
 
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 local random = require("lualife.random")
 local life = require("lualife.life")
+local suit = require("suit")
 
 local CELL_RADIUS_FACTOR = 0.25
 local FIELD_SIZE = Size:new(10, 10)
 local FIELD_FILLING = 0.5
 local FIELD_UPDATE_PERIOD = 0.2
+local BUTTON_SIZE_FACTOR = 0.25
 
 local cell_size = 0
 local cell_radius = 0
 local field_offset = Point:new(0, 0)
 local field = Field:new(FIELD_SIZE)
+local button_size = 0
+local left_buttons_offset = 0
+local right_buttons_offset = 0
 local elapsed_time = 0
 
 function love.load()
@@ -34,6 +43,15 @@ function love.load()
       cell_size / 2
     ))
   field = random.generate(FIELD_SIZE, FIELD_FILLING)
+  button_size = BUTTON_SIZE_FACTOR * height
+  left_buttons_offset = Point:new(
+    x + cell_size / 2,
+    y + height - cell_size / 2 - button_size
+  )
+  right_buttons_offset = Point:new(
+    x + width - cell_size / 2 - button_size,
+    y + height - 1.5 * cell_size - 1.5 * button_size
+  )
 end
 
 function love.draw()
@@ -65,6 +83,8 @@ function love.draw()
       cell_radius
     )
   end)
+
+  suit.draw()
 end
 
 function love.update(dt)
@@ -73,6 +93,43 @@ function love.update(dt)
     field = life.populate(field)
     elapsed_time = 0
   end
+
+  suit.Button(
+    "<",
+    left_buttons_offset.x,
+    left_buttons_offset.y,
+    button_size / 2,
+    button_size
+  )
+  suit.Button(
+    ">",
+    left_buttons_offset.x + button_size / 2 + cell_size / 2,
+    left_buttons_offset.y,
+    button_size / 2,
+    button_size
+  )
+
+  suit.Button(
+    "+",
+    right_buttons_offset.x,
+    right_buttons_offset.y,
+    button_size,
+    button_size / 2
+  )
+  suit.Button(
+    "^",
+    right_buttons_offset.x,
+    right_buttons_offset.y + button_size / 2 + cell_size / 2,
+    button_size,
+    button_size / 2
+  )
+  suit.Button(
+    "v",
+    right_buttons_offset.x,
+    right_buttons_offset.y + button_size + cell_size,
+    button_size,
+    button_size / 2
+  )
 end
 
 function love.mousepressed()
