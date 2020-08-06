@@ -13,13 +13,19 @@ local suit = require("suit")
 
 local CELL_RADIUS_FACTOR = 0.25
 local FIELD_SIZE = Size:new(10, 10)
+local FIELD_PART_SIZE = Size:new(3, 3)
 local FIELD_FILLING = 0.5
+local FIELD_PART_FILLING = 0.5
+local FIELD_PART_COUNT_MIN = 5
+local FIELD_PART_COUNT_MAX = 5
 local BUTTON_SIZE_FACTOR = 0.25
 
 local cell_size = 0
 local cell_radius = 0
 local field_offset = Point:new(0, 0)
 local field = Field:new(FIELD_SIZE)
+local field_part_offset = Point:new(0, 0)
+local field_part = Field:new(FIELD_PART_SIZE)
 local button_size = 0
 local left_buttons_offset = 0
 local right_buttons_offset = 0
@@ -41,6 +47,12 @@ function love.load()
       cell_size / 2
     ))
   field = random.generate(FIELD_SIZE, FIELD_FILLING)
+  field_part = random.generate_with_limits(
+    FIELD_PART_SIZE,
+    FIELD_PART_FILLING,
+    FIELD_PART_COUNT_MIN,
+    FIELD_PART_COUNT_MAX
+  )
   button_size = BUTTON_SIZE_FACTOR * height
   left_buttons_offset = Point:new(
     x + cell_size / 2,
@@ -72,6 +84,27 @@ function love.draw()
       :translate(field_offset)
 
     love.graphics.setColor(0, 0, 1)
+    love.graphics.rectangle(
+      "fill",
+      cell_point.x,
+      cell_point.y,
+      cell_size,
+      cell_size,
+      cell_radius
+    )
+  end)
+
+  field_part:map(function(point, contains)
+    if not contains then
+      return
+    end
+
+    local cell_point = point
+      :scale(cell_size)
+      :translate(field_offset)
+      :translate(field_part_offset:scale(cell_size))
+
+    love.graphics.setColor(0, 0.66, 0)
     love.graphics.rectangle(
       "fill",
       cell_point.x,
