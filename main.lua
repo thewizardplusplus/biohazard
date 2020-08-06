@@ -99,12 +99,16 @@ function love.draw()
       return
     end
 
-    local cell_point = point
+    local shifted_point = point:translate(field_part_offset)
+    local cell_point = shifted_point
       :scale(cell_size)
       :translate(field_offset)
-      :translate(field_part_offset:scale(cell_size))
 
-    love.graphics.setColor(0, 0.66, 0)
+    if field:contains(shifted_point) then
+      love.graphics.setColor(0.85, 0, 0)
+    else
+      love.graphics.setColor(0, 0.66, 0)
+    end
     love.graphics.rectangle(
       "fill",
       cell_point.x,
