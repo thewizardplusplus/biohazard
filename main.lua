@@ -14,7 +14,6 @@ local suit = require("suit")
 local CELL_RADIUS_FACTOR = 0.25
 local FIELD_SIZE = Size:new(10, 10)
 local FIELD_FILLING = 0.5
-local FIELD_UPDATE_PERIOD = 0.2
 local BUTTON_SIZE_FACTOR = 0.25
 
 local cell_size = 0
@@ -24,7 +23,6 @@ local field = Field:new(FIELD_SIZE)
 local button_size = 0
 local left_buttons_offset = 0
 local right_buttons_offset = 0
-local elapsed_time = 0
 
 function love.load()
   math.randomseed(os.time())
@@ -87,13 +85,7 @@ function love.draw()
   suit.draw()
 end
 
-function love.update(dt)
-  elapsed_time = elapsed_time + dt
-  if elapsed_time > FIELD_UPDATE_PERIOD then
-    field = life.populate(field)
-    elapsed_time = 0
-  end
-
+function love.update()
   suit.Button(
     "<",
     left_buttons_offset.x,
@@ -130,8 +122,4 @@ function love.update(dt)
     button_size,
     button_size / 2
   )
-end
-
-function love.mousepressed()
-  field = random.generate(FIELD_SIZE, FIELD_FILLING)
 end
