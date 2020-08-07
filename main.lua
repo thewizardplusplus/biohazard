@@ -33,6 +33,7 @@ local right_buttons_offset = 0
 
 function love.load()
   math.randomseed(os.time())
+  love.setDeprecationOutput(true)
   love.graphics.setBackgroundColor(0.5, 0.5, 0.5)
 
   local ok = love.window.setFullscreen(true)
