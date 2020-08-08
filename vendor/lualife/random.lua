@@ -4,15 +4,6 @@
 local Size = require("lualife.models.size")
 local Field = require("lualife.models.field")
 
-local function length(table)
-  local count = 0
-  for _ in pairs(table) do
-    count = count + 1
-  end
-
-  return count
-end
-
 local random = {}
 
 ---
@@ -48,10 +39,8 @@ function random.generate_with_limits(
   assert(type(maximal_count) == "number")
 
   local field = Field:new(size)
-  local count = 0
-  while count < minimal_count or count > maximal_count do
+  while field:count() < minimal_count or field:count() > maximal_count do
     field = random.generate(size, filling)
-    count = length(field.cells)
   end
 
   return field

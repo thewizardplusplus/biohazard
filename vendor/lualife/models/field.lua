@@ -23,6 +23,17 @@ function Field:initialize(size)
 end
 
 ---
+-- @treturn int [0, size.width * size.height]
+function Field:count()
+  local count = 0
+  for _ in pairs(self.cells) do
+    count = count + 1
+  end
+
+  return count
+end
+
+---
 -- @tparam Point point
 -- @treturn bool
 function Field:contains(point)
