@@ -132,12 +132,6 @@ function love.update()
     button_size / 2,
     button_size
   )
-  if to_left_button.hit then
-    if field_part_offset.x > 0 then
-      field_part_offset.x = field_part_offset.x - 1
-    end
-  end
-
   local to_right_button = suit.Button(
     ">",
     left_buttons_offset.x + button_size / 2 + cell_size / 2,
@@ -145,11 +139,43 @@ function love.update()
     button_size / 2,
     button_size
   )
+  local to_top_button = suit.Button(
+    "^",
+    right_buttons_offset.x,
+    right_buttons_offset.y + button_size / 2 + cell_size / 2,
+    button_size,
+    button_size / 2
+  )
+  local to_bottom_button = suit.Button(
+    "v",
+    right_buttons_offset.x,
+    right_buttons_offset.y + button_size + cell_size,
+    button_size,
+    button_size / 2
+  )
+
+  local field_part_offset_next = Point:new(
+    field_part_offset.x,
+    field_part_offset.y
+  )
+  if to_left_button.hit then
+    field_part_offset_next.x = field_part_offset_next.x - 1
+  end
   if to_right_button.hit then
-    local x_max = FIELD_SIZE.width - FIELD_PART_SIZE.width
-    if field_part_offset.x < x_max then
-      field_part_offset.x = field_part_offset.x + 1
-    end
+    field_part_offset_next.x = field_part_offset_next.x + 1
+  end
+  if to_top_button.hit then
+    field_part_offset_next.y = field_part_offset_next.y - 1
+  end
+  if to_bottom_button.hit then
+    field_part_offset_next.y = field_part_offset_next.y + 1
+  end
+
+  if field.size:contains(
+    field_part.size,
+    field_part_offset_next
+  ) then
+    field_part_offset = field_part_offset_next
   end
 
   local union_button = suit.Button(
@@ -182,33 +208,6 @@ function love.update()
         FIELD_PART_COUNT_MIN,
         FIELD_PART_COUNT_MAX
       )
-    end
-  end
-
-  local to_top_button = suit.Button(
-    "^",
-    right_buttons_offset.x,
-    right_buttons_offset.y + button_size / 2 + cell_size / 2,
-    button_size,
-    button_size / 2
-  )
-  if to_top_button.hit then
-    if field_part_offset.y > 0 then
-      field_part_offset.y = field_part_offset.y - 1
-    end
-  end
-
-  local to_bottom_button = suit.Button(
-    "v",
-    right_buttons_offset.x,
-    right_buttons_offset.y + button_size + cell_size,
-    button_size,
-    button_size / 2
-  )
-  if to_bottom_button.hit then
-    local y_max = FIELD_SIZE.height - FIELD_PART_SIZE.height
-    if field_part_offset.y < y_max then
-      field_part_offset.y = field_part_offset.y + 1
     end
   end
 end
