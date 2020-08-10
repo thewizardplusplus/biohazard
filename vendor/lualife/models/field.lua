@@ -23,7 +23,7 @@ function Field:initialize(size)
 end
 
 ---
--- @treturn int [0, size.width * size.height]
+-- @treturn int [0, self.size.width * self.size.height]
 function Field:count()
   local count = 0
   for _ in pairs(self.cells) do

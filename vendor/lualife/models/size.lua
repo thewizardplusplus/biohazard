@@ -27,10 +27,8 @@ function Size:contains(other, offset)
   assert(other:isInstanceOf(Size))
   assert(offset:isInstanceOf(Point))
 
-  return offset.x >= 0
-    and offset.x <= self.width - other.width
-    and offset.y >= 0
-    and offset.y <= self.height - other.height
+  return offset.x >= 0 and offset.x <= self.width - other.width
+    and offset.y >= 0 and offset.y <= self.height - other.height
 end
 
 return Size
