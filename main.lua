@@ -96,7 +96,12 @@ function love.draw()
     )
   end)
 
-  field_part:map(function(point, contains)
+  local allowed_field_part = sets.complement(
+    field_part,
+    field,
+    field_part_offset:scale(-1)
+  )
+  allowed_field_part:map(function(point, contains)
     if not contains then
       return
     end
@@ -106,11 +111,32 @@ function love.draw()
       :scale(cell_size)
       :translate(field_offset)
 
-    if field:contains(shifted_point) then
-      love.graphics.setColor(0.85, 0, 0)
-    else
-      love.graphics.setColor(0, 0.66, 0)
+    love.graphics.setColor(0, 0.66, 0)
+    love.graphics.rectangle(
+      "fill",
+      cell_point.x,
+      cell_point.y,
+      cell_size,
+      cell_size,
+      cell_radius
+    )
+  end)
+
+  field_part:map(function(point, contains)
+    if not contains then
+      return
     end
+
+    local shifted_point = point:translate(field_part_offset)
+    if not field:contains(shifted_point) then
+      return
+    end
+
+    local cell_point = shifted_point
+      :scale(cell_size)
+      :translate(field_offset)
+
+    love.graphics.setColor(0.85, 0, 0)
     love.graphics.rectangle(
       "fill",
       cell_point.x,
