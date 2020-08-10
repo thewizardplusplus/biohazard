@@ -148,6 +148,16 @@ function love.draw()
     )
   end)
 
+  love.graphics.setColor(0.75, 0.75, 0)
+  love.graphics.setLineWidth(cell_size / 10)
+  love.graphics.rectangle(
+    "line",
+    field_offset.x + cell_size * field_part_offset.x,
+    field_offset.y + cell_size * field_part_offset.y,
+    FIELD_PART_SIZE.width * cell_size,
+    FIELD_PART_SIZE.height * cell_size
+  )
+
   suit.draw()
 end
 
