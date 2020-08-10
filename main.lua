@@ -122,16 +122,17 @@ function love.draw()
     )
   end)
 
-  field_part:map(function(point, contains)
+  local disabled_field_part = sets.intersection(
+    field_part,
+    field,
+    field_part_offset:scale(-1)
+  )
+  disabled_field_part:map(function(point, contains)
     if not contains then
       return
     end
 
     local shifted_point = point:translate(field_part_offset)
-    if not field:contains(shifted_point) then
-      return
-    end
-
     local cell_point = shifted_point
       :scale(cell_size)
       :translate(field_offset)
@@ -212,13 +213,12 @@ function love.update()
     button_size / 2
   )
   if union_button.hit then
-    local has_collision = false
-    field_part:map(function(point, contains)
-      local shifted_point = point:translate(field_part_offset)
-      local is_collision = contains and field:contains(shifted_point)
-      has_collision = has_collision or is_collision
-    end)
-
+    local disabled_field_part = sets.intersection(
+      field_part,
+      field,
+      field_part_offset:scale(-1)
+    )
+    local has_collision = disabled_field_part:count() ~= 0
     if not has_collision then
       field = sets.union(
         field,
