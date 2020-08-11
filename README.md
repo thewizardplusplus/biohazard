@@ -4,11 +4,11 @@
 
 ## Running
 
-See for details: https://love2d.org/wiki/Getting_Started#Running_Games
+See for details: <https://love2d.org/wiki/Getting_Started#Running_Games>
 
 ### On the Android
 
-Download the archive of this repository: https://github.com/thewizardplusplus/biohazard/archive/master.zip
+Download the archive of this repository: <https://github.com/thewizardplusplus/biohazard/archive/master.zip>
 
 Change its extension from ".zip" to ".love".
 
