@@ -11,8 +11,8 @@ local random = require("lualife.random")
 local sets = require("lualife.sets")
 local life = require("lualife.life")
 local suit = require("suit")
+local drawing = require("drawing")
 
-local CELL_RADIUS_FACTOR = 0.25
 local FIELD_SIZE = Size:new(10, 10)
 local FIELD_PART_SIZE = Size:new(3, 3)
 local FIELD_FILLING = 0.2
@@ -22,7 +22,6 @@ local FIELD_PART_COUNT_MAX = 5
 local BUTTON_SIZE_FACTOR = 0.25
 
 local cell_size = 0
-local cell_radius = 0
 local field_offset = Point:new(0, 0)
 local field = Field:new(FIELD_SIZE)
 local field_part_offset = Point:new(0, 0)
@@ -41,7 +40,6 @@ function love.load()
 
   local x, y, width, height = love.window.getSafeArea()
   cell_size = height / (FIELD_SIZE.height + 1)
-  cell_radius = CELL_RADIUS_FACTOR * cell_size
   field_offset = Point
     :new(x, y)
     :translate(Point:new(
@@ -76,77 +74,40 @@ function love.draw()
     cell_size * FIELD_SIZE.height
   )
 
-  field:map(function(point, contains)
-    if not contains then
-      return
-    end
-
-    local cell_point = point
-      :scale(cell_size)
-      :translate(field_offset)
-
-    love.graphics.setColor(0, 0, 1)
-    love.graphics.rectangle(
-      "fill",
-      cell_point.x,
-      cell_point.y,
-      cell_size,
-      cell_size,
-      cell_radius
-    )
-  end)
+  drawing.draw_field(
+    field,
+    field_offset,
+    cell_size,
+    {0, 0, 1}
+  )
 
   local allowed_field_part = sets.complement(
     field_part,
     field,
     field_part_offset:scale(-1)
   )
-  allowed_field_part:map(function(point, contains)
-    if not contains then
-      return
-    end
-
-    local shifted_point = point:translate(field_part_offset)
-    local cell_point = shifted_point
-      :scale(cell_size)
-      :translate(field_offset)
-
-    love.graphics.setColor(0, 0.66, 0)
-    love.graphics.rectangle(
-      "fill",
-      cell_point.x,
-      cell_point.y,
-      cell_size,
-      cell_size,
-      cell_radius
-    )
-  end)
+  drawing.draw_field(
+    allowed_field_part,
+    field_offset:translate(
+      field_part_offset:scale(cell_size)
+    ),
+    cell_size,
+    {0, 0.66, 0}
+  )
 
   local disabled_field_part = sets.intersection(
     field_part,
     field,
     field_part_offset:scale(-1)
   )
-  disabled_field_part:map(function(point, contains)
-    if not contains then
-      return
-    end
-
-    local shifted_point = point:translate(field_part_offset)
-    local cell_point = shifted_point
-      :scale(cell_size)
-      :translate(field_offset)
-
-    love.graphics.setColor(0.85, 0, 0)
-    love.graphics.rectangle(
-      "fill",
-      cell_point.x,
-      cell_point.y,
-      cell_size,
-      cell_size,
-      cell_radius
-    )
-  end)
+  drawing.draw_field(
+    disabled_field_part,
+    field_offset:translate(
+      field_part_offset:scale(cell_size)
+    ),
+    cell_size,
+    {0.85, 0, 0}
+  )
 
   love.graphics.setColor(0.75, 0.75, 0)
   love.graphics.setLineWidth(cell_size / 10)
