@@ -9,10 +9,11 @@ local CELL_RADIUS_FACTOR = 0.25
 local drawing = {}
 
 ---
--- @tparam Field field
--- @tparam Point field_offset
--- @tparam int cell_size
--- @tparam {number, number, number} cell_color
+-- @tparam lualife.models.Field field
+-- @tparam lualife.models.Point field_offset
+-- @tparam int cell_size [0, ∞)
+-- @tparam {number,number,number} cell_color
+--   red, green and blue values in the range [0, 1]
 function drawing.draw_field(
   field,
   field_offset,
