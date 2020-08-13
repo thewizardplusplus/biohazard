@@ -56,7 +56,7 @@ function love.load()
   button_size = BUTTON_SIZE_FACTOR * height
   left_buttons_offset = Point:new(
     x + cell_size / 2,
-    y + height - cell_size / 2 - button_size
+    y + height - cell_size - 1.5 * button_size
   )
   right_buttons_offset = Point:new(
     x + width - cell_size / 2 - button_size,
@@ -126,14 +126,14 @@ function love.update()
   local to_left_button = suit.Button(
     "<",
     left_buttons_offset.x,
-    left_buttons_offset.y,
+    left_buttons_offset.y + button_size / 2 + cell_size / 2,
     button_size / 2,
     button_size
   )
   local to_right_button = suit.Button(
     ">",
     left_buttons_offset.x + button_size / 2 + cell_size / 2,
-    left_buttons_offset.y,
+    left_buttons_offset.y + button_size / 2 + cell_size / 2,
     button_size / 2,
     button_size
   )
@@ -175,6 +175,14 @@ function love.update()
   ) then
     field_part_offset = field_part_offset_next
   end
+
+  local rotate_button = suit.Button(
+    "@",
+    left_buttons_offset.x,
+    left_buttons_offset.y,
+    button_size + cell_size / 2,
+    button_size / 2
+  )
 
   local union_button = suit.Button(
     "+",
