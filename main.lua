@@ -9,6 +9,7 @@ local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 local random = require("lualife.random")
 local sets = require("lualife.sets")
+local matrix = require("lualife.matrix")
 local life = require("lualife.life")
 local suit = require("suit")
 local drawing = require("drawing")
@@ -183,6 +184,9 @@ function love.update()
     button_size + cell_size / 2,
     button_size / 2
   )
+  if rotate_button.hit then
+    field_part = matrix.rotate(field_part)
+  end
 
   local union_button = suit.Button(
     "+",
