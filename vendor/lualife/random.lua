@@ -1,47 +1,56 @@
 ---
 -- @module random
 
-local Size = require("lualife.models.size")
+local types = require("lualife.types")
 local Field = require("lualife.models.field")
 
 local random = {}
 
 ---
--- @tparam Size size
--- @tparam number filling [0, 1]
+-- @tparam Field sample
+-- @tparam[opt=0.5] number filling [0, 1]
 -- @treturn Field
-function random.generate(size, filling)
-  assert(size:isInstanceOf(Size))
-  assert(type(filling) == "number")
+function random.generate(sample, filling)
+  filling = filling or 0.5
 
-  return Field
-    :new(size)
-    :map(function()
-      return math.random() < filling
-    end)
+  assert(types.is_instance(sample, Field))
+  assert(types.is_number_with_limits(filling, 0, 1))
+
+  return sample:map(function()
+    return math.random() < filling
+  end)
 end
 
 ---
--- @tparam Size size
--- @tparam number filling [0, 1]
--- @tparam int minimal_count [0, size.width * size.height]
--- @tparam int maximal_count [0, size.width * size.height]
+-- @tparam Field sample
+-- @tparam[opt=0.5] number filling [0, 1]
+-- @tparam[optchain=0] int minimal_count
+--   [0, sample.size.width * sample.size.height]
+-- @tparam[optchain=math.huge] int maximal_count [minimal_count, ∞)
 -- @treturn Field
 function random.generate_with_limits(
-  size,
+  sample,
   filling,
   minimal_count,
   maximal_count
 )
-  assert(size:isInstanceOf(Size))
-  assert(type(filling) == "number")
-  assert(type(minimal_count) == "number")
-  assert(type(maximal_count) == "number")
+  filling = filling or 0.5
+  minimal_count = minimal_count or 0
+  maximal_count = maximal_count or math.huge
 
-  local field = Field:new(size)
-  while field:count() < minimal_count or field:count() > maximal_count do
-    field = random.generate(size, filling)
-  end
+  assert(types.is_instance(sample, Field))
+  assert(types.is_number_with_limits(filling, 0, 1))
+  assert(types.is_number_with_limits(
+    minimal_count,
+    0,
+    sample.size.width * sample.size.height
+  ))
+  assert(types.is_number_with_limits(maximal_count, minimal_count))
+
+  local field
+  repeat
+    field = random.generate(sample, filling)
+  until field:count() >= minimal_count and field:count() <= maximal_count
 
   return field
 end
