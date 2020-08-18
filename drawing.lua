@@ -1,6 +1,7 @@
 ---
 -- @module drawing
 
+local types = require("lualife.types")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 
@@ -20,10 +21,13 @@ function drawing.draw_field(
   grid_step,
   cell_color
 )
-  assert(field:isInstanceOf(Field))
-  assert(field_offset:isInstanceOf(Point))
-  assert(type(grid_step) == "number")
-  assert(type(cell_color) == "table")
+  assert(types.is_instance(field, Field))
+  assert(types.is_instance(field_offset, Point))
+  assert(types.is_number_with_limits(grid_step, 0))
+  assert(type(cell_color) == "table" and #cell_color == 3)
+  for index in ipairs(cell_color) do
+    assert(types.is_number_with_limits(cell_color[index], 0, 1))
+  end
 
   local cell_radius = CELL_RADIUS_FACTOR * grid_step
   field:map(function(point, contains)

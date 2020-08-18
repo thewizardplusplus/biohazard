@@ -6,7 +6,7 @@ package.path =
 
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
-local Field = require("lualife.models.field")
+local PlacedField = require("lualife.models.placedfield")
 local random = require("lualife.random")
 local sets = require("lualife.sets")
 local matrix = require("lualife.matrix")
@@ -24,9 +24,8 @@ local BUTTON_SIZE_FACTOR = 0.25
 
 local cell_size = 0
 local field_offset = Point:new(0, 0)
-local field = Field:new(FIELD_SIZE)
-local field_part_offset = Point:new(0, 0)
-local field_part = Field:new(FIELD_PART_SIZE)
+local field = PlacedField:new(FIELD_SIZE)
+local field_part = PlacedField:new(FIELD_PART_SIZE)
 local button_size = 0
 local left_buttons_offset = 0
 local right_buttons_offset = 0
@@ -47,9 +46,9 @@ function love.load()
       (width - cell_size * FIELD_SIZE.width) / 2,
       cell_size / 2
     ))
-  field = random.generate(FIELD_SIZE, FIELD_FILLING)
+  field = random.generate(field, FIELD_FILLING)
   field_part = random.generate_with_limits(
-    FIELD_PART_SIZE,
+    field_part,
     FIELD_PART_FILLING,
     FIELD_PART_COUNT_MIN,
     FIELD_PART_COUNT_MAX
@@ -75,47 +74,20 @@ function love.draw()
     cell_size * FIELD_SIZE.height
   )
 
-  drawing.draw_field(
-    field,
-    field_offset,
-    cell_size,
-    {0, 0, 1}
-  )
+  drawing.draw_field(field, field_offset, cell_size, {0, 0, 1})
 
-  local allowed_field_part = sets.complement(
-    field_part,
-    field,
-    field_part_offset:scale(-1)
-  )
-  drawing.draw_field(
-    allowed_field_part,
-    field_offset:translate(
-      field_part_offset:scale(cell_size)
-    ),
-    cell_size,
-    {0, 0.66, 0}
-  )
+  local allowed_field_part = sets.complement(field_part, field)
+  drawing.draw_field(allowed_field_part, field_offset, cell_size, {0, 0.66, 0})
 
-  local disabled_field_part = sets.intersection(
-    field_part,
-    field,
-    field_part_offset:scale(-1)
-  )
-  drawing.draw_field(
-    disabled_field_part,
-    field_offset:translate(
-      field_part_offset:scale(cell_size)
-    ),
-    cell_size,
-    {0.85, 0, 0}
-  )
+  local disabled_field_part = sets.intersection(field_part, field)
+  drawing.draw_field(disabled_field_part, field_offset, cell_size, {0.85, 0, 0})
 
   love.graphics.setColor(0.75, 0.75, 0)
   love.graphics.setLineWidth(cell_size / 10)
   love.graphics.rectangle(
     "line",
-    field_offset.x + cell_size * field_part_offset.x,
-    field_offset.y + cell_size * field_part_offset.y,
+    field_offset.x + cell_size * field_part.offset.x,
+    field_offset.y + cell_size * field_part.offset.y,
     FIELD_PART_SIZE.width * cell_size,
     FIELD_PART_SIZE.height * cell_size
   )
@@ -154,8 +126,8 @@ function love.update()
   )
 
   local field_part_offset_next = Point:new(
-    field_part_offset.x,
-    field_part_offset.y
+    field_part.offset.x,
+    field_part.offset.y
   )
   if to_left_button.hit then
     field_part_offset_next.x = field_part_offset_next.x - 1
@@ -170,11 +142,9 @@ function love.update()
     field_part_offset_next.y = field_part_offset_next.y + 1
   end
 
-  if field.size:contains(
-    field_part.size,
-    field_part_offset_next
-  ) then
-    field_part_offset = field_part_offset_next
+  local field_part_next = PlacedField.place(field_part, field_part_offset_next)
+  if field_part_next:fits(field) then
+    field_part = field_part_next
   end
 
   local rotate_button = suit.Button(
@@ -196,23 +166,15 @@ function love.update()
     button_size / 2
   )
   if union_button.hit then
-    local disabled_field_part = sets.intersection(
-      field_part,
-      field,
-      field_part_offset:scale(-1)
-    )
+    local disabled_field_part = sets.intersection(field_part, field)
     local has_collision = disabled_field_part:count() ~= 0
     if not has_collision then
-      field = sets.union(
-        field,
-        field_part,
-        field_part_offset
-      )
+      field = sets.union(field, field_part)
       field = life.populate(field)
 
-      field_part_offset = Point:new(0, 0)
+      field_part.offset = Point:new(0, 0)
       field_part = random.generate_with_limits(
-        FIELD_PART_SIZE,
+        field_part,
         FIELD_PART_FILLING,
         FIELD_PART_COUNT_MIN,
         FIELD_PART_COUNT_MAX
