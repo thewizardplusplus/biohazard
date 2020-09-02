@@ -6,26 +6,22 @@ package.path =
 
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
-local PlacedField = require("lualife.models.placedfield")
-local random = require("lualife.random")
+local FieldSettings = require("biohazardcore.models.fieldsettings")
+local GameSettings = require("biohazardcore.models.gamesettings")
+local ClassifiedGame = require("biohazardcore.classifiedgame")
 local sets = require("lualife.sets")
-local matrix = require("lualife.matrix")
-local life = require("lualife.life")
 local suit = require("suit")
 local drawing = require("drawing")
 
-local FIELD_SIZE = Size:new(10, 10)
-local FIELD_PART_SIZE = Size:new(3, 3)
-local FIELD_FILLING = 0.2
-local FIELD_PART_FILLING = 0.5
-local FIELD_PART_COUNT_MIN = 5
-local FIELD_PART_COUNT_MAX = 5
 local BUTTON_SIZE_FACTOR = 0.25
 
+local settings = GameSettings:new(
+  FieldSettings:new(Size:new(10, 10), Point:new(0, 0), 0.2),
+  FieldSettings:new(Size:new(3, 3), Point:new(0, 0), 0.5, 5, 5)
+)
+local game = ClassifiedGame:new(settings)
 local cell_size = 0
 local field_offset = Point:new(0, 0)
-local field = PlacedField:new(FIELD_SIZE)
-local field_part = PlacedField:new(FIELD_PART_SIZE)
 local button_size = 0
 local left_buttons_offset = 0
 local right_buttons_offset = 0
@@ -39,20 +35,13 @@ function love.load()
   assert(ok, "unable to enter fullscreen")
 
   local x, y, width, height = love.window.getSafeArea()
-  cell_size = height / (FIELD_SIZE.height + 1)
+  cell_size = height / (settings.field.size.height + 1)
   field_offset = Point
     :new(x, y)
     :translate(Point:new(
-      (width - cell_size * FIELD_SIZE.width) / 2,
+      (width - cell_size * settings.field.size.width) / 2,
       cell_size / 2
     ))
-  field = random.generate(field, FIELD_FILLING)
-  field_part = random.generate_with_limits(
-    field_part,
-    FIELD_PART_FILLING,
-    FIELD_PART_COUNT_MIN,
-    FIELD_PART_COUNT_MAX
-  )
   button_size = BUTTON_SIZE_FACTOR * height
   left_buttons_offset = Point:new(
     x + cell_size / 2,
@@ -70,26 +59,23 @@ function love.draw()
     "fill",
     field_offset.x,
     field_offset.y,
-    cell_size * FIELD_SIZE.width,
-    cell_size * FIELD_SIZE.height
+    cell_size * settings.field.size.width,
+    cell_size * settings.field.size.height
   )
 
-  drawing.draw_field(field, field_offset, cell_size, {0, 0, 1})
-
-  local allowed_field_part = sets.complement(field_part, field)
-  drawing.draw_field(allowed_field_part, field_offset, cell_size, {0, 0.66, 0})
-
-  local disabled_field_part = sets.intersection(field_part, field)
-  drawing.draw_field(disabled_field_part, field_offset, cell_size, {0.85, 0, 0})
+  local classification = game:classify_cells()
+  drawing.draw_field(classification.old, field_offset, cell_size, {0, 0, 1})
+  drawing.draw_field(classification.new, field_offset, cell_size, {0, 0.66, 0})
+  drawing.draw_field(classification.intersection, field_offset, cell_size, {0.85, 0, 0})
 
   love.graphics.setColor(0.75, 0.75, 0)
   love.graphics.setLineWidth(cell_size / 10)
   love.graphics.rectangle(
     "line",
-    field_offset.x + cell_size * field_part.offset.x,
-    field_offset.y + cell_size * field_part.offset.y,
-    FIELD_PART_SIZE.width * cell_size,
-    FIELD_PART_SIZE.height * cell_size
+    field_offset.x + cell_size * game._field_part.offset.x,
+    field_offset.y + cell_size * game._field_part.offset.y,
+    settings.field_part.size.width * cell_size,
+    settings.field_part.size.height * cell_size
   )
 
   suit.draw()
@@ -125,27 +111,21 @@ function love.update()
     button_size / 2
   )
 
-  local field_part_offset_next = Point:new(
-    field_part.offset.x,
-    field_part.offset.y
-  )
+  local delta_offset = Point:new(0, 0)
   if to_left_button.hit then
-    field_part_offset_next.x = field_part_offset_next.x - 1
+    delta_offset.x = -1
   end
   if to_right_button.hit then
-    field_part_offset_next.x = field_part_offset_next.x + 1
+    delta_offset.x = 1
   end
   if to_top_button.hit then
-    field_part_offset_next.y = field_part_offset_next.y - 1
+    delta_offset.y = -1
   end
   if to_bottom_button.hit then
-    field_part_offset_next.y = field_part_offset_next.y + 1
+    delta_offset.y = 1
   end
 
-  local field_part_next = PlacedField.place(field_part, field_part_offset_next)
-  if field_part_next:fits(field) then
-    field_part = field_part_next
-  end
+  game:move(delta_offset)
 
   local rotate_button = suit.Button(
     "@",
@@ -155,7 +135,7 @@ function love.update()
     button_size / 2
   )
   if rotate_button.hit then
-    field_part = matrix.rotate(field_part)
+    game:rotate()
   end
 
   local union_button = suit.Button(
@@ -166,19 +146,6 @@ function love.update()
     button_size / 2
   )
   if union_button.hit then
-    local disabled_field_part = sets.intersection(field_part, field)
-    local has_collision = disabled_field_part:count() ~= 0
-    if not has_collision then
-      field = sets.union(field, field_part)
-      field = life.populate(field)
-
-      field_part.offset = Point:new(0, 0)
-      field_part = random.generate_with_limits(
-        field_part,
-        FIELD_PART_FILLING,
-        FIELD_PART_COUNT_MIN,
-        FIELD_PART_COUNT_MAX
-      )
-    end
+    game:union()
   end
 end
