@@ -54,30 +54,7 @@ function love.load()
 end
 
 function love.draw()
-  love.graphics.setColor(1, 1, 1)
-  love.graphics.rectangle(
-    "fill",
-    field_offset.x,
-    field_offset.y,
-    cell_size * settings.field.size.width,
-    cell_size * settings.field.size.height
-  )
-
-  local classification = game:classify_cells()
-  drawing.draw_field(classification.old, field_offset, cell_size, {0, 0, 1})
-  drawing.draw_field(classification.new, field_offset, cell_size, {0, 0.66, 0})
-  drawing.draw_field(classification.intersection, field_offset, cell_size, {0.85, 0, 0})
-
-  love.graphics.setColor(0.75, 0.75, 0)
-  love.graphics.setLineWidth(cell_size / 10)
-  love.graphics.rectangle(
-    "line",
-    field_offset.x + cell_size * game._field_part.offset.x,
-    field_offset.y + cell_size * game._field_part.offset.y,
-    settings.field_part.size.width * cell_size,
-    settings.field_part.size.height * cell_size
-  )
-
+  drawing.draw_game(game, field_offset, cell_size)
   suit.draw()
 end
 
