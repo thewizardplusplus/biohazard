@@ -6,8 +6,6 @@ local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 
-local CELL_RADIUS_FACTOR = 0.25
-
 local drawing = {}
 
 ---
@@ -33,9 +31,9 @@ function drawing.draw_game(
   )
 
   local classification = game:classify_cells()
-  drawing.draw_field(classification.old, field_offset, grid_step, {0, 0, 1})
-  drawing.draw_field(classification.new, field_offset, grid_step, {0, 0.66, 0})
-  drawing.draw_field(classification.intersection, field_offset, grid_step, {0.85, 0, 0})
+  for cell_kind in pairs(classification:__data()) do
+    drawing.draw_field(classification[cell_kind], field_offset, grid_step, cell_kind)
+  end
 
   love.graphics.setColor(0.75, 0.75, 0)
   love.graphics.setLineWidth(grid_step / 10)
@@ -52,25 +50,24 @@ end
 -- @tparam lualife.models.Field field
 -- @tparam lualife.models.Point field_offset
 -- @tparam int grid_step [0, ∞)
--- @tparam {number,number,number} cell_color
---   red, green and blue values in the range [0, 1]
+-- @tparam "old"|"new"|"intersection" cell_kind
 function drawing.draw_field(
   field,
   field_offset,
   grid_step,
-  cell_color
+  cell_kind
 )
   assert(types.is_instance(field, Field))
   assert(types.is_instance(field_offset, Point))
   assert(types.is_number_with_limits(grid_step, 0))
-  assert(type(cell_color) == "table" and #cell_color == 3)
-  for index in ipairs(cell_color) do
-    assert(types.is_number_with_limits(cell_color[index], 0, 1))
-  end
+  assert(type(cell_kind) == "string"
+    and (cell_kind == "old"
+    or cell_kind == "new"
+    or cell_kind == "intersection"))
 
   field:map(function(point, contains)
     if contains then
-      drawing.draw_cell(point, field_offset, grid_step, cell_color)
+      drawing.draw_cell(point, field_offset, grid_step, cell_kind)
     end
   end)
 end
@@ -79,20 +76,28 @@ end
 -- @tparam lualife.models.Point point
 -- @tparam lualife.models.Point field_offset
 -- @tparam int grid_step [0, ∞)
--- @tparam {number,number,number} cell_color
---   red, green and blue values in the range [0, 1]
+-- @tparam "old"|"new"|"intersection" cell_kind
 function drawing.draw_cell(
   point,
   field_offset,
   grid_step,
-  cell_color
+  cell_kind
 )
   assert(types.is_instance(point, Point))
   assert(types.is_instance(field_offset, Point))
   assert(types.is_number_with_limits(grid_step, 0))
-  assert(type(cell_color) == "table" and #cell_color == 3)
-  for index in ipairs(cell_color) do
-    assert(types.is_number_with_limits(cell_color[index], 0, 1))
+  assert(type(cell_kind) == "string"
+    and (cell_kind == "old"
+    or cell_kind == "new"
+    or cell_kind == "intersection"))
+
+  local cell_color
+  if cell_kind == "old" then
+    cell_color = {0, 0, 1}
+  elseif cell_kind == "new" then
+    cell_color = {0, 0.66, 0}
+  elseif cell_kind == "intersection" then
+    cell_color = {0.85, 0, 0}
   end
 
   local cell_point = point
@@ -106,7 +111,7 @@ function drawing.draw_cell(
     cell_point.y,
     grid_step,
     grid_step,
-    CELL_RADIUS_FACTOR * grid_step
+    grid_step / 4
   )
 end
 
