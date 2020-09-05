@@ -12,10 +12,7 @@ local ClassifiedGame = require("biohazardcore.classifiedgame")
 local drawing = require("drawing")
 local ui = require("ui")
 
-local game = ClassifiedGame:new(GameSettings:new(
-  FieldSettings:new(Size:new(10, 10), Point:new(0, 0), 0.2),
-  FieldSettings:new(Size:new(3, 3), Point:new(0, 0), 0.5, 5, 5)
-))
+local game = nil -- ClassifiedGame
 local global_padding = 0
 local cell_size = 0
 local field_offset = Point:new(0, 0)
@@ -30,6 +27,11 @@ function love.load()
 
   local ok = love.window.setFullscreen(true)
   assert(ok, "unable to enter fullscreen")
+
+  game = ClassifiedGame:new(GameSettings:new(
+    FieldSettings:new(Size:new(10, 10), Point:new(0, 0), 0.2),
+    FieldSettings:new(Size:new(3, 3), Point:new(0, 0), 0.5, 5, 5)
+  ))
 
   local x, y, width, height = love.window.getSafeArea()
   global_padding = height / 20
