@@ -11,7 +11,6 @@ local GameSettings = require("biohazardcore.models.gamesettings")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local drawing = require("drawing")
 local ui = require("ui")
-local suit = require("suit")
 
 local game = ClassifiedGame:new(GameSettings:new(
   FieldSettings:new(Size:new(10, 10), Point:new(0, 0), 0.2),
@@ -21,7 +20,6 @@ local global_padding = 0
 local cell_size = 0
 local field_offset = Point:new(0, 0)
 local button_size = 0
-local button_padding = 0
 local left_buttons_offset = 0
 local right_buttons_offset = 0
 
@@ -43,7 +41,8 @@ function love.load()
       global_padding
     ))
   button_size = height / 4
-  button_padding = button_size / 8
+
+  local button_padding = button_size / 8  
   left_buttons_offset = Point:new(
     x + global_padding,
     y + height - global_padding - 1.5 * button_size - button_padding
@@ -60,36 +59,12 @@ function love.draw()
 end
 
 function love.update()
-  suit.layout:reset(left_buttons_offset.x, left_buttons_offset.y, button_padding)
-  local rotate_button = suit.Button("@", suit.layout:row(button_size + button_padding, button_size / 2))
-  local to_left_button = suit.Button("<", suit.layout:row(button_size / 2, button_size))
-  local to_right_button = suit.Button(">", suit.layout:col())
-
-  suit.layout:reset(right_buttons_offset.x, right_buttons_offset.y, button_padding)
-  local union_button = suit.Button("+", suit.layout:row(button_size, button_size / 2))
-  local to_top_button = suit.Button("^", suit.layout:row())
-  local to_bottom_button = suit.Button("v", suit.layout:row())
-
-  local delta_offset = Point:new(0, 0)
-  if to_left_button.hit then
-    delta_offset.x = -1
-  end
-  if to_right_button.hit then
-    delta_offset.x = 1
-  end
-  if to_top_button.hit then
-    delta_offset.y = -1
-  end
-  if to_bottom_button.hit then
-    delta_offset.y = 1
-  end
-  game:move(delta_offset)
-
-  if rotate_button.hit then
+  local update = ui.update(left_buttons_offset, right_buttons_offset, button_size)
+  game:move(update.delta_offset)
+  if update.rotated then
     game:rotate()
   end
-
-  if union_button.hit then
+  if update.unioned then
     game:union()
   end
 end
