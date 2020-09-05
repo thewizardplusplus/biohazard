@@ -10,6 +10,7 @@ local FieldSettings = require("biohazardcore.models.fieldsettings")
 local GameSettings = require("biohazardcore.models.gamesettings")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local drawing = require("drawing")
+local ui = require("ui")
 local suit = require("suit")
 
 local game = ClassifiedGame:new(GameSettings:new(
@@ -55,7 +56,7 @@ end
 
 function love.draw()
   drawing.draw_game(game, field_offset, cell_size)
-  suit.draw()
+  ui.draw()
 end
 
 function love.update()
