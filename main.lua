@@ -59,34 +59,16 @@ function love.draw()
 end
 
 function love.update()
-  local to_left_button = suit.Button(
-    "<",
-    left_buttons_offset.x,
-    left_buttons_offset.y + button_size / 2 + cell_size / 2,
-    button_size / 2,
-    button_size
-  )
-  local to_right_button = suit.Button(
-    ">",
-    left_buttons_offset.x + button_size / 2 + cell_size / 2,
-    left_buttons_offset.y + button_size / 2 + cell_size / 2,
-    button_size / 2,
-    button_size
-  )
-  local to_top_button = suit.Button(
-    "^",
-    right_buttons_offset.x,
-    right_buttons_offset.y + button_size / 2 + cell_size / 2,
-    button_size,
-    button_size / 2
-  )
-  local to_bottom_button = suit.Button(
-    "v",
-    right_buttons_offset.x,
-    right_buttons_offset.y + button_size + cell_size,
-    button_size,
-    button_size / 2
-  )
+  local button_padding = cell_size / 2
+  suit.layout:reset(left_buttons_offset.x, left_buttons_offset.y, button_padding)
+  local rotate_button = suit.Button("@", suit.layout:row(button_size + button_padding, button_size / 2))
+  local to_left_button = suit.Button("<", suit.layout:row(button_size / 2, button_size))
+  local to_right_button = suit.Button(">", suit.layout:col())
+
+  suit.layout:reset(right_buttons_offset.x, right_buttons_offset.y, button_padding)
+  local union_button = suit.Button("+", suit.layout:row(button_size, button_size / 2))
+  local to_top_button = suit.Button("^", suit.layout:row())
+  local to_bottom_button = suit.Button("v", suit.layout:row())
 
   local delta_offset = Point:new(0, 0)
   if to_left_button.hit then
@@ -101,27 +83,12 @@ function love.update()
   if to_bottom_button.hit then
     delta_offset.y = 1
   end
-
   game:move(delta_offset)
 
-  local rotate_button = suit.Button(
-    "@",
-    left_buttons_offset.x,
-    left_buttons_offset.y,
-    button_size + cell_size / 2,
-    button_size / 2
-  )
   if rotate_button.hit then
     game:rotate()
   end
 
-  local union_button = suit.Button(
-    "+",
-    right_buttons_offset.x,
-    right_buttons_offset.y,
-    button_size,
-    button_size / 2
-  )
   if union_button.hit then
     game:union()
   end
