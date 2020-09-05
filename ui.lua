@@ -4,6 +4,7 @@
 local suit = require("suit")
 local types = require("lualife.types")
 local Point = require("lualife.models.point")
+local UiUpdate = require("models.uiupdate")
 
 local ui = {}
 
@@ -17,7 +18,7 @@ end
 -- @tparam lualife.models.Point left_buttons_offset
 -- @tparam lualife.models.Point right_buttons_offset
 -- @tparam int grid_step [0, ∞)
--- @treturn tab
+-- @treturn UiUpdate
 function ui.update(
   left_buttons_offset,
   right_buttons_offset,
@@ -53,11 +54,7 @@ function ui.update(
     delta_offset.y = 1
   end
 
-  return {
-    delta_offset = delta_offset,
-    rotated = rotate_button.hit,
-    unioned = union_button.hit,
-  }
+  return UiUpdate:new(delta_offset, rotate_button.hit, union_button.hit)
 end
 
 return ui
