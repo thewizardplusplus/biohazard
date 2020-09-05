@@ -5,21 +5,25 @@ local types = require("lualife.types")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
+local Rectangle = require("models.rectangle")
 
 local drawing = {}
 
 ---
 -- @tparam biohazardcore.ClassifiedGame game
--- @tparam lualife.models.Point field_offset
+-- @tparam Rectangle screen
 -- @tparam int grid_step [0, ∞)
-function drawing.draw_game(
-  game,
-  field_offset,
-  grid_step
-)
+function drawing.draw_game(game, screen, grid_step)
   assert(types.is_instance(game, ClassifiedGame))
-  assert(types.is_instance(field_offset, Point))
+  assert(types.is_instance(screen, Rectangle))
   assert(types.is_number_with_limits(grid_step, 0))
+
+  local screen_width = screen.maximum.x - screen.minimum.x
+  local field_offset = screen.minimum
+    :translate(Point:new(
+      (screen_width - grid_step * game._settings.field.size.width) / 2,
+      0
+    ))
 
   love.graphics.setColor(1, 1, 1)
   love.graphics.rectangle(

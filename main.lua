@@ -9,13 +9,14 @@ local Point = require("lualife.models.point")
 local FieldSettings = require("biohazardcore.models.fieldsettings")
 local GameSettings = require("biohazardcore.models.gamesettings")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
+local Rectangle = require("models.rectangle")
 local drawing = require("drawing")
 local ui = require("ui")
 
 local game = nil -- ClassifiedGame
 local global_padding = 0
+local screen = nil -- Rectangle
 local cell_size = 0
-local field_offset = Point:new(0, 0)
 local button_size = 0
 local left_buttons_offset = 0
 local right_buttons_offset = 0
@@ -35,13 +36,11 @@ function love.load()
 
   local x, y, width, height = love.window.getSafeArea()
   global_padding = height / 20
+  screen = Rectangle:new(
+    Point:new(x + global_padding, y + global_padding),
+    Point:new(x + width - global_padding, y + height - global_padding)
+  )
   cell_size = (height - 2 * global_padding) / game._settings.field.size.height
-  field_offset = Point
-    :new(x, y)
-    :translate(Point:new(
-      (width - cell_size * game._settings.field.size.width) / 2,
-      global_padding
-    ))
   button_size = height / 4
 
   local button_padding = button_size / 8  
@@ -56,7 +55,7 @@ function love.load()
 end
 
 function love.draw()
-  drawing.draw_game(game, field_offset, cell_size)
+  drawing.draw_game(game, screen, cell_size)
   ui.draw()
 end
 
