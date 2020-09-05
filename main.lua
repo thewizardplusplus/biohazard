@@ -18,6 +18,7 @@ local settings = GameSettings:new(
   FieldSettings:new(Size:new(3, 3), Point:new(0, 0), 0.5, 5, 5)
 )
 local game = ClassifiedGame:new(settings)
+local global_padding = 0
 local cell_size = 0
 local field_offset = Point:new(0, 0)
 local button_size = 0
@@ -34,22 +35,23 @@ function love.load()
   assert(ok, "unable to enter fullscreen")
 
   local x, y, width, height = love.window.getSafeArea()
-  cell_size = height / (settings.field.size.height + 1)
+  global_padding = height / 20
+  cell_size = (height - 2 * global_padding) / settings.field.size.height
   field_offset = Point
     :new(x, y)
     :translate(Point:new(
       (width - cell_size * settings.field.size.width) / 2,
-      cell_size / 2
+      global_padding
     ))
   button_size = height / 4
   button_padding = button_size / 8
   left_buttons_offset = Point:new(
-    x + cell_size / 2,
-    y + height - cell_size / 2 - 1.5 * button_size - button_padding
+    x + global_padding,
+    y + height - global_padding - 1.5 * button_size - button_padding
   )
   right_buttons_offset = Point:new(
-    x + width - cell_size / 2 - button_size,
-    y + height - cell_size / 2 - 1.5 * button_size - 2 * button_padding
+    x + width - global_padding - button_size,
+    y + height - global_padding - 1.5 * button_size - 2 * button_padding
   )
 end
 
