@@ -13,8 +13,6 @@ local sets = require("lualife.sets")
 local suit = require("suit")
 local drawing = require("drawing")
 
-local BUTTON_SIZE_FACTOR = 0.25
-
 local settings = GameSettings:new(
   FieldSettings:new(Size:new(10, 10), Point:new(0, 0), 0.2),
   FieldSettings:new(Size:new(3, 3), Point:new(0, 0), 0.5, 5, 5)
@@ -23,6 +21,7 @@ local game = ClassifiedGame:new(settings)
 local cell_size = 0
 local field_offset = Point:new(0, 0)
 local button_size = 0
+local button_padding = 0
 local left_buttons_offset = 0
 local right_buttons_offset = 0
 
@@ -42,14 +41,15 @@ function love.load()
       (width - cell_size * settings.field.size.width) / 2,
       cell_size / 2
     ))
-  button_size = BUTTON_SIZE_FACTOR * height
+  button_size = height / 4
+  button_padding = button_size / 8
   left_buttons_offset = Point:new(
     x + cell_size / 2,
-    y + height - cell_size - 1.5 * button_size
+    y + height - cell_size / 2 - 1.5 * button_size - button_padding
   )
   right_buttons_offset = Point:new(
     x + width - cell_size / 2 - button_size,
-    y + height - 1.5 * cell_size - 1.5 * button_size
+    y + height - cell_size / 2 - 1.5 * button_size - 2 * button_padding
   )
 end
 
@@ -59,7 +59,6 @@ function love.draw()
 end
 
 function love.update()
-  local button_padding = cell_size / 2
   suit.layout:reset(left_buttons_offset.x, left_buttons_offset.y, button_padding)
   local rotate_button = suit.Button("@", suit.layout:row(button_size + button_padding, button_size / 2))
   local to_left_button = suit.Button("<", suit.layout:row(button_size / 2, button_size))
