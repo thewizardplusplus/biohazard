@@ -4,6 +4,7 @@
 local suit = require("suit")
 local types = require("lualife.types")
 local Point = require("lualife.models.point")
+local Rectangle = require("models.rectangle")
 local UiUpdate = require("models.uiupdate")
 
 local ui = {}
@@ -15,20 +16,22 @@ function ui.draw()
 end
 
 ---
--- @tparam lualife.models.Point left_buttons_offset
--- @tparam lualife.models.Point right_buttons_offset
+-- @tparam Rectangle screen
 -- @tparam int grid_step [0, ∞)
 -- @treturn UiUpdate
-function ui.update(
-  left_buttons_offset,
-  right_buttons_offset,
-  grid_step
-)
-  assert(types.is_instance(left_buttons_offset, Point))
-  assert(types.is_instance(right_buttons_offset, Point))
+function ui.update(screen, grid_step)
+  assert(types.is_instance(screen, Rectangle))
   assert(types.is_number_with_limits(grid_step, 0))
 
   local padding = grid_step / 8
+  local left_buttons_offset = Point:new(
+    screen.minimum.x,
+    screen.maximum.y - 1.5 * grid_step - padding
+  )
+  local right_buttons_offset = Point:new(
+    screen.maximum.x - grid_step,
+    screen.maximum.y - 1.5 * grid_step - 2 * padding
+  )
 
   suit.layout:reset(left_buttons_offset.x, left_buttons_offset.y, padding)
   local rotate_button = suit.Button("@", suit.layout:row(grid_step + padding, grid_step / 2))

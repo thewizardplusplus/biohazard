@@ -18,8 +18,6 @@ local global_padding = 0
 local screen = nil -- Rectangle
 local cell_size = 0
 local button_size = 0
-local left_buttons_offset = 0
-local right_buttons_offset = 0
 
 function love.load()
   math.randomseed(os.time())
@@ -42,16 +40,6 @@ function love.load()
   )
   cell_size = (height - 2 * global_padding) / game._settings.field.size.height
   button_size = height / 4
-
-  local button_padding = button_size / 8  
-  left_buttons_offset = Point:new(
-    x + global_padding,
-    y + height - global_padding - 1.5 * button_size - button_padding
-  )
-  right_buttons_offset = Point:new(
-    x + width - global_padding - button_size,
-    y + height - global_padding - 1.5 * button_size - 2 * button_padding
-  )
 end
 
 function love.draw()
@@ -60,7 +48,7 @@ function love.draw()
 end
 
 function love.update()
-  local update = ui.update(left_buttons_offset, right_buttons_offset, button_size)
+  local update = ui.update(screen, button_size)
   game:move(update.delta_offset)
   if update.rotated then
     game:rotate()
