@@ -14,7 +14,6 @@ local drawing = require("drawing")
 local ui = require("ui")
 
 local game = nil -- ClassifiedGame
-local global_padding = 0
 local screen = nil -- Rectangle
 local cell_size = 0
 local button_size = 0
@@ -33,12 +32,12 @@ function love.load()
   ))
 
   local x, y, width, height = love.window.getSafeArea()
-  global_padding = height / 20
+  local padding = height / 20
   screen = Rectangle:new(
-    Point:new(x + global_padding, y + global_padding),
-    Point:new(x + width - global_padding, y + height - global_padding)
+    Point:new(x + padding, y + padding),
+    Point:new(x + width - padding, y + height - padding)
   )
-  cell_size = (height - 2 * global_padding) / game._settings.field.size.height
+  cell_size = (height - 2 * padding) / game._settings.field.size.height
   button_size = height / 4
 end
 
