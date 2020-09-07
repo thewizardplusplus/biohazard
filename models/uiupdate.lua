@@ -10,7 +10,7 @@ local UiUpdate = middleclass("UiUpdate")
 ---
 -- @table instance
 -- @tfield lualife.models.Point delta_offset
--- @tfield bool new
+-- @tfield bool rotated
 -- @tfield bool unioned
 
 ---
