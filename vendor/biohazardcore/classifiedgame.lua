@@ -5,14 +5,14 @@ local middleclass = require("middleclass")
 local types = require("lualife.types")
 local GameSettings = require("biohazardcore.models.gamesettings")
 local CellClassification = require("biohazardcore.models.cellclassification")
-local Game = require("biohazardcore.game")
 local sets = require("lualife.sets")
+local Game = require("biohazardcore.game")
 
 local ClassifiedGame = middleclass("ClassifiedGame", Game)
 
 ---
 -- @table instance
--- @tfield GameSettings _settings
+-- @tfield GameSettings settings
 -- @tfield lualife.models.PlacedField _field
 -- @tfield lualife.models.PlacedField _field_part
 
@@ -33,5 +33,23 @@ function ClassifiedGame:classify_cells()
   local new = sets.complement(self._field_part, self._field)
   return CellClassification:new(old, new, self:_intersection())
 end
+
+---
+-- @function offset
+-- @treturn lualife.models.Point
+
+---
+-- @function move
+-- @tparam lualife.models.Point delta_offset
+
+---
+-- @function rotate
+
+---
+-- @function union
+
+---
+-- @function _intersection
+-- @treturn lualife.models.PlacedField
 
 return ClassifiedGame

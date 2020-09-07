@@ -15,7 +15,7 @@ local Game = middleclass("Game")
 
 ---
 -- @table instance
--- @tfield GameSettings _settings
+-- @tfield GameSettings settings
 -- @tfield lualife.models.PlacedField _field
 -- @tfield lualife.models.PlacedField _field_part
 
@@ -26,9 +26,15 @@ local Game = middleclass("Game")
 function Game:initialize(settings)
   assert(types.is_instance(settings, GameSettings))
 
-  self._settings = settings
+  self.settings = settings
   self._field = factory.create_field(settings.field)
   self._field_part = factory.create_field(settings.field_part)
+end
+
+---
+-- @treturn lualife.models.Point
+function Game:offset()
+  return self._field_part.offset
 end
 
 ---
@@ -61,7 +67,7 @@ function Game:union()
   field_next = life.populate(field_next)
 
   self._field = field_next
-  self._field_part = factory.create_field(self._settings.field_part)
+  self._field_part = factory.create_field(self.settings.field_part)
 end
 
 ---
