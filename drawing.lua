@@ -17,8 +17,7 @@ function drawing.draw_game(game, screen)
   assert(types.is_instance(game, ClassifiedGame))
   assert(types.is_instance(screen, Rectangle))
 
-  local screen_height = screen.maximum.y - screen.minimum.y
-  local grid_step = screen_height / game.settings.field.size.height
+  local grid_step = screen:height() / game.settings.field.size.height
   local field_offset = screen.minimum
     :translate(Point:new(
       (screen:width() - grid_step * game.settings.field.size.width) / 2,

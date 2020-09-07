@@ -21,8 +21,7 @@ end
 function ui.update(screen)
   assert(types.is_instance(screen, Rectangle))
 
-  local screen_height = screen.maximum.y - screen.minimum.y
-  local grid_step = screen_height / 4
+  local grid_step = screen:height() / 4
   local padding = grid_step / 8
   local left_buttons_offset = Point:new(
     screen.minimum.x,

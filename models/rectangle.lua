@@ -31,4 +31,10 @@ function Rectangle:width()
   return self.maximum.x - self.minimum.x
 end
 
+---
+-- @treturn number
+function Rectangle:height()
+  return self.maximum.y - self.minimum.y
+end
+
 return Rectangle
