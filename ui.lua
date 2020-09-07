@@ -34,6 +34,10 @@ function ui.update(game, screen)
     screen.maximum.x - grid_step,
     screen.maximum.y - 1.5 * grid_step - 2 * padding
   )
+  local labels_offset = Point:new(
+    screen.maximum.x - grid_step - padding,
+    screen.minimum.y
+  )
 
   suit.layout:reset(left_buttons_offset.x, left_buttons_offset.y, padding)
   local rotate_button = suit.Button("@", suit.layout:row(grid_step + padding, grid_step / 2))
@@ -44,6 +48,10 @@ function ui.update(game, screen)
   local union_button = suit.Button("+", suit.layout:row(grid_step, grid_step / 2))
   local to_top_button = suit.Button("^", suit.layout:row())
   local to_bottom_button = suit.Button("v", suit.layout:row())
+
+  suit.layout:reset(labels_offset.x, labels_offset.y, padding)
+  suit.Label("Now:", suit.layout:row(grid_step / 2, grid_step / 2))
+  suit.Label(tostring(game._field:count()), suit.layout:col())
 
   local delta_offset = Point:new(0, 0)
   if to_left_button.hit then
