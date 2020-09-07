@@ -37,7 +37,7 @@ function drawing.draw_game(game, screen)
 
   local classification = game:classify_cells()
   for _, cell_kind in ipairs(CellClassification:cell_kinds()) do
-    drawing.draw_field(classification[cell_kind], field_offset, grid_step, cell_kind)
+    drawing._draw_field(classification[cell_kind], field_offset, grid_step, cell_kind)
   end
 
   local field_part_offset = game:offset()
@@ -59,7 +59,7 @@ end
 -- @tparam lualife.models.Point field_offset
 -- @tparam int grid_step [0, ∞)
 -- @tparam "old"|"new"|"intersection" cell_kind
-function drawing.draw_field(
+function drawing._draw_field(
   field,
   field_offset,
   grid_step,
@@ -72,7 +72,7 @@ function drawing.draw_field(
 
   field:map(function(point, contains)
     if contains then
-      drawing.draw_cell(point, field_offset, grid_step, cell_kind)
+      drawing._draw_cell(point, field_offset, grid_step, cell_kind)
     end
   end)
 end
@@ -82,7 +82,7 @@ end
 -- @tparam lualife.models.Point field_offset
 -- @tparam int grid_step [0, ∞)
 -- @tparam "old"|"new"|"intersection" cell_kind
-function drawing.draw_cell(
+function drawing._draw_cell(
   point,
   field_offset,
   grid_step,
