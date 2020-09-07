@@ -13,13 +13,13 @@ local drawing = {}
 ---
 -- @tparam biohazardcore.ClassifiedGame game
 -- @tparam Rectangle screen
--- @tparam int grid_step [0, ∞)
-function drawing.draw_game(game, screen, grid_step)
+function drawing.draw_game(game, screen)
   assert(types.is_instance(game, ClassifiedGame))
   assert(types.is_instance(screen, Rectangle))
-  assert(types.is_number_with_limits(grid_step, 0))
 
   local screen_width = screen.maximum.x - screen.minimum.x
+  local screen_height = screen.maximum.y - screen.minimum.y
+  local grid_step = screen_height / game.settings.field.size.height
   local field_offset = screen.minimum
     :translate(Point:new(
       (screen_width - grid_step * game.settings.field.size.width) / 2,
