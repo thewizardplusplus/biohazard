@@ -43,7 +43,7 @@ function love.draw()
 end
 
 function love.update()
-  local update = ui.update(screen)
+  local update = ui.update(game, screen)
   game:move(update.delta_offset)
   if update.rotated then
     game:rotate()

@@ -4,6 +4,7 @@
 local suit = require("suit")
 local types = require("lualife.types")
 local Point = require("lualife.models.point")
+local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
 local UiUpdate = require("models.uiupdate")
 
@@ -16,9 +17,11 @@ function ui.draw()
 end
 
 ---
+-- @tparam biohazardcore.ClassifiedGame game
 -- @tparam Rectangle screen
 -- @treturn UiUpdate
-function ui.update(screen)
+function ui.update(game, screen)
+  assert(types.is_instance(game, ClassifiedGame))
   assert(types.is_instance(screen, Rectangle))
 
   local grid_step = screen:height() / 4
