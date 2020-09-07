@@ -15,7 +15,6 @@ local ui = require("ui")
 
 local game = nil -- ClassifiedGame
 local screen = nil -- Rectangle
-local button_size = 0
 
 function love.load()
   math.randomseed(os.time())
@@ -36,16 +35,15 @@ function love.load()
     Point:new(x + padding, y + padding),
     Point:new(x + width - padding, y + height - padding)
   )
-  button_size = height / 4
 end
 
 function love.draw()
-  drawing.draw_game(game, screen, cell_size)
+  drawing.draw_game(game, screen)
   ui.draw()
 end
 
 function love.update()
-  local update = ui.update(screen, button_size)
+  local update = ui.update(screen)
   game:move(update.delta_offset)
   if update.rotated then
     game:rotate()

@@ -17,12 +17,12 @@ end
 
 ---
 -- @tparam Rectangle screen
--- @tparam int grid_step [0, ∞)
 -- @treturn UiUpdate
-function ui.update(screen, grid_step)
+function ui.update(screen)
   assert(types.is_instance(screen, Rectangle))
-  assert(types.is_number_with_limits(grid_step, 0))
 
+  local screen_height = screen.maximum.y - screen.minimum.y
+  local grid_step = screen_height / 4
   local padding = grid_step / 8
   local left_buttons_offset = Point:new(
     screen.minimum.x,
