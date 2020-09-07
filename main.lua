@@ -37,7 +37,7 @@ function love.load()
     Point:new(x + padding, y + padding),
     Point:new(x + width - padding, y + height - padding)
   )
-  cell_size = (height - 2 * padding) / game._settings.field.size.height
+  cell_size = (height - 2 * padding) / game.settings.field.size.height
   button_size = height / 4
 end
 
