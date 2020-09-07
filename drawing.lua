@@ -41,6 +41,7 @@ function drawing.draw_game(game, screen)
   local field_part_offset = game:offset()
     :scale(grid_step)
     :translate(field_offset)
+
   love.graphics.setColor(0.75, 0.75, 0)
   love.graphics.setLineWidth(grid_step / 10)
   love.graphics.rectangle(
