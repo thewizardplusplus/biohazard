@@ -1,5 +1,7 @@
 # Change Log
 
+## [v1.2](https://github.com/thewizardplusplus/biohazard/tree/v1.2) (2020-09-07)
+
 ## [v1.1](https://github.com/thewizardplusplus/biohazard/tree/v1.1) (2020-08-14)
 
 ## [v1.0](https://github.com/thewizardplusplus/biohazard/tree/v1.0) (2020-08-11)
