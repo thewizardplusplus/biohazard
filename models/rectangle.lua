@@ -25,4 +25,10 @@ function Rectangle:initialize(minimum, maximum)
   self.maximum = maximum
 end
 
+---
+-- @treturn number
+function Rectangle:width()
+  return self.maximum.x - self.minimum.x
+end
+
 return Rectangle
