@@ -55,8 +55,8 @@ function ui.update(game, screen)
     valign = "top",
   }
   suit.layout:reset(labels_offset.x, labels_offset.y, padding)
-  suit.Label("Now:", options, suit.layout:row(grid_step / 2, grid_step / 2))
-  suit.Label(tostring(game._field:count()), options, suit.layout:col())
+  suit.Label("Now:", options, suit.layout:row(2 * grid_step / 3, grid_step / 2))
+  suit.Label(tostring(game._field:count()), options, suit.layout:col(grid_step / 3, grid_step / 2))
 
   local delta_offset = Point:new(0, 0)
   if to_left_button.hit then
