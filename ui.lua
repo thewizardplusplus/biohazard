@@ -49,9 +49,10 @@ function ui.update(game, screen)
   local to_top_button = suit.Button("^", suit.layout:row())
   local to_bottom_button = suit.Button("v", suit.layout:row())
 
+  local black_color = {normal = {fg = {0, 0, 0}}}
   suit.layout:reset(labels_offset.x, labels_offset.y, padding)
-  suit.Label("Now:", suit.layout:row(grid_step / 2, grid_step / 2))
-  suit.Label(tostring(game._field:count()), suit.layout:col())
+  suit.Label("Now:", {color = black_color}, suit.layout:row(grid_step / 2, grid_step / 2))
+  suit.Label(tostring(game._field:count()), {color = black_color}, suit.layout:col())
 
   local delta_offset = Point:new(0, 0)
   if to_left_button.hit then
