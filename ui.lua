@@ -53,8 +53,10 @@ function ui.update(screen, stats)
     screen.maximum.x - grid_step,
     screen.maximum.y - 1.5 * grid_step - 2 * padding
   )
+
+  local labels_padding = padding / 2
   local labels_offset = Point:new(
-    screen.maximum.x - grid_step - padding,
+    screen.maximum.x - grid_step - labels_padding,
     screen.minimum.y
   )
 
@@ -68,13 +70,13 @@ function ui.update(screen, stats)
   local to_top_button = suit.Button("^", suit.layout:row())
   local to_bottom_button = suit.Button("v", suit.layout:row())
 
-  suit.layout:reset(labels_offset.x, labels_offset.y, padding)
+  suit.layout:reset(labels_offset.x, labels_offset.y, labels_padding)
   local current_title_options = make_options({0, 0, 0}, "left")
   suit.Label("Now:", current_title_options, suit.layout:row(2 * grid_step / 3, grid_step / 3))
   local current_value_options = make_options({0, 0, 0}, "right")
   suit.Label(tostring(stats.current), current_value_options, suit.layout:col(grid_step / 3, grid_step / 3))
 
-  suit.layout:reset(labels_offset.x, labels_offset.y + grid_step / 3 + padding, padding)
+  suit.layout:reset(labels_offset.x, labels_offset.y + grid_step / 3 + labels_padding, labels_padding)
   local minimal_title_options = make_options({0, 0.33, 0}, "left")
   suit.Label("Min:", minimal_title_options, suit.layout:row(2 * grid_step / 3, grid_step / 3))
   local minimal_value_options = make_options({0, 0.33, 0}, "right")
