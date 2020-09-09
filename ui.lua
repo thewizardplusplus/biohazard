@@ -54,9 +54,10 @@ function ui.update(screen, stats)
     screen.maximum.y - 1.5 * grid_step - 2 * padding
   )
 
+  local labels_grid_step = grid_step / 3
   local labels_padding = padding / 2
   local labels_offset = Point:new(
-    screen.maximum.x - grid_step - labels_padding,
+    screen.maximum.x - 3 * labels_grid_step - labels_padding,
     screen.minimum.y
   )
 
@@ -72,15 +73,15 @@ function ui.update(screen, stats)
 
   suit.layout:reset(labels_offset.x, labels_offset.y, labels_padding)
   local current_title_options = make_options({0, 0, 0}, "left")
-  suit.Label("Now:", current_title_options, suit.layout:row(2 * grid_step / 3, grid_step / 3))
+  suit.Label("Now:", current_title_options, suit.layout:row(2 * labels_grid_step, labels_grid_step))
   local current_value_options = make_options({0, 0, 0}, "right")
-  suit.Label(tostring(stats.current), current_value_options, suit.layout:col(grid_step / 3, grid_step / 3))
+  suit.Label(tostring(stats.current), current_value_options, suit.layout:col(labels_grid_step, labels_grid_step))
 
-  suit.layout:reset(labels_offset.x, labels_offset.y + grid_step / 3 + labels_padding, labels_padding)
+  suit.layout:reset(labels_offset.x, labels_offset.y + labels_grid_step + labels_padding, labels_padding)
   local minimal_title_options = make_options({0, 0.33, 0}, "left")
-  suit.Label("Min:", minimal_title_options, suit.layout:row(2 * grid_step / 3, grid_step / 3))
+  suit.Label("Min:", minimal_title_options, suit.layout:row(2 * labels_grid_step, labels_grid_step))
   local minimal_value_options = make_options({0, 0.33, 0}, "right")
-  suit.Label(tostring(stats.minimal), minimal_value_options, suit.layout:col(grid_step / 3, grid_step / 3))
+  suit.Label(tostring(stats.minimal), minimal_value_options, suit.layout:col(labels_grid_step, labels_grid_step))
 
   local delta_offset = Point:new(0, 0)
   if to_left_button.hit then
