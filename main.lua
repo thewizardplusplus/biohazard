@@ -10,6 +10,7 @@ local FieldSettings = require("biohazardcore.models.fieldsettings")
 local GameSettings = require("biohazardcore.models.gamesettings")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
+local Stats = require("models.stats")
 local drawing = require("drawing")
 local ui = require("ui")
 
@@ -44,7 +45,8 @@ function love.draw()
 end
 
 function love.update()
-  local update = ui.update(game, screen)
+  local stats = Stats:new(game._field:count(), 23)
+  local update = ui.update(screen, stats)
   game:move(update.delta_offset)
   if update.rotated then
     game:rotate()

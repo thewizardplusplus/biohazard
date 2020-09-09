@@ -6,6 +6,7 @@ local types = require("lualife.types")
 local Point = require("lualife.models.point")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
+local Stats = require("models.stats")
 local UiUpdate = require("models.uiupdate")
 
 local ui = {}
@@ -17,12 +18,12 @@ function ui.draw()
 end
 
 ---
--- @tparam biohazardcore.ClassifiedGame game
 -- @tparam Rectangle screen
+-- @tparam Stats stats
 -- @treturn UiUpdate
-function ui.update(game, screen)
-  assert(types.is_instance(game, ClassifiedGame))
+function ui.update(screen, stats)
   assert(types.is_instance(screen, Rectangle))
+  assert(types.is_instance(stats, Stats))
 
   local grid_step = screen:height() / 4
   local padding = grid_step / 8
@@ -56,7 +57,7 @@ function ui.update(game, screen)
   }
   suit.layout:reset(labels_offset.x, labels_offset.y, padding)
   suit.Label("Now:", now_options, suit.layout:row(2 * grid_step / 3, grid_step / 3))
-  suit.Label(tostring(game._field:count()), now_options, suit.layout:col(grid_step / 3, grid_step / 3))
+  suit.Label(tostring(stats.current), now_options, suit.layout:col(grid_step / 3, grid_step / 3))
 
   local min_options = {
     color = {normal = {fg = {0, 0.33, 0}}},
@@ -65,7 +66,7 @@ function ui.update(game, screen)
   }
   suit.layout:reset(labels_offset.x, labels_offset.y + grid_step / 3 + padding, padding)
   suit.Label("Min:", min_options, suit.layout:row(2 * grid_step / 3, grid_step / 3))
-  suit.Label(tostring(23), min_options, suit.layout:col(grid_step / 3, grid_step / 3))
+  suit.Label(tostring(stats.minimal), min_options, suit.layout:col(grid_step / 3, grid_step / 3))
 
   local delta_offset = Point:new(0, 0)
   if to_left_button.hit then
