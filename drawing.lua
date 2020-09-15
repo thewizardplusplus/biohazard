@@ -11,11 +11,11 @@ local Rectangle = require("models.rectangle")
 local drawing = {}
 
 ---
--- @tparam biohazardcore.ClassifiedGame game
 -- @tparam Rectangle screen
-function drawing.draw_game(game, screen)
-  assert(types.is_instance(game, ClassifiedGame))
+-- @tparam biohazardcore.ClassifiedGame game
+function drawing.draw_game(screen, game)
   assert(types.is_instance(screen, Rectangle))
+  assert(types.is_instance(game, ClassifiedGame))
 
   local grid_step = screen:height() / game.settings.field.size.height
   local field_offset = screen.minimum

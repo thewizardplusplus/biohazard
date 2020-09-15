@@ -39,7 +39,7 @@ function love.load()
 end
 
 function love.draw()
-  drawing.draw_game(game, screen)
+  drawing.draw_game(screen, game)
   ui.draw(screen)
 end
 
