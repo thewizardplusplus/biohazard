@@ -21,7 +21,6 @@ function love.load()
   math.randomseed(os.time())
   love.setDeprecationOutput(true)
   love.graphics.setBackgroundColor(0.5, 0.5, 0.5)
-  love.graphics.setFont(love.graphics.newFont(18))
 
   local ok = love.window.setFullscreen(true)
   assert(ok, "unable to enter fullscreen")
@@ -41,7 +40,7 @@ end
 
 function love.draw()
   drawing.draw_game(game, screen)
-  ui.draw()
+  ui.draw(screen)
 end
 
 function love.update()

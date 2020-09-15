@@ -31,7 +31,12 @@ local ui = {}
 
 ---
 -- @function draw
-function ui.draw()
+function ui.draw(screen)
+  assert(types.is_instance(screen, Rectangle))
+
+  local font_size = screen:height() / 20
+  love.graphics.setFont(love.graphics.newFont(font_size))
+
   suit.draw()
 end
 
