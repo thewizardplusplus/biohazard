@@ -13,9 +13,11 @@ local Rectangle = require("models.rectangle")
 local Stats = require("models.stats")
 local drawing = require("drawing")
 local ui = require("ui")
+local StatsStorage = require("statsstorage")
 
 local game = nil -- ClassifiedGame
 local screen = nil -- Rectangle
+local stats_storage = nil -- StatsStorage
 
 function love.load()
   math.randomseed(os.time())
@@ -36,6 +38,13 @@ function love.load()
     Point:new(x + padding, y + padding),
     Point:new(x + width - padding, y + height - padding)
   )
+
+  local save_directory = love.filesystem.getSaveDirectory()
+  local stats_path = save_directory .. "/.biohazard"
+  ok = love.filesystem.createDirectory(stats_path)
+  assert(ok, "unable to create the stats DB")
+
+  stats_storage = StatsStorage:new(stats_path)
 end
 
 function love.draw()
@@ -44,7 +53,7 @@ function love.draw()
 end
 
 function love.update()
-  local stats = Stats:new(game._field:count(), 23)
+  local stats = stats_storage:update(game)
   local update = ui.update(screen, stats)
   game:move(update.delta_offset)
   if update.rotated then
