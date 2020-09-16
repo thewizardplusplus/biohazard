@@ -45,7 +45,9 @@ function love.load()
 
   local save_directory = love.filesystem.getSaveDirectory()
   local stats_db_path = save_directory .. "/" .. stats_db_name
-  stats_storage = StatsStorage:new(stats_db_path)
+  local initial_minimal_stats = game.settings.field.size.width
+    * game.settings.field.size.height
+  stats_storage = StatsStorage:new(stats_db_path, initial_minimal_stats)
 end
 
 function love.draw()

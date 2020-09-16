@@ -16,13 +16,17 @@ local StatsStorage = middleclass("StatsStorage")
 ---
 -- @function new
 -- @tparam string path
+-- @tparam int initial_minimal [0, ∞)
 -- @treturn StatsStorage
-function StatsStorage:initialize(path)
+function StatsStorage:initialize(path, initial_minimal)
   assert(type(path) == "string")
+  assert(types.is_number_with_limits(initial_minimal, 0))
 
   self._db = flatdb(path)
   if not self._db.stats then
-    self._db.stats = {}
+    self._db.stats = {
+      minimal = initial_minimal,
+    }
   end
 end
 
