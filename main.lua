@@ -39,12 +39,13 @@ function love.load()
     Point:new(x + width - padding, y + height - padding)
   )
 
-  local save_directory = love.filesystem.getSaveDirectory()
-  local stats_path = save_directory .. "/.biohazard"
-  ok = love.filesystem.createDirectory(stats_path)
+  local stats_db_name = "biohazard-stats-db"
+  ok = love.filesystem.createDirectory(stats_db_name)
   assert(ok, "unable to create the stats DB")
 
-  stats_storage = StatsStorage:new(stats_path)
+  local save_directory = love.filesystem.getSaveDirectory()
+  local stats_db_path = save_directory .. "/" .. stats_db_name
+  stats_storage = StatsStorage:new(stats_db_path)
 end
 
 function love.draw()
