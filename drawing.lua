@@ -34,8 +34,8 @@ function drawing.draw_game(screen, game)
   )
 
   local classification = game:classify_cells()
-  for _, cell_kind in ipairs(CellClassification:cell_kinds()) do
-    drawing._draw_field(classification[cell_kind], field_offset, grid_step, cell_kind)
+  for cell_kind, cells in classification:__pairs() do
+    drawing._draw_field(cells, field_offset, grid_step, cell_kind)
   end
 
   local field_part_offset = game:offset()

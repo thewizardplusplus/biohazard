@@ -35,7 +35,7 @@ end
 function StatsStorage:update(game)
   assert(types.is_instance(game, Game))
 
-  local current = game._field:count()
+  local current = game:count()
   if self._db.stats.minimal > current then
     self._db.stats.minimal = current
     self._db:save()
