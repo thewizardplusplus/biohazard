@@ -35,18 +35,24 @@ function ClassifiedGame:classify_cells()
 end
 
 ---
+-- @function count
+-- @treturn int
+
+---
 -- @function offset
 -- @treturn lualife.models.Point
 
 ---
 -- @function move
 -- @tparam lualife.models.Point delta_offset
+-- @treturn bool
 
 ---
 -- @function rotate
 
 ---
 -- @function union
+-- @treturn bool
 
 ---
 -- @function _intersection

@@ -32,6 +32,12 @@ function Game:initialize(settings)
 end
 
 ---
+-- @treturn int
+function Game:count()
+  return self._field:count()
+end
+
+---
 -- @treturn lualife.models.Point
 function Game:offset()
   return self._field_part.offset
@@ -39,6 +45,7 @@ end
 
 ---
 -- @tparam lualife.models.Point delta_offset
+-- @treturn bool
 function Game:move(delta_offset)
   assert(types.is_instance(delta_offset, Point))
 
@@ -47,7 +54,10 @@ function Game:move(delta_offset)
     PlacedField.place(self._field_part, field_part_offset_next)
   if field_part_next:fits(self._field) then
     self._field_part = field_part_next
+    return true
   end
+
+  return false
 end
 
 ---
@@ -58,9 +68,10 @@ end
 
 ---
 -- @function union
+-- @treturn bool
 function Game:union()
   if self:_intersection():count() ~= 0 then
-    return
+    return false
   end
 
   local field_next = sets.union(self._field, self._field_part)
@@ -68,6 +79,8 @@ function Game:union()
 
   self._field = field_next
   self._field_part = factory.create_field(self.settings.field_part)
+
+  return true
 end
 
 ---

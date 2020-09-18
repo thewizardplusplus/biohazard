@@ -57,11 +57,32 @@ function CellClassification:initialize(old, new, intersection)
 end
 
 ---
+-- @treturn func func(instance: CellClassification, field: string):
+--   nil|(string, lualife.models.PlacedField); next function
+-- @treturn CellClassification self
+-- @treturn nil
+function CellClassification:__pairs()
+  local function next(instance, field)
+    if field == nil then
+      return "old", instance.old
+    elseif field == "old" then
+      return "new", instance.new
+    elseif field == "new" then
+      return "intersection", instance.intersection
+    else
+      return nil
+    end
+  end
+
+  return next, self, nil
+end
+
+---
 -- @treturn tab table with instance fields
 function CellClassification:__data()
   local data = {}
-  for _, cell_kind in ipairs(CellClassification.cell_kinds()) do
-    data[cell_kind] = self[cell_kind]:__data()
+  for cell_kind, cells in pairs(self) do
+    data[cell_kind] = cells:__data()
   end
 
   return data
