@@ -4,7 +4,6 @@
 local middleclass = require("middleclass")
 local flatdb = require("flatdb")
 local types = require("lualife.types")
-local Game = require("biohazardcore.game")
 local Stats = require("models.stats")
 
 local StatsStorage = middleclass("StatsStorage")
@@ -31,11 +30,11 @@ function StatsStorage:initialize(path, initial_minimal)
 end
 
 ---
+-- @tparam int current [0, ∞)
 -- @treturn Stats
-function StatsStorage:update(game)
-  assert(types.is_instance(game, Game))
+function StatsStorage:update(current)
+  assert(types.is_number_with_limits(current, 0))
 
-  local current = game:count()
   if self._db.stats.minimal > current then
     self._db.stats.minimal = current
     self._db:save()
