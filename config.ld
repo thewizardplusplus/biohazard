@@ -1,7 +1,9 @@
 project = "biohazard"
 file = {
+  "statsstorage.lua",
   "drawing.lua",
   "ui.lua",
+  "models/stats.lua",
   "models/rectangle.lua",
   "models/uiupdate.lua",
 }

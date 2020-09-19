@@ -12,6 +12,7 @@ local ui = {}
 
 ---
 -- @function draw
+-- @tparam Rectangle screen
 function ui.draw(screen)
   assert(types.is_instance(screen, Rectangle))
 
@@ -104,7 +105,7 @@ end
 -- @tparam {number,number,number} color
 --   red, green and blue values in the range [0, 1]
 -- @tparam "left"|"right" align
--- @treturn tab common suit widget options
+-- @treturn tab common SUIT widget options
 function ui._make_label_options(color, align)
   assert(align == "left" or align == "right")
   assert(type(color) == "table" and #color == 3)
