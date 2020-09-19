@@ -26,8 +26,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 if _VERSION == "Lua 5.1" then
    local _type, _select, _unpack, _error = type, select, unpack, error
 
-   bit32 = require("bit32")
-
    -- detect LuaJIT (including LUAJIT_ENABLE_LUA52COMPAT compilation flag)
    local is_luajit = (string.dump(function() end) or ""):sub(1, 3) == "\027LJ"
    local is_luajit52 = is_luajit and
@@ -331,20 +329,6 @@ if _VERSION == "Lua 5.1" then
    end
 
    if not is_luajit52 then
-      local os_execute = os.execute
-      local bit32_rshift = bit32.rshift
-      os.execute = function(cmd)
-         local code = os_execute(cmd)
-         -- Lua 5.1 does not report exit by signal.
-         if code == 0 then
-            return true, "exit", code
-         else
-            return nil, "exit", bit32_rshift(code, 8)
-         end
-      end
-   end -- not luajit with compat52 enabled
-
-   if not is_luajit52 then
       table.pack = function(...)
          return { n = _select('#', ...), ... }
       end
@@ -381,14 +365,6 @@ if _VERSION == "Lua 5.1" then
    end
 
    local coroutine_yield = coroutine.yield
-   coroutine.yield = function(...)
-      local co, flag = coroutine_running()
-      if co and not flag then
-         return coroutine_yield(...)
-      else
-         _error("attempt to yield from outside a coroutine", 0)
-      end
-   end
 
    if not is_luajit then
       local coroutine_resume = coroutine.resume
