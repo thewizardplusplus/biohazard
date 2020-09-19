@@ -9,24 +9,6 @@ local Rectangle = require("models.rectangle")
 local Stats = require("models.stats")
 local UiUpdate = require("models.uiupdate")
 
--- @tparam {number,number,number} color
---   red, green and blue values in the range [0, 1] 
--- @tparam "left"|"right" align
--- @treturn tab common suit widget options
-local function make_options(color, align)
-  assert(type(color) == "table" and #color == 3)
-  for _, channel in ipairs(color) do
-    assert(types.is_number_with_limits(channel, 0, 1))
-  end
-  assert(align == "left" or align == "right")
-
-  return {
-    color = {normal = {fg = color}},
-    align = align,
-    valign = "top",
-  }
-end
-
 local ui = {}
 
 ---
@@ -76,15 +58,15 @@ function ui.update(screen, stats)
   local to_bottom_button = suit.Button("v", suit.layout:row())
 
   suit.layout:reset(labels_offset.x, labels_offset.y)
-  local current_title_options = make_options({0, 0, 0}, "left")
+  local current_title_options = ui._make_label_options({0, 0, 0}, "left")
   suit.Label("Now:", current_title_options, suit.layout:row(2 * labels_grid_step, labels_grid_step))
-  local current_value_options = make_options({0, 0, 0}, "right")
+  local current_value_options = ui._make_label_options({0, 0, 0}, "right")
   suit.Label(tostring(stats.current), current_value_options, suit.layout:col(labels_grid_step, labels_grid_step))
 
   suit.layout:reset(labels_offset.x, labels_offset.y + labels_grid_step)
-  local minimal_title_options = make_options({0, 0.33, 0}, "left")
+  local minimal_title_options = ui._make_label_options({0, 0.33, 0}, "left")
   suit.Label("Min:", minimal_title_options, suit.layout:row(2 * labels_grid_step, labels_grid_step))
-  local minimal_value_options = make_options({0, 0.33, 0}, "right")
+  local minimal_value_options = ui._make_label_options({0, 0.33, 0}, "right")
   suit.Label(tostring(stats.minimal), minimal_value_options, suit.layout:col(labels_grid_step, labels_grid_step))
 
   local delta_offset = Point:new(0, 0)
@@ -102,6 +84,25 @@ function ui.update(screen, stats)
   end
 
   return UiUpdate:new(delta_offset, rotate_button.hit, union_button.hit)
+end
+
+---
+-- @tparam {number,number,number} color
+--   red, green and blue values in the range [0, 1]
+-- @tparam "left"|"right" align
+-- @treturn tab common suit widget options
+function ui._make_label_options(color, align)
+  assert(align == "left" or align == "right")
+  assert(type(color) == "table" and #color == 3)
+  for _, color_channel in ipairs(color) do
+    assert(types.is_number_with_limits(color_channel, 0, 1))
+  end
+
+  return {
+    color = {normal = {fg = color}},
+    align = align,
+    valign = "top",
+  }
 end
 
 return ui
