@@ -7,6 +7,7 @@ local Field = require("lualife.models.field")
 local CellClassification = require("biohazardcore.models.cellclassification")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
+require("compat52")
 
 local drawing = {}
 
@@ -34,7 +35,7 @@ function drawing.draw_game(screen, game)
   )
 
   local classification = game:classify_cells()
-  for cell_kind, cells in classification:__pairs() do
+  for cell_kind, cells in pairs(classification) do
     drawing._draw_field(cells, field_offset, grid_step, cell_kind)
   end
 
