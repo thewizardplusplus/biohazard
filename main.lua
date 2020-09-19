@@ -10,7 +10,6 @@ local FieldSettings = require("biohazardcore.models.fieldsettings")
 local GameSettings = require("biohazardcore.models.gamesettings")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
-local Stats = require("models.stats")
 local drawing = require("drawing")
 local ui = require("ui")
 local StatsStorage = require("statsstorage")
@@ -43,11 +42,10 @@ function love.load()
   ok = love.filesystem.createDirectory(stats_db_name)
   assert(ok, "unable to create the stats DB")
 
-  local save_directory = love.filesystem.getSaveDirectory()
-  local stats_db_path = save_directory .. "/" .. stats_db_name
-  local initial_minimal_stats = game.settings.field.size.width
-    * game.settings.field.size.height
-  stats_storage = StatsStorage:new(stats_db_path, initial_minimal_stats)
+  stats_storage = StatsStorage:new(
+    love.filesystem.getSaveDirectory() .. "/" .. stats_db_name,
+    game.settings.field.size.width * game.settings.field.size.height
+  )
 end
 
 function love.draw()

@@ -4,3 +4,4 @@ exclude_files = {
 globals = {
   "love",
 }
+max_line_length = 80
