@@ -12,6 +12,7 @@ local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
 local drawing = require("drawing")
 local ui = require("ui")
+local updating = require("updating")
 local StatsStorage = require("statsstorage")
 
 local game = nil -- ClassifiedGame
@@ -56,13 +57,7 @@ end
 function love.update()
   local stats = stats_storage:update(game:count())
   local update = ui.update(screen, stats)
-  game:move(update:delta_offset())
-  if update.rotated then
-    game:rotate()
-  end
-  if update.unioned then
-    game:union()
-  end
+  updating.update_game(game, update)
 end
 
 function love.keypressed(key)
