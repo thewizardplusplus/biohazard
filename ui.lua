@@ -84,21 +84,14 @@ function ui.update(screen, stats)
     suit.layout:col(labels_grid_step, labels_grid_step)
   )
 
-  local delta_offset = Point:new(0, 0)
-  if to_left_button.hit then
-    delta_offset.x = -1
-  end
-  if to_right_button.hit then
-    delta_offset.x = 1
-  end
-  if to_top_button.hit then
-    delta_offset.y = -1
-  end
-  if to_bottom_button.hit then
-    delta_offset.y = 1
-  end
-
-  return UiUpdate:new(delta_offset, rotate_button.hit, union_button.hit)
+  return UiUpdate:new(
+    to_left_button.hit,
+    to_right_button.hit,
+    to_top_button.hit,
+    to_bottom_button.hit,
+    rotate_button.hit,
+    union_button.hit
+  )
 end
 
 ---

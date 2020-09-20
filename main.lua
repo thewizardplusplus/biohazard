@@ -56,7 +56,7 @@ end
 function love.update()
   local stats = stats_storage:update(game:count())
   local update = ui.update(screen, stats)
-  game:move(update.delta_offset)
+  game:move(update:delta_offset())
   if update.rotated then
     game:rotate()
   end
