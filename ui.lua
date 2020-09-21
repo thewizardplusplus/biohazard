@@ -26,7 +26,7 @@ end
 -- @tparam Rectangle screen
 -- @tparam Stats stats
 -- @treturn UiUpdate
-function ui.update(screen, stats)
+function ui._update_buttons(screen, stats)
   assert(types.is_instance(screen, Rectangle))
   assert(types.is_instance(stats, Stats))
 

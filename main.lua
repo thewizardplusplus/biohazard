@@ -70,7 +70,7 @@ end
 
 function love.update()
   local stats = stats_storage:update(game:count())
-  local update = ui.update(screen, stats)
+  local update = ui._update_buttons(screen, stats)
   updating.update_game(game, update)
 
   input:update()
