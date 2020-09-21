@@ -25,40 +25,16 @@ end
 ---
 -- @tparam Rectangle screen
 -- @tparam Stats stats
--- @treturn UiUpdate
-function ui._update_buttons(screen, stats)
+function ui._update_labels(screen, stats)
   assert(types.is_instance(screen, Rectangle))
   assert(types.is_instance(stats, Stats))
 
   local grid_step = screen:height() / 4
-  local padding = grid_step / 8
-  local left_buttons_offset = Point:new(
-    screen.minimum.x,
-    screen.maximum.y - 1.5 * grid_step - padding
-  )
-  local right_buttons_offset = Point:new(
-    screen.maximum.x - grid_step,
-    screen.maximum.y - 1.5 * grid_step - 2 * padding
-  )
-
   local labels_grid_step = grid_step / 3
   local labels_offset = Point:new(
     screen.maximum.x - 3 * labels_grid_step,
     screen.minimum.y
   )
-
-  suit.layout:reset(left_buttons_offset.x, left_buttons_offset.y, padding)
-  local rotate_button =
-    suit.Button("@", suit.layout:row(grid_step + padding, grid_step / 2))
-  local to_left_button =
-    suit.Button("<", suit.layout:row(grid_step / 2, grid_step))
-  local to_right_button = suit.Button(">", suit.layout:col())
-
-  suit.layout:reset(right_buttons_offset.x, right_buttons_offset.y, padding)
-  local union_button =
-    suit.Button("+", suit.layout:row(grid_step, grid_step / 2))
-  local to_top_button = suit.Button("^", suit.layout:row())
-  local to_bottom_button = suit.Button("v", suit.layout:row())
 
   suit.layout:reset(labels_offset.x, labels_offset.y)
   suit.Label(
@@ -83,6 +59,37 @@ function ui._update_buttons(screen, stats)
     ui._make_label_options({0, 0.33, 0}, "right"),
     suit.layout:col(labels_grid_step, labels_grid_step)
   )
+end
+
+---
+-- @tparam Rectangle screen
+-- @treturn UiUpdate
+function ui._update_buttons(screen)
+  assert(types.is_instance(screen, Rectangle))
+
+  local grid_step = screen:height() / 4
+  local padding = grid_step / 8
+  local left_buttons_offset = Point:new(
+    screen.minimum.x,
+    screen.maximum.y - 1.5 * grid_step - padding
+  )
+  local right_buttons_offset = Point:new(
+    screen.maximum.x - grid_step,
+    screen.maximum.y - 1.5 * grid_step - 2 * padding
+  )
+
+  suit.layout:reset(left_buttons_offset.x, left_buttons_offset.y, padding)
+  local rotate_button =
+    suit.Button("@", suit.layout:row(grid_step + padding, grid_step / 2))
+  local to_left_button =
+    suit.Button("<", suit.layout:row(grid_step / 2, grid_step))
+  local to_right_button = suit.Button(">", suit.layout:col())
+
+  suit.layout:reset(right_buttons_offset.x, right_buttons_offset.y, padding)
+  local union_button =
+    suit.Button("+", suit.layout:row(grid_step, grid_step / 2))
+  local to_top_button = suit.Button("^", suit.layout:row())
+  local to_bottom_button = suit.Button("v", suit.layout:row())
 
   return UiUpdate:new(
     to_left_button.hit,

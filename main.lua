@@ -69,7 +69,9 @@ end
 
 function love.update()
   local stats = stats_storage:update(game:count())
-  local buttons_update = ui._update_buttons(screen, stats)
+  ui._update_labels(screen, stats)
+
+  local buttons_update = ui._update_buttons(screen)
   updating.update_game(game, buttons_update)
 
   local keys_update = ui._update_keys(keys)
