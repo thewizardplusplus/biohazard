@@ -4,6 +4,7 @@ package.path =
   .. "./vendor/?.lua;"
   .. "./vendor/?/init.lua"
 
+local baton = require("baton")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local FieldSettings = require("biohazardcore.models.fieldsettings")
@@ -19,6 +20,7 @@ local StatsStorage = require("statsstorage")
 local game = nil -- ClassifiedGame
 local screen = nil -- Rectangle
 local stats_storage = nil -- StatsStorage
+local input = nil -- baton
 
 function love.load()
   math.randomseed(os.time())
@@ -48,6 +50,17 @@ function love.load()
     love.filesystem.getSaveDirectory() .. "/" .. stats_db_name,
     game.settings.field.size.width * game.settings.field.size.height
   )
+
+  input = baton.new({
+    controls = {
+      moved_left = {"key:left", "key:a"},
+      moved_right = {"key:right", "key:d"},
+      moved_top = {"key:up", "key:w"},
+      moved_bottom = {"key:down", "key:s"},
+      rotated = {"key:lshift", "key:rshift", "key:r"},
+      unioned = {"key:space"},
+    },
+  })
 end
 
 function love.draw()
@@ -59,25 +72,20 @@ function love.update()
   local stats = stats_storage:update(game:count())
   local update = ui.update(screen, stats)
   updating.update_game(game, update)
+
+  input:update()
+  updating.update_game(game, UiUpdate:new(
+    input:pressed("moved_left"),
+    input:pressed("moved_right"),
+    input:pressed("moved_top"),
+    input:pressed("moved_bottom"),
+    input:pressed("rotated"),
+    input:pressed("unioned")
+  ))
 end
 
 function love.keypressed(key)
   if key == "escape" then
     love.event.quit()
   end
-
-  local moved_left = key == "left" or key == "a"
-  local moved_right = key == "right" or key == "d"
-  local moved_top = key == "up" or key == "w"
-  local moved_bottom = key == "down" or key == "s"
-  local rotated = key == "lshift" or key == "rshift" or key == "r"
-  local unioned = key == "space"
-  updating.update_game(game, UiUpdate:new(
-    moved_left,
-    moved_right,
-    moved_top,
-    moved_bottom,
-    rotated,
-    unioned
-  ))
 end
