@@ -2,6 +2,7 @@
 -- @classmod UiUpdate
 
 local middleclass = require("middleclass")
+local types = require("lualife.types")
 local Point = require("lualife.models.point")
 
 local UiUpdate = middleclass("UiUpdate")
@@ -65,6 +66,22 @@ function UiUpdate:delta_offset()
   end
 
   return delta_offset
+end
+
+---
+-- @tparam UiUpdate other
+-- @treturn UiUpdate
+function UiUpdate:merge(other)
+  assert(types.is_instance(other, UiUpdate))
+
+  return UiUpdate:new(
+    self.moved_left or other.moved_left,
+    self.moved_right or other.moved_right,
+    self.moved_top or other.moved_top,
+    self.moved_bottom or other.moved_bottom,
+    self.rotated or other.rotated,
+    self.unioned or other.unioned
+  )
 end
 
 return UiUpdate

@@ -25,6 +25,23 @@ end
 ---
 -- @tparam Rectangle screen
 -- @tparam Stats stats
+-- @tparam baton.Player keys
+-- @treturn UiUpdate
+function ui.update(screen, stats, keys)
+  assert(types.is_instance(screen, Rectangle))
+  assert(types.is_instance(stats, Stats))
+  assert(type(keys) == "table")
+
+  ui._update_labels(screen, stats)
+
+  local buttons_update = ui._update_buttons(screen)
+  local keys_update = ui._update_keys(keys)
+  return buttons_update:merge(keys_update)
+end
+
+---
+-- @tparam Rectangle screen
+-- @tparam Stats stats
 function ui._update_labels(screen, stats)
   assert(types.is_instance(screen, Rectangle))
   assert(types.is_instance(stats, Stats))
