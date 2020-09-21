@@ -5,6 +5,7 @@ package.path =
   .. "./vendor/?/init.lua"
 
 local baton = require("baton")
+local json = require("json")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local FieldSettings = require("biohazardcore.models.fieldsettings")
@@ -50,15 +51,11 @@ function love.load()
     game.settings.field.size.width * game.settings.field.size.height
   )
 
+  local controls = love.filesystem.read("controls.json")
+  assert(controls, "unable to read the controls configuration")
+
   keys = baton.new({
-    controls = {
-      moved_left = {"key:left", "key:a"},
-      moved_right = {"key:right", "key:d"},
-      moved_top = {"key:up", "key:w"},
-      moved_bottom = {"key:down", "key:s"},
-      rotated = {"key:lshift", "key:rshift", "key:r"},
-      unioned = {"key:space"},
-    },
+    controls = json.decode(controls),
   })
 end
 
