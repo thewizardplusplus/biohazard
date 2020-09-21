@@ -95,6 +95,24 @@ function ui._update_buttons(screen, stats)
 end
 
 ---
+-- @tparam baton.Player keys
+-- @treturn UiUpdate
+function ui._update_keys(keys)
+  assert(type(keys) == "table")
+
+  keys:update()
+
+  return UiUpdate:new(
+    keys:pressed("moved_left"),
+    keys:pressed("moved_right"),
+    keys:pressed("moved_top"),
+    keys:pressed("moved_bottom"),
+    keys:pressed("rotated"),
+    keys:pressed("unioned")
+  )
+end
+
+---
 -- @tparam {number,number,number} color
 --   red, green and blue values in the range [0, 1]
 -- @tparam "left"|"right" align

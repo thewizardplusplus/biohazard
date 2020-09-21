@@ -11,7 +11,6 @@ local FieldSettings = require("biohazardcore.models.fieldsettings")
 local GameSettings = require("biohazardcore.models.gamesettings")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
-local UiUpdate = require("models.uiupdate")
 local drawing = require("drawing")
 local ui = require("ui")
 local updating = require("updating")
@@ -20,7 +19,7 @@ local StatsStorage = require("statsstorage")
 local game = nil -- ClassifiedGame
 local screen = nil -- Rectangle
 local stats_storage = nil -- StatsStorage
-local input = nil -- baton
+local keys = nil -- baton.Player
 
 function love.load()
   math.randomseed(os.time())
@@ -51,7 +50,7 @@ function love.load()
     game.settings.field.size.width * game.settings.field.size.height
   )
 
-  input = baton.new({
+  keys = baton.new({
     controls = {
       moved_left = {"key:left", "key:a"},
       moved_right = {"key:right", "key:d"},
@@ -70,18 +69,11 @@ end
 
 function love.update()
   local stats = stats_storage:update(game:count())
-  local update = ui._update_buttons(screen, stats)
-  updating.update_game(game, update)
+  local buttons_update = ui._update_buttons(screen, stats)
+  updating.update_game(game, buttons_update)
 
-  input:update()
-  updating.update_game(game, UiUpdate:new(
-    input:pressed("moved_left"),
-    input:pressed("moved_right"),
-    input:pressed("moved_top"),
-    input:pressed("moved_bottom"),
-    input:pressed("rotated"),
-    input:pressed("unioned")
-  ))
+  local keys_update = ui._update_keys(keys)
+  updating.update_game(game, keys_update)
 end
 
 function love.keypressed(key)
