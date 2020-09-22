@@ -18,8 +18,8 @@ local ui = require("ui")
 local updating = require("updating")
 local StatsStorage = require("statsstorage")
 
-local game = nil -- ClassifiedGame
-local screen = nil -- Rectangle
+local game = nil -- biohazardcore.ClassifiedGame
+local screen = nil -- models.Rectangle
 local stats_storage = nil -- StatsStorage
 local keys = nil -- baton.Player
 
@@ -100,6 +100,9 @@ function love.update()
 end
 
 function love.keypressed(key)
+  -- can't use the baton library here
+  -- because the love.keyboard.isDown() function
+  -- doesn't support the escape key
   if key == "escape" then
     love.event.quit()
   end
