@@ -2,6 +2,7 @@
 -- @module drawing
 
 local types = require("lualife.types")
+local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
@@ -28,13 +29,14 @@ function drawing.draw_game(screen, game)
     grid_step
   )
 
-  love.graphics.setColor(1, 1, 1)
-  love.graphics.rectangle(
+  drawing._draw_rectangle(
     "fill",
-    settings.field_offset.x,
-    settings.field_offset.y,
-    grid_step * game.settings.field.size.width,
-    grid_step * game.settings.field.size.height
+    settings.field_offset,
+    game.settings.field.size,
+    0,
+    0,
+    {1, 1, 1},
+    settings
   )
 
   local classification = game:classify_cells()
@@ -42,15 +44,14 @@ function drawing.draw_game(screen, game)
     drawing._draw_field(cells, settings:with_cell_kind(cell_kind))
   end
 
-  local field_part_offset = settings:map_point(game:offset())
-  love.graphics.setColor(0.75, 0.75, 0)
-  love.graphics.setLineWidth(grid_step / 10)
-  love.graphics.rectangle(
+  drawing._draw_rectangle(
     "line",
-    field_part_offset.x,
-    field_part_offset.y,
-    grid_step * game.settings.field_part.size.width,
-    grid_step * game.settings.field_part.size.height
+    settings:map_point(game:offset()),
+    game.settings.field_part.size,
+    settings.grid_step / 10,
+    0,
+    {0.75, 0.75, 0},
+    settings
   )
 end
 
@@ -84,15 +85,55 @@ function drawing._draw_cell(point, settings)
     cell_color = {0.85, 0, 0}
   end
 
-  local cell_point = settings:map_point(point)
-  love.graphics.setColor(cell_color)
-  love.graphics.rectangle(
+  drawing._draw_rectangle(
     "fill",
-    cell_point.x,
-    cell_point.y,
-    settings.grid_step,
-    settings.grid_step,
-    settings.grid_step / 4
+    settings:map_point(point),
+    Size:new(1, 1),
+    0,
+    settings.grid_step / 4,
+    cell_color,
+    settings
+  )
+end
+
+---
+-- @tparam "line"|"fill" rectangle_kind
+-- @tparam lualife.models.Point position
+-- @tparam lualife.models.Size size
+-- @tparam int border_width [0, ∞)
+-- @tparam int border_radius [0, ∞)
+-- @tparam {number,number,number} color
+--   red, green and blue values in the range [0, 1]
+-- @tparam DrawingSettings settings
+function drawing._draw_rectangle(
+  rectangle_kind,
+  position,
+  size,
+  border_width,
+  border_radius,
+  color,
+  settings
+)
+  assert(rectangle_kind == "line" or rectangle_kind == "fill")
+  assert(types.is_instance(position, Point))
+  assert(types.is_instance(size, Size))
+  assert(types.is_number_with_limits(border_width, 0))
+  assert(types.is_number_with_limits(border_radius, 0))
+  assert(types.is_instance(settings, DrawingSettings))
+  assert(type(color) == "table" and #color == 3)
+  for _, color_channel in ipairs(color) do
+    assert(types.is_number_with_limits(color_channel, 0, 1))
+  end
+
+  love.graphics.setLineWidth(border_width)
+  love.graphics.setColor(color)
+  love.graphics.rectangle(
+    rectangle_kind,
+    position.x,
+    position.y,
+    settings.grid_step * size.width,
+    settings.grid_step * size.height,
+    border_radius
   )
 end
 

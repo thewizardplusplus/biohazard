@@ -38,7 +38,7 @@ function DrawingSettings:map_point(point)
 
   return point
     :scale(self.grid_step)
-    :translate(selft.field_offset)
+    :translate(self.field_offset)
 end
 
 ---
