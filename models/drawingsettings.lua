@@ -31,6 +31,17 @@ function DrawingSettings:initialize(field_offset, grid_step, cell_kind)
 end
 
 ---
+-- @tparam lualife.models.Point point
+-- @treturn lualife.models.Point
+function DrawingSettings:map_point(point)
+  assert(types.is_instance(point, Point))
+
+  return point
+    :scale(self.grid_step)
+    :translate(selft.field_offset)
+end
+
+---
 -- @tparam "old"|"new"|"intersection" cell_kind
 -- @treturn DrawingSettings
 function DrawingSettings:with_cell_kind(cell_kind)

@@ -42,10 +42,7 @@ function drawing.draw_game(screen, game)
     drawing._draw_field(cells, settings:with_cell_kind(cell_kind))
   end
 
-  local field_part_offset = game:offset()
-    :scale(grid_step)
-    :translate(settings.field_offset)
-
+  local field_part_offset = settings:map_point(game:offset())
   love.graphics.setColor(0.75, 0.75, 0)
   love.graphics.setLineWidth(grid_step / 10)
   love.graphics.rectangle(
@@ -87,10 +84,7 @@ function drawing._draw_cell(point, settings)
     cell_color = {0.85, 0, 0}
   end
 
-  local cell_point = point
-    :scale(settings.grid_step)
-    :translate(settings.field_offset)
-
+  local cell_point = settings:map_point(point)
   love.graphics.setColor(cell_color)
   love.graphics.rectangle(
     "fill",
