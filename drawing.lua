@@ -19,29 +19,32 @@ function drawing.draw_game(screen, game)
   assert(types.is_instance(game, ClassifiedGame))
 
   local grid_step = screen:height() / game.settings.field.size.height
-  local field_offset = screen.minimum
-    :translate(Point:new(
-      (screen:width() - grid_step * game.settings.field.size.width) / 2,
-      0
-    ))
+  local settings = DrawingSettings:new(
+    screen.minimum
+      :translate(Point:new(
+        (screen:width() - grid_step * game.settings.field.size.width) / 2,
+        0
+      )),
+    grid_step
+  )
 
   love.graphics.setColor(1, 1, 1)
   love.graphics.rectangle(
     "fill",
-    field_offset.x,
-    field_offset.y,
+    settings.field_offset.x,
+    settings.field_offset.y,
     grid_step * game.settings.field.size.width,
     grid_step * game.settings.field.size.height
   )
 
   local classification = game:classify_cells()
   for cell_kind, cells in pairs(classification) do
-    drawing._draw_field(cells, DrawingSettings:new(field_offset, grid_step, cell_kind))
+    drawing._draw_field(cells, settings:with_cell_kind(cell_kind))
   end
 
   local field_part_offset = game:offset()
     :scale(grid_step)
-    :translate(field_offset)
+    :translate(settings.field_offset)
 
   love.graphics.setColor(0.75, 0.75, 0)
   love.graphics.setLineWidth(grid_step / 10)
