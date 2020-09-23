@@ -4,9 +4,9 @@
 local types = require("lualife.types")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
-local CellClassification = require("biohazardcore.models.cellclassification")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
+local DrawingSettings = require("models.drawingsettings")
 require("compat52")
 
 local drawing = {}
@@ -36,7 +36,7 @@ function drawing.draw_game(screen, game)
 
   local classification = game:classify_cells()
   for cell_kind, cells in pairs(classification) do
-    drawing._draw_field(cells, field_offset, grid_step, cell_kind)
+    drawing._draw_field(cells, DrawingSettings:new(field_offset, grid_step, cell_kind))
   end
 
   local field_part_offset = game:offset()
@@ -56,64 +56,46 @@ end
 
 ---
 -- @tparam lualife.models.Field field
--- @tparam lualife.models.Point field_offset
--- @tparam int grid_step [0, ∞)
--- @tparam "old"|"new"|"intersection" cell_kind
-function drawing._draw_field(
-  field,
-  field_offset,
-  grid_step,
-  cell_kind
-)
+-- @tparam DrawingSettings settings
+function drawing._draw_field(field, settings)
   assert(types.is_instance(field, Field))
-  assert(types.is_instance(field_offset, Point))
-  assert(types.is_number_with_limits(grid_step, 0))
-  assert(CellClassification.is_cell_kind(cell_kind))
+  assert(types.is_instance(settings, DrawingSettings))
 
   field:map(function(point, contains)
     if contains then
-      drawing._draw_cell(point, field_offset, grid_step, cell_kind)
+      drawing._draw_cell(point, settings)
     end
   end)
 end
 
 ---
 -- @tparam lualife.models.Point point
--- @tparam lualife.models.Point field_offset
--- @tparam int grid_step [0, ∞)
--- @tparam "old"|"new"|"intersection" cell_kind
-function drawing._draw_cell(
-  point,
-  field_offset,
-  grid_step,
-  cell_kind
-)
+-- @tparam DrawingSettings settings
+function drawing._draw_cell(point, settings)
   assert(types.is_instance(point, Point))
-  assert(types.is_instance(field_offset, Point))
-  assert(types.is_number_with_limits(grid_step, 0))
-  assert(CellClassification.is_cell_kind(cell_kind))
+  assert(types.is_instance(settings, DrawingSettings))
 
   local cell_color
-  if cell_kind == "old" then
+  if settings.cell_kind == "old" then
     cell_color = {0, 0, 1}
-  elseif cell_kind == "new" then
+  elseif settings.cell_kind == "new" then
     cell_color = {0, 0.66, 0}
-  elseif cell_kind == "intersection" then
+  elseif settings.cell_kind == "intersection" then
     cell_color = {0.85, 0, 0}
   end
 
   local cell_point = point
-    :scale(grid_step)
-    :translate(field_offset)
+    :scale(settings.grid_step)
+    :translate(settings.field_offset)
 
   love.graphics.setColor(cell_color)
   love.graphics.rectangle(
     "fill",
     cell_point.x,
     cell_point.y,
-    grid_step,
-    grid_step,
-    grid_step / 4
+    settings.grid_step,
+    settings.grid_step,
+    settings.grid_step / 4
   )
 end
 
