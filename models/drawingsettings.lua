@@ -39,4 +39,10 @@ function DrawingSettings:with_cell_kind(cell_kind)
   return DrawingSettings(self.field_offset, self.grid_step, cell_kind)
 end
 
+---
+-- @treturn bool
+function DrawingSettings:completed()
+  return self.cell_kind ~= nil
+end
+
 return DrawingSettings
