@@ -58,7 +58,7 @@ end
 -- @tparam DrawingSettings settings
 function drawing._draw_field(field, settings)
   assert(types.is_instance(field, Field))
-  assert(types.is_instance(settings, DrawingSettings) and settings:completed())
+  assert(types.is_instance(settings, DrawingSettings) and settings.cell_kind)
 
   field:map(function(point, contains)
     if contains then
@@ -72,7 +72,7 @@ end
 -- @tparam DrawingSettings settings
 function drawing._draw_cell(point, settings)
   assert(types.is_instance(point, Point))
-  assert(types.is_instance(settings, DrawingSettings) and settings:completed())
+  assert(types.is_instance(settings, DrawingSettings) and settings.cell_kind)
 
   local cell_color
   if settings.cell_kind == "old" then

@@ -41,10 +41,4 @@ function DrawingSettings:map_point(point)
     :translate(self.field_offset)
 end
 
----
--- @treturn bool
-function DrawingSettings:completed()
-  return self.cell_kind ~= nil
-end
-
 return DrawingSettings
