@@ -34,7 +34,6 @@ function drawing.draw_game(screen, game)
     settings.field_offset,
     game.settings.field.size,
     0,
-    0,
     {1, 1, 1},
     settings
   )
@@ -49,7 +48,6 @@ function drawing.draw_game(screen, game)
     settings:map_point(game:offset()),
     game.settings.field_part.size,
     settings.grid_step / 10,
-    0,
     {0.75, 0.75, 0},
     settings
   )
@@ -89,7 +87,6 @@ function drawing._draw_cell(point, settings)
     "fill",
     settings:map_point(point),
     Size:new(1, 1),
-    0,
     settings.grid_step / 4,
     cell_color,
     settings
@@ -100,8 +97,8 @@ end
 -- @tparam "line"|"fill" rectangle_kind
 -- @tparam lualife.models.Point position
 -- @tparam lualife.models.Size size
--- @tparam int border_width [0, ∞)
--- @tparam int border_radius [0, ∞)
+-- @tparam int border [0, ∞) width (for the line rectangle kind)
+--   / radius (for the fill rectangle kind)
 -- @tparam {number,number,number} color
 --   red, green and blue values in the range [0, 1]
 -- @tparam DrawingSettings settings
@@ -109,20 +106,25 @@ function drawing._draw_rectangle(
   rectangle_kind,
   position,
   size,
-  border_width,
-  border_radius,
+  border,
   color,
   settings
 )
   assert(rectangle_kind == "line" or rectangle_kind == "fill")
   assert(types.is_instance(position, Point))
   assert(types.is_instance(size, Size))
-  assert(types.is_number_with_limits(border_width, 0))
-  assert(types.is_number_with_limits(border_radius, 0))
+  assert(types.is_number_with_limits(border, 0))
   assert(types.is_instance(settings, DrawingSettings))
   assert(type(color) == "table" and #color == 3)
   for _, color_channel in ipairs(color) do
     assert(types.is_number_with_limits(color_channel, 0, 1))
+  end
+
+  local border_width, border_radius = 0, 0
+  if rectangle_kind == "line" then
+    border_width = border
+  elseif rectangle_kind == "fill" then
+    border_radius = border
   end
 
   love.graphics.setLineWidth(border_width)
