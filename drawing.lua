@@ -32,10 +32,9 @@ function drawing.draw_game(screen, game)
   drawing._draw_rectangle(
     "fill",
     settings.field_offset,
-    game.settings.field.size,
+    drawing._scale_size(game.settings.field.size, settings.grid_step),
     0,
-    {1, 1, 1},
-    settings
+    {1, 1, 1}
   )
 
   local classification = game:classify_cells()
@@ -46,10 +45,9 @@ function drawing.draw_game(screen, game)
   drawing._draw_rectangle(
     "line",
     settings:map_point(game:offset()),
-    game.settings.field_part.size,
+    drawing._scale_size(game.settings.field_part.size, settings.grid_step),
     settings.grid_step / 10,
-    {0.75, 0.75, 0},
-    settings
+    {0.75, 0.75, 0}
   )
 end
 
@@ -86,10 +84,9 @@ function drawing._draw_cell(point, settings)
   drawing._draw_rectangle(
     "fill",
     settings:map_point(point),
-    Size:new(1, 1),
+    Size:new(settings.grid_step, settings.grid_step),
     settings.grid_step / 4,
-    cell_color,
-    settings
+    cell_color
   )
 end
 
@@ -101,20 +98,17 @@ end
 --   / radius (for the fill rectangle kind)
 -- @tparam {number,number,number} color
 --   red, green and blue values in the range [0, 1]
--- @tparam DrawingSettings settings
 function drawing._draw_rectangle(
   rectangle_kind,
   position,
   size,
   border,
-  color,
-  settings
+  color
 )
   assert(rectangle_kind == "line" or rectangle_kind == "fill")
   assert(types.is_instance(position, Point))
   assert(types.is_instance(size, Size))
   assert(types.is_number_with_limits(border, 0))
-  assert(types.is_instance(settings, DrawingSettings))
   assert(type(color) == "table" and #color == 3)
   for _, color_channel in ipairs(color) do
     assert(types.is_number_with_limits(color_channel, 0, 1))
@@ -133,10 +127,21 @@ function drawing._draw_rectangle(
     rectangle_kind,
     position.x,
     position.y,
-    settings.grid_step * size.width,
-    settings.grid_step * size.height,
+    size.width,
+    size.height,
     border_radius
   )
+end
+
+---
+-- @tparam lualife.models.Size size
+-- @tparam int factor
+-- @treturn lualife.models.Size
+function drawing._scale_size(size, factor)
+  assert(types.is_instance(size, Size))
+  assert(types.is_number_with_limits(factor))
+
+  return Size:new(factor * size.width, factor * size.height)
 end
 
 return drawing
