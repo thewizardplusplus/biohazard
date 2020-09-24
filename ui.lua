@@ -86,23 +86,27 @@ function ui._update_buttons(screen)
 
   local grid_step = screen:height() / 4
   local padding = grid_step / 8
-  local left_buttons_offset = Point:new(
+
+  -- left buttons
+  suit.layout:reset(
     screen.minimum.x,
-    screen.maximum.y - 1.5 * grid_step - padding
-  )
-  local right_buttons_offset = Point:new(
-    screen.maximum.x - grid_step,
-    screen.maximum.y - 1.5 * grid_step - 2 * padding
+    screen.maximum.y - 1.5 * grid_step - padding,
+    padding
   )
 
-  suit.layout:reset(left_buttons_offset.x, left_buttons_offset.y, padding)
   local rotate_button =
     suit.Button("@", suit.layout:row(grid_step + padding, grid_step / 2))
   local to_left_button =
     suit.Button("<", suit.layout:row(grid_step / 2, grid_step))
   local to_right_button = suit.Button(">", suit.layout:col())
 
-  suit.layout:reset(right_buttons_offset.x, right_buttons_offset.y, padding)
+  -- right buttons
+  suit.layout:reset(
+    screen.maximum.x - grid_step,
+    screen.maximum.y - 1.5 * grid_step - 2 * padding,
+    padding
+  )
+
   local union_button =
     suit.Button("+", suit.layout:row(grid_step, grid_step / 2))
   local to_top_button = suit.Button("^", suit.layout:row())
