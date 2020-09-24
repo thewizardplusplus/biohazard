@@ -3,7 +3,6 @@
 
 local suit = require("suit")
 local types = require("lualife.types")
-local Point = require("lualife.models.point")
 local Rectangle = require("models.rectangle")
 local Stats = require("models.stats")
 local UiUpdate = require("models.uiupdate")
@@ -46,35 +45,38 @@ function ui._update_labels(screen, stats)
   assert(types.is_instance(screen, Rectangle))
   assert(types.is_instance(stats, Stats))
 
-  local grid_step = screen:height() / 4
-  local labels_grid_step = grid_step / 3
-  local labels_offset = Point:new(
-    screen.maximum.x - 3 * labels_grid_step,
+  local grid_step = screen:height() / 12
+
+  -- current stats
+  suit.layout:reset(
+    screen.maximum.x - 3 * grid_step,
     screen.minimum.y
   )
-
-  suit.layout:reset(labels_offset.x, labels_offset.y)
   suit.Label(
     "Now:",
     ui._make_label_options({0, 0, 0}, "left"),
-    suit.layout:row(2 * labels_grid_step, labels_grid_step)
+    suit.layout:row(2 * grid_step, grid_step)
   )
   suit.Label(
     tostring(stats.current),
     ui._make_label_options({0, 0, 0}, "right"),
-    suit.layout:col(labels_grid_step, labels_grid_step)
+    suit.layout:col(grid_step, grid_step)
   )
 
-  suit.layout:reset(labels_offset.x, labels_offset.y + labels_grid_step)
+  -- minimal stats
+  suit.layout:reset(
+    screen.maximum.x - 3 * grid_step,
+    screen.minimum.y + grid_step
+  )
   suit.Label(
     "Min:",
     ui._make_label_options({0, 0.33, 0}, "left"),
-    suit.layout:row(2 * labels_grid_step, labels_grid_step)
+    suit.layout:row(2 * grid_step, grid_step)
   )
   suit.Label(
     tostring(stats.minimal),
     ui._make_label_options({0, 0.33, 0}, "right"),
-    suit.layout:col(labels_grid_step, labels_grid_step)
+    suit.layout:col(grid_step, grid_step)
   )
 end
 
