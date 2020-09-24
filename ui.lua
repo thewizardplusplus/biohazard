@@ -21,13 +21,12 @@ function ui.create_keys(configuration_path)
     return nil, "unable to read the keys configuration: " .. err
   end
 
-  local ok, result = pcall(function()
+  local keys_configuration, err = ui._catch_error(function()
     return json.decode(keys_configuration_in_json)
   end)
-  if not ok then
-    return nil, "unable to parse the keys configuration: " .. result
+  if not keys_configuration then
+    return nil, "unable to parse the keys configuration: " .. err
   end
-  local keys_configuration = result
 
   local keys_configuration_validator = jsonschema.generate_validator({
     type = "object",
@@ -60,13 +59,12 @@ function ui.create_keys(configuration_path)
     return nil, "incorrect keys configuration: " .. err
   end
 
-  local ok, result = pcall(function()
+  local keys, err = ui._catch_error(function()
     return baton.new({controls = keys_configuration})
   end)
-  if not ok then
-    return nil, "unable to create the keys instance: " .. result
+  if not keys then
+    return nil, "unable to create the keys instance: " .. err
   end
-  local keys = result
 
   return keys
 end
@@ -202,6 +200,21 @@ function ui._update_keys(keys)
     keys:pressed("rotated"),
     keys:pressed("unioned")
   )
+end
+
+---
+-- @tparam func handler func(): any; function that raises an error
+-- @treturn any successful handler result
+-- @error raised handler error
+function ui._catch_error(handler)
+  assert(type(handler) == "function")
+
+  local ok, result = pcall(handler)
+  if not ok then
+    return nil, result
+  end
+
+  return result
 end
 
 ---
