@@ -4,9 +4,6 @@ package.path =
   .. "./vendor/?.lua;"
   .. "./vendor/?/init.lua"
 
-local baton = require("baton")
-local json = require("json")
-local jsonschema = require("jsonschema")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local FieldSettings = require("biohazardcore.models.fieldsettings")
@@ -48,41 +45,7 @@ function love.load()
   assert(ok, "unable to create the stats DB")
 
   stats_storage = GameStatsStorage:new(love.filesystem.getSaveDirectory() .. "/" .. stats_db_name, game)
-
-  local controls_in_json = love.filesystem.read("controls.json")
-  assert(controls_in_json, "unable to read the controls configuration")
-
-  local controls = json.decode(controls_in_json)
-  local controls_validator = jsonschema.generate_validator({
-    type = "object",
-    properties = {
-      moved_left = {["$ref"] = "#/definitions/source_group"},
-      moved_right = {["$ref"] = "#/definitions/source_group"},
-      moved_top = {["$ref"] = "#/definitions/source_group"},
-      moved_bottom = {["$ref"] = "#/definitions/source_group"},
-      rotated = {["$ref"] = "#/definitions/source_group"},
-      unioned = {["$ref"] = "#/definitions/source_group"},
-    },
-    required = {
-      "moved_left",
-      "moved_right",
-      "moved_top",
-      "moved_bottom",
-      "rotated",
-      "unioned",
-    },
-    definitions = {
-      source_group = {
-        type = "array",
-        items = {type = "string", pattern = "^%a+:%w+$"},
-        minItems = 1,
-      },
-    },
-  })
-  local valid, err = controls_validator(controls)
-  assert(valid, "incorrect controls configuration: " .. tostring(err))
-
-  keys = baton.new({controls = controls})
+  keys = assert(ui.create_keys("keys.json"))
 end
 
 function love.draw()

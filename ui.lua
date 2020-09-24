@@ -1,6 +1,9 @@
 ---
 -- @module ui
 
+local json = require("json")
+local jsonschema = require("jsonschema")
+local baton = require("baton")
 local suit = require("suit")
 local types = require("lualife.types")
 local Rectangle = require("models.rectangle")
@@ -8,6 +11,65 @@ local Stats = require("models.stats")
 local UiUpdate = require("models.uiupdate")
 
 local ui = {}
+
+---
+-- @tparam string configuration_path
+-- @treturn baton.Player
+function ui.create_keys(configuration_path)
+  local keys_configuration_in_json, err = love.filesystem.read(configuration_path)
+  if not keys_configuration_in_json then
+    return nil, "unable to read the keys configuration: " .. err
+  end
+
+  local ok, result = pcall(function()
+    return json.decode(keys_configuration_in_json)
+  end)
+  if not ok then
+    return nil, "unable to parse the keys configuration: " .. result
+  end
+  local keys_configuration = result
+
+  local keys_configuration_validator = jsonschema.generate_validator({
+    type = "object",
+    properties = {
+      moved_left = {["$ref"] = "#/definitions/source_group"},
+      moved_right = {["$ref"] = "#/definitions/source_group"},
+      moved_top = {["$ref"] = "#/definitions/source_group"},
+      moved_bottom = {["$ref"] = "#/definitions/source_group"},
+      rotated = {["$ref"] = "#/definitions/source_group"},
+      unioned = {["$ref"] = "#/definitions/source_group"},
+    },
+    required = {
+      "moved_left",
+      "moved_right",
+      "moved_top",
+      "moved_bottom",
+      "rotated",
+      "unioned",
+    },
+    definitions = {
+      source_group = {
+        type = "array",
+        items = {type = "string", pattern = "^%a+:%w+$"},
+        minItems = 1,
+      },
+    },
+  })
+  local valid, err = keys_configuration_validator(keys_configuration)
+  if not valid then
+    return nil, "incorrect keys configuration: " .. err
+  end
+
+  local ok, result = pcall(function()
+    return baton.new({controls = keys_configuration})
+  end)
+  if not ok then
+    return nil, "unable to create the keys instance: " .. result
+  end
+  local keys = result
+
+  return keys
+end
 
 ---
 -- @function draw
