@@ -40,7 +40,7 @@ function drawing.draw_game(screen, game)
 
   local classification = game:classify_cells()
   for cell_kind, cells in pairs(classification) do
-    drawing._draw_field(cells, settings:with_cell_kind(cell_kind))
+    drawing._draw_field(cells, DrawingSettings:new(settings.field_offset, settings.grid_step, cell_kind))
   end
 
   drawing._draw_rectangle(

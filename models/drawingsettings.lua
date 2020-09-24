@@ -42,15 +42,6 @@ function DrawingSettings:map_point(point)
 end
 
 ---
--- @tparam "old"|"new"|"intersection" cell_kind
--- @treturn DrawingSettings
-function DrawingSettings:with_cell_kind(cell_kind)
-  assert(CellClassification.is_cell_kind(cell_kind))
-
-  return DrawingSettings(self.field_offset, self.grid_step, cell_kind)
-end
-
----
 -- @treturn bool
 function DrawingSettings:completed()
   return self.cell_kind ~= nil
