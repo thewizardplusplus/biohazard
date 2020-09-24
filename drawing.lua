@@ -19,34 +19,27 @@ function drawing.draw_game(screen, game)
   assert(types.is_instance(screen, Rectangle))
   assert(types.is_instance(game, ClassifiedGame))
 
-  local grid_step = screen:height() / game.settings.field.size.height
-  local settings = DrawingSettings:new(
-    screen.minimum
-      :translate(Point:new(
-        (screen:width() - grid_step * game.settings.field.size.width) / 2,
-        0
-      )),
-    grid_step
-  )
-
+  local field_size = game.settings.field.size
+  local grid_step = screen:height() / field_size.height
+  local field_offset = screen.minimum:translate(Point:new(screen:width() / 2 - grid_step * field_size.width / 2, 0))
   drawing._draw_rectangle(
     "fill",
-    settings.field_offset,
-    drawing._scale_size(game.settings.field.size, settings.grid_step),
+    field_offset,
+    drawing._scale_size(field_size, grid_step),
     0,
     {1, 1, 1}
   )
 
   local classification = game:classify_cells()
   for cell_kind, cells in pairs(classification) do
-    drawing._draw_field(cells, DrawingSettings:new(settings.field_offset, settings.grid_step, cell_kind))
+    drawing._draw_field(cells, DrawingSettings:new(field_offset, grid_step, cell_kind))
   end
 
   drawing._draw_rectangle(
     "line",
-    settings:map_point(game:offset()),
-    drawing._scale_size(game.settings.field_part.size, settings.grid_step),
-    settings.grid_step / 10,
+    DrawingSettings:new(field_offset, grid_step):map_point(game:offset()),
+    drawing._scale_size(game.settings.field_part.size, grid_step),
+    grid_step / 10,
     {0.75, 0.75, 0}
   )
 end
