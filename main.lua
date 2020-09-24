@@ -16,7 +16,7 @@ local Rectangle = require("models.rectangle")
 local drawing = require("drawing")
 local ui = require("ui")
 local updating = require("updating")
-local StatsStorage = require("statsstorage")
+local GameStatsStorage = require("gamestatsstorage")
 
 local game = nil -- biohazardcore.ClassifiedGame
 local screen = nil -- models.Rectangle
@@ -47,10 +47,7 @@ function love.load()
   ok = love.filesystem.createDirectory(stats_db_name)
   assert(ok, "unable to create the stats DB")
 
-  stats_storage = StatsStorage:new(
-    love.filesystem.getSaveDirectory() .. "/" .. stats_db_name,
-    game.settings.field.size.width * game.settings.field.size.height
-  )
+  stats_storage = GameStatsStorage:new(love.filesystem.getSaveDirectory() .. "/" .. stats_db_name, game)
 
   local controls_in_json = love.filesystem.read("controls.json")
   assert(controls_in_json, "unable to read the controls configuration")
@@ -94,7 +91,7 @@ function love.draw()
 end
 
 function love.update()
-  local stats = stats_storage:update(game:count())
+  local stats = stats_storage:update()
   local update = ui.update(screen, stats, keys)
   updating.update_game(game, update)
 end
