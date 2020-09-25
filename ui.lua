@@ -15,20 +15,20 @@ require("compat52")
 local ui = {}
 
 ---
--- @tparam string configuration_path
+-- @tparam string config_path
 -- @treturn baton.Player
-function ui.create_keys(configuration_path)
-  local keys_configuration_in_json, err = love.filesystem.read(configuration_path)
-  if not keys_configuration_in_json then
-    return nil, "unable to read the keys configuration: " .. err
+function ui.create_keys(config_path)
+  local keys_config_in_json, err = love.filesystem.read(config_path)
+  if not keys_config_in_json then
+    return nil, "unable to read the keys config: " .. err
   end
 
-  local keys_configuration, err = ui._catch_error(json.decode, keys_configuration_in_json)
-  if not keys_configuration then
-    return nil, "unable to parse the keys configuration: " .. err
+  local keys_config, err = ui._catch_error(json.decode, keys_config_in_json)
+  if not keys_config then
+    return nil, "unable to parse the keys config: " .. err
   end
 
-  local keys_configuration_validator = jsonschema.generate_validator({
+  local keys_config_validator = jsonschema.generate_validator({
     type = "object",
     properties = {
       moved_left = {["$ref"] = "#/definitions/source_group"},
@@ -54,12 +54,12 @@ function ui.create_keys(configuration_path)
       },
     },
   })
-  local valid, err = keys_configuration_validator(keys_configuration)
+  local valid, err = keys_config_validator(keys_config)
   if not valid then
-    return nil, "incorrect keys configuration: " .. err
+    return nil, "incorrect keys config: " .. err
   end
 
-  return baton.new({controls = keys_configuration})
+  return baton.new({controls = keys_config})
 end
 
 ---
