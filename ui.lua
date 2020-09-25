@@ -62,7 +62,6 @@ function ui.create_keys(configuration_path)
 end
 
 ---
--- @function draw
 -- @tparam Rectangle screen
 function ui.draw(screen)
   assert(types.is_instance(screen, Rectangle))
