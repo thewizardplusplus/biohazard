@@ -45,7 +45,7 @@ function love.load()
   assert(ok, "unable to create the stats DB")
 
   stats_storage = GameStatsStorage:new(love.filesystem.getSaveDirectory() .. "/" .. stats_db_name, game)
-  keys = assert(ui.create_keys("keys.json"))
+  keys = assert(ui.create_keys("keys_config.json"))
 end
 
 function love.draw()
