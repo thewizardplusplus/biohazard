@@ -13,7 +13,7 @@ local Rectangle = require("models.rectangle")
 local drawing = require("drawing")
 local ui = require("ui")
 local updating = require("updating")
-local GameStatsStorage = require("gamestatsstorage")
+local factory = require("factory")
 
 local game = nil -- biohazardcore.ClassifiedGame
 local screen = nil -- models.Rectangle
@@ -40,11 +40,8 @@ function love.load()
     Point:new(x + width - padding, y + height - padding)
   )
 
-  local stats_db_name = "biohazard-stats-db"
-  ok = love.filesystem.createDirectory(stats_db_name)
-  assert(ok, "unable to create the stats DB")
-
-  stats_storage = GameStatsStorage:new(love.filesystem.getSaveDirectory() .. "/" .. stats_db_name, game)
+  stats_storage =
+    assert(factory.create_stats_storage("biohazard-stats-db", game))
   keys = assert(ui.create_keys("keys_config.json"))
 end
 
