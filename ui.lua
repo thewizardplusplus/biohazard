@@ -105,12 +105,12 @@ function ui._update_labels(screen, stats)
   )
   suit.Label(
     "Now:",
-    ui._make_label_options({0, 0, 0}, "left"),
+    ui._create_label_options({0, 0, 0}, "left"),
     suit.layout:row(2 * grid_step, grid_step)
   )
   suit.Label(
     tostring(stats.current),
-    ui._make_label_options({0, 0, 0}, "right"),
+    ui._create_label_options({0, 0, 0}, "right"),
     suit.layout:col(grid_step, grid_step)
   )
 
@@ -121,12 +121,12 @@ function ui._update_labels(screen, stats)
   )
   suit.Label(
     "Min:",
-    ui._make_label_options({0, 0.33, 0}, "left"),
+    ui._create_label_options({0, 0.33, 0}, "left"),
     suit.layout:row(2 * grid_step, grid_step)
   )
   suit.Label(
     tostring(stats.minimal),
-    ui._make_label_options({0, 0.33, 0}, "right"),
+    ui._create_label_options({0, 0.33, 0}, "right"),
     suit.layout:col(grid_step, grid_step)
   )
 end
@@ -217,7 +217,7 @@ end
 --   red, green and blue values in the range [0, 1]
 -- @tparam "left"|"right" align
 -- @treturn tab common SUIT widget options
-function ui._make_label_options(color, align)
+function ui._create_label_options(color, align)
   assert(align == "left" or align == "right")
   assert(type(color) == "table" and #color == 3)
   for _, color_channel in ipairs(color) do
