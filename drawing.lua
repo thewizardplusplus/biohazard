@@ -8,6 +8,7 @@ local Field = require("lualife.models.field")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
 local DrawingSettings = require("models.drawingsettings")
+local Color = require("models.color")
 require("compat52")
 
 local drawing = {}
@@ -27,7 +28,7 @@ function drawing.draw_game(screen, game)
     field_offset,
     drawing._scale_size(field_size, grid_step),
     0,
-    {1, 1, 1}
+    Color:new(1, 1, 1)
   )
 
   local classification = game:classify_cells()
@@ -40,7 +41,7 @@ function drawing.draw_game(screen, game)
     DrawingSettings:new(field_offset, grid_step):map_point(game:offset()),
     drawing._scale_size(game.settings.field_part.size, grid_step),
     grid_step / 10,
-    {0.75, 0.75, 0}
+    Color:new(0.75, 0.75, 0)
   )
 end
 
@@ -67,11 +68,11 @@ function drawing._draw_cell(point, settings)
 
   local cell_color
   if settings.cell_kind == "old" then
-    cell_color = {0, 0, 1}
+    cell_color = Color:new(0, 0, 1)
   elseif settings.cell_kind == "new" then
-    cell_color = {0, 0.66, 0}
+    cell_color = Color:new(0, 0.66, 0)
   elseif settings.cell_kind == "intersection" then
-    cell_color = {0.85, 0, 0}
+    cell_color = Color:new(0.85, 0, 0)
   end
 
   drawing._draw_rectangle(
@@ -89,8 +90,7 @@ end
 -- @tparam lualife.models.Size size
 -- @tparam int border [0, ∞) width (for the line rectangle kind)
 --   / radius (for the fill rectangle kind)
--- @tparam {number,number,number} color
---   red, green and blue values in the range [0, 1]
+-- @tparam Color color
 function drawing._draw_rectangle(
   rectangle_kind,
   position,
@@ -102,10 +102,7 @@ function drawing._draw_rectangle(
   assert(types.is_instance(position, Point))
   assert(types.is_instance(size, Size))
   assert(types.is_number_with_limits(border, 0))
-  assert(type(color) == "table" and #color == 3)
-  for _, color_channel in ipairs(color) do
-    assert(types.is_number_with_limits(color_channel, 0, 1))
-  end
+  assert(types.is_instance(color, Color))
 
   local border_width, border_radius = 0, 0
   if rectangle_kind == "line" then
@@ -115,7 +112,7 @@ function drawing._draw_rectangle(
   end
 
   love.graphics.setLineWidth(border_width)
-  love.graphics.setColor(color)
+  love.graphics.setColor(color:channels())
   love.graphics.rectangle(
     rectangle_kind,
     position.x,
