@@ -17,6 +17,7 @@ local ui = {}
 ---
 -- @tparam string config_path
 -- @treturn baton.Player
+-- @error error message
 function ui.create_keys(config_path)
   local keys_config_in_json, err = love.filesystem.read(config_path)
   if not keys_config_in_json then
