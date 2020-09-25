@@ -9,6 +9,7 @@ local types = require("lualife.types")
 local Rectangle = require("models.rectangle")
 local Stats = require("models.stats")
 local UiUpdate = require("models.uiupdate")
+require("compat52")
 
 local ui = {}
 
@@ -21,9 +22,7 @@ function ui.create_keys(configuration_path)
     return nil, "unable to read the keys configuration: " .. err
   end
 
-  local keys_configuration, err = ui._catch_error(function()
-    return json.decode(keys_configuration_in_json)
-  end)
+  local keys_configuration, err = ui._catch_error(json.decode, keys_configuration_in_json)
   if not keys_configuration then
     return nil, "unable to parse the keys configuration: " .. err
   end
@@ -59,9 +58,7 @@ function ui.create_keys(configuration_path)
     return nil, "incorrect keys configuration: " .. err
   end
 
-  local keys, err = ui._catch_error(function()
-    return baton.new({controls = keys_configuration})
-  end)
+  local keys, err = ui._catch_error(baton.new, {controls = keys_configuration})
   if not keys then
     return nil, "unable to create the keys instance: " .. err
   end
@@ -204,12 +201,16 @@ end
 
 ---
 -- @tparam func handler func(): any; function that raises an error
+-- @tparam[opt] {any,...} ... handler arguments
 -- @treturn any successful handler result
 -- @error raised handler error
-function ui._catch_error(handler)
+function ui._catch_error(handler, ...)
   assert(type(handler) == "function")
 
-  local ok, result = pcall(handler)
+  local arguments = table.pack(...)
+  local ok, result = pcall(function()
+    return handler(table.unpack(arguments))
+  end)
   if not ok then
     return nil, result
   end
