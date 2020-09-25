@@ -2,16 +2,16 @@
 -- @module updating
 
 local types = require("lualife.types")
-local ClassifiedGame = require("biohazardcore.classifiedgame")
+local Game = require("biohazardcore.game")
 local UiUpdate = require("models.uiupdate")
 
 local updating = {}
 
 ---
--- @tparam biohazardcore.ClassifiedGame game
+-- @tparam biohazardcore.Game game
 -- @tparam UiUpdate update
 function updating.update_game(game, update)
-  assert(types.is_instance(game, ClassifiedGame))
+  assert(types.is_instance(game, Game))
   assert(types.is_instance(update, UiUpdate))
 
   game:move(update:delta_offset())
