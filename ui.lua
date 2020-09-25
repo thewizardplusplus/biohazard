@@ -58,12 +58,7 @@ function ui.create_keys(configuration_path)
     return nil, "incorrect keys configuration: " .. err
   end
 
-  local keys, err = ui._catch_error(baton.new, {controls = keys_configuration})
-  if not keys then
-    return nil, "unable to create the keys instance: " .. err
-  end
-
-  return keys
+  return baton.new({controls = keys_configuration})
 end
 
 ---
