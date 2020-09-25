@@ -9,6 +9,7 @@ local types = require("lualife.types")
 local Rectangle = require("models.rectangle")
 local Stats = require("models.stats")
 local UiUpdate = require("models.uiupdate")
+local Color = require("models.color")
 require("compat52")
 
 local ui = {}
@@ -105,12 +106,12 @@ function ui._update_labels(screen, stats)
   )
   suit.Label(
     "Now:",
-    ui._create_label_options({0, 0, 0}, "left"),
+    ui._create_label_options(Color:new(0, 0, 0), "left"),
     suit.layout:row(2 * grid_step, grid_step)
   )
   suit.Label(
     tostring(stats.current),
-    ui._create_label_options({0, 0, 0}, "right"),
+    ui._create_label_options(Color:new(0, 0, 0), "right"),
     suit.layout:col(grid_step, grid_step)
   )
 
@@ -121,12 +122,12 @@ function ui._update_labels(screen, stats)
   )
   suit.Label(
     "Min:",
-    ui._create_label_options({0, 0.33, 0}, "left"),
+    ui._create_label_options(Color:new(0, 0.33, 0), "left"),
     suit.layout:row(2 * grid_step, grid_step)
   )
   suit.Label(
     tostring(stats.minimal),
-    ui._create_label_options({0, 0.33, 0}, "right"),
+    ui._create_label_options(Color:new(0, 0.33, 0), "right"),
     suit.layout:col(grid_step, grid_step)
   )
 end
@@ -213,19 +214,15 @@ function ui._catch_error(handler, ...)
 end
 
 ---
--- @tparam {number,number,number} color
---   red, green and blue values in the range [0, 1]
+-- @tparam Color color
 -- @tparam "left"|"right" align
 -- @treturn tab common SUIT widget options
 function ui._create_label_options(color, align)
+  assert(types.is_instance(color, Color))
   assert(align == "left" or align == "right")
-  assert(type(color) == "table" and #color == 3)
-  for _, color_channel in ipairs(color) do
-    assert(types.is_number_with_limits(color_channel, 0, 1))
-  end
 
   return {
-    color = {normal = {fg = color}},
+    color = {normal = {fg = color:channels()}},
     align = align,
     valign = "top",
   }
