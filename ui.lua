@@ -19,14 +19,15 @@ local ui = {}
 -- @treturn baton.Player
 -- @error error message
 function ui.create_keys(config_path)
-  local keys_config_in_json, err = love.filesystem.read(config_path)
+  local keys_config_in_json, reading_err = love.filesystem.read(config_path)
   if not keys_config_in_json then
-    return nil, "unable to read the keys config: " .. err
+    return nil, "unable to read the keys config: " .. reading_err
   end
 
-  local keys_config, err = typeutils.catch_error(json.decode, keys_config_in_json)
+  local keys_config, decoding_err =
+    typeutils.catch_error(json.decode, keys_config_in_json)
   if not keys_config then
-    return nil, "unable to parse the keys config: " .. err
+    return nil, "unable to parse the keys config: " .. decoding_err
   end
 
   local keys_config_validator = jsonschema.generate_validator({
@@ -55,9 +56,9 @@ function ui.create_keys(config_path)
       },
     },
   })
-  local valid, err = keys_config_validator(keys_config)
-  if not valid then
-    return nil, "incorrect keys config: " .. err
+  local ok, validation_err = keys_config_validator(keys_config)
+  if not ok then
+    return nil, "incorrect keys config: " .. validation_err
   end
 
   return baton.new({controls = keys_config})
