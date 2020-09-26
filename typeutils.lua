@@ -27,7 +27,7 @@ end
 
 ---
 -- @tparam lualife.models.Size size
--- @tparam int factor
+-- @tparam int factor [0, ∞)
 -- @treturn lualife.models.Size
 function typeutils.scale_size(size, factor)
   assert(types.is_instance(size, Size))
