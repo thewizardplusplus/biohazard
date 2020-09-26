@@ -10,7 +10,6 @@ local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
 local DrawingSettings = require("models.drawingsettings")
 local Color = require("models.color")
-require("compat52")
 
 local drawing = {}
 

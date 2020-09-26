@@ -14,6 +14,7 @@ local drawing = require("drawing")
 local ui = require("ui")
 local updating = require("updating")
 local factory = require("factory")
+require("compat52")
 
 local game = nil -- biohazardcore.ClassifiedGame
 local screen = nil -- models.Rectangle

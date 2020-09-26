@@ -3,7 +3,6 @@
 
 local types = require("lualife.types")
 local Size = require("lualife.models.size")
-require("compat52")
 
 local typeutils = {}
 
