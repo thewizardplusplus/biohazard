@@ -153,7 +153,8 @@ function ui._update_buttons(screen)
     suit.Button("@", suit.layout:row(grid_step + padding, grid_step / 2))
   local to_left_button =
     suit.Button("<", suit.layout:row(grid_step / 2, grid_step))
-  local to_right_button = suit.Button(">", suit.layout:col())
+  local to_right_button =
+    suit.Button(">", suit.layout:col())
 
   -- right buttons
   suit.layout:reset(
@@ -164,8 +165,10 @@ function ui._update_buttons(screen)
 
   local union_button =
     suit.Button("+", suit.layout:row(grid_step, grid_step / 2))
-  local to_top_button = suit.Button("^", suit.layout:row())
-  local to_bottom_button = suit.Button("v", suit.layout:row())
+  local to_top_button =
+    suit.Button("^", suit.layout:row())
+  local to_bottom_button =
+    suit.Button("v", suit.layout:row())
 
   return UiUpdate:new(
     to_left_button.hit,
