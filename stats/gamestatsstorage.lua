@@ -4,7 +4,7 @@
 local middleclass = require("middleclass")
 local types = require("lualife.types")
 local Game = require("biohazardcore.game")
-local StatsStorage = require("statsstorage")
+local StatsStorage = require("stats.statsstorage")
 
 local GameStatsStorage = middleclass("GameStatsStorage", StatsStorage)
 

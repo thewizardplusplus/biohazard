@@ -3,7 +3,7 @@
 
 local types = require("lualife.types")
 local Game = require("biohazardcore.game")
-local GameStatsStorage = require("gamestatsstorage")
+local GameStatsStorage = require("stats.gamestatsstorage")
 
 local factory = {}
 

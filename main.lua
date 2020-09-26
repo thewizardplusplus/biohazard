@@ -10,15 +10,15 @@ local FieldSettings = require("biohazardcore.models.fieldsettings")
 local GameSettings = require("biohazardcore.models.gamesettings")
 local ClassifiedGame = require("biohazardcore.classifiedgame")
 local Rectangle = require("models.rectangle")
+local factory = require("stats.factory")
 local drawing = require("drawing")
 local ui = require("ui")
 local updating = require("updating")
-local factory = require("factory")
 require("compat52")
 
 local game = nil -- biohazardcore.ClassifiedGame
 local screen = nil -- models.Rectangle
-local stats_storage = nil -- StatsStorage
+local stats_storage = nil -- stats.StatsStorage
 local keys = nil -- baton.Player
 
 function love.load()
