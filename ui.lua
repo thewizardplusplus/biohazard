@@ -6,11 +6,11 @@ local jsonschema = require("jsonschema")
 local baton = require("baton")
 local suit = require("suit")
 local types = require("lualife.types")
+local typeutils = require("typeutils")
 local Rectangle = require("models.rectangle")
 local Stats = require("models.stats")
 local UiUpdate = require("models.uiupdate")
 local Color = require("models.color")
-require("compat52")
 
 local ui = {}
 
@@ -24,7 +24,7 @@ function ui.create_keys(config_path)
     return nil, "unable to read the keys config: " .. err
   end
 
-  local keys_config, err = ui._catch_error(json.decode, keys_config_in_json)
+  local keys_config, err = typeutils.catch_error(json.decode, keys_config_in_json)
   if not keys_config then
     return nil, "unable to parse the keys config: " .. err
   end
@@ -193,25 +193,6 @@ function ui._update_keys(keys)
     keys:pressed("rotated"),
     keys:pressed("unioned")
   )
-end
-
----
--- @tparam func handler func(): any; function that raises an error
--- @tparam[opt] {any,...} ... handler arguments
--- @treturn any successful handler result
--- @error raised handler error
-function ui._catch_error(handler, ...)
-  assert(type(handler) == "function")
-
-  local arguments = table.pack(...)
-  local ok, result = pcall(function()
-    return handler(table.unpack(arguments))
-  end)
-  if not ok then
-    return nil, result
-  end
-
-  return result
 end
 
 ---
