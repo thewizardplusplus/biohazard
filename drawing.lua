@@ -2,6 +2,7 @@
 -- @module drawing
 
 local types = require("lualife.types")
+local typeutils = require("typeutils")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
@@ -26,7 +27,7 @@ function drawing.draw_game(screen, game)
   drawing._draw_rectangle(
     "fill",
     field_offset,
-    drawing._scale_size(field_size, grid_step),
+    typeutils.scale_size(field_size, grid_step),
     0,
     Color:new(1, 1, 1)
   )
@@ -39,7 +40,7 @@ function drawing.draw_game(screen, game)
   drawing._draw_rectangle(
     "line",
     DrawingSettings:new(field_offset, grid_step):map_point(game:offset()),
-    drawing._scale_size(game.settings.field_part.size, grid_step),
+    typeutils.scale_size(game.settings.field_part.size, grid_step),
     grid_step / 10,
     Color:new(0.75, 0.75, 0)
   )
@@ -121,17 +122,6 @@ function drawing._draw_rectangle(
     size.height,
     border_radius
   )
-end
-
----
--- @tparam lualife.models.Size size
--- @tparam int factor
--- @treturn lualife.models.Size
-function drawing._scale_size(size, factor)
-  assert(types.is_instance(size, Size))
-  assert(types.is_number_with_limits(factor))
-
-  return Size:new(factor * size.width, factor * size.height)
 end
 
 return drawing
