@@ -1,8 +1,6 @@
 ---
 -- @module ui
 
-local json = require("json")
-local jsonschema = require("jsonschema")
 local baton = require("baton")
 local suit = require("suit")
 local types = require("lualife.types")
@@ -19,18 +17,9 @@ local ui = {}
 -- @treturn baton.Player
 -- @error error message
 function ui.create_keys(config_path)
-  local keys_config_in_json, reading_err = love.filesystem.read(config_path)
-  if not keys_config_in_json then
-    return nil, "unable to read the keys config: " .. reading_err
-  end
+  assert(type(config_path) == "string")
 
-  local keys_config, decoding_err =
-    typeutils.catch_error(json.decode, keys_config_in_json)
-  if not keys_config then
-    return nil, "unable to parse the keys config: " .. decoding_err
-  end
-
-  local keys_config_validator = jsonschema.generate_validator({
+  local keys_config, loading_err = typeutils.load_json(config_path, {
     type = "object",
     properties = {
       moved_left = {["$ref"] = "#/definitions/source_group"},
@@ -56,9 +45,8 @@ function ui.create_keys(config_path)
       },
     },
   })
-  local ok, validation_err = keys_config_validator(keys_config)
-  if not ok then
-    return nil, "incorrect keys config: " .. validation_err
+  if not keys_config then
+    return nil, "unable to load the keys config: " .. loading_err
   end
 
   return baton.new({controls = keys_config})
