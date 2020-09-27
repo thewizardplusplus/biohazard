@@ -1,9 +1,17 @@
 local function set_title(config, title)
+  assert(type(config) == "table" and type(config.window) == "table")
+  assert(type(title) == "string")
+
   config.window.title = title
   config.identity = string.lower(title)
 end
 
 local function set_screen_width(config, width, aspect_ratio, prefix)
+  assert(type(config) == "table" and type(config.window) == "table")
+  assert(type(width) == "number" and width > 0)
+  assert(type(aspect_ratio) == "number" and aspect_ratio > 0)
+  assert(type(prefix) == "string")
+
   config.window[prefix .. "width"] = width
   config.window[prefix .. "height"] = width / aspect_ratio
 end
