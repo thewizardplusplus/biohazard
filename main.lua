@@ -33,8 +33,7 @@ function love.load()
     FieldSettings:new(Size:new(3, 3), Point:new(0, 0), 0.5, 5, 5)
   ))
 
-  stats_storage =
-    assert(factory.create_stats_storage("biohazard-stats-db", game))
+  stats_storage = assert(factory.create_stats_storage("stats-db", game))
   keys = assert(ui.create_keys("keys_config.json"))
 end
 
