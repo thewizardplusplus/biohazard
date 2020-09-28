@@ -1,0 +1,11 @@
+{
+  "field": {
+    "size": { "width": 10, "height": 10 },
+    "filling": 0.2
+  },
+  "field_part": {
+    "size": { "width": 3, "height": 3 },
+    "minimal_count": 5,
+    "maximal_count": 5
+  }
+}

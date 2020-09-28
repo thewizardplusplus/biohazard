@@ -4,11 +4,6 @@ package.path =
   .. "./vendor/?.lua;"
   .. "./vendor/?/init.lua"
 
-local Size = require("lualife.models.size")
-local Point = require("lualife.models.point")
-local FieldSettings = require("biohazardcore.models.fieldsettings")
-local GameSettings = require("biohazardcore.models.gamesettings")
-local ClassifiedGame = require("biohazardcore.classifiedgame")
 local factory = require("factory")
 local drawing = require("drawing")
 local ui = require("ui")
@@ -28,11 +23,7 @@ function love.load()
   local ok = love.window.setFullscreen(true)
   assert(ok, "unable to enter fullscreen")
 
-  game = ClassifiedGame:new(GameSettings:new(
-    FieldSettings:new(Size:new(10, 10), Point:new(0, 0), 0.2),
-    FieldSettings:new(Size:new(3, 3), Point:new(0, 0), 0.5, 5, 5)
-  ))
-
+  game = assert(factory.create_game("game_config.json"))
   stats_storage = assert(factory.create_stats_storage("stats-db", game))
   keys = assert(ui.create_keys("keys_config.json"))
 end
