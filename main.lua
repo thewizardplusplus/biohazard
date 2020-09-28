@@ -20,8 +20,12 @@ function love.load()
   love.setDeprecationOutput(true)
   love.graphics.setBackgroundColor(0.5, 0.5, 0.5)
 
-  local ok = love.window.setFullscreen(true)
-  assert(ok, "unable to enter fullscreen")
+  local is_mobile_os = love.system.getOS() == "Android"
+    or love.system.getOS() == "iOS"
+  if is_mobile_os then
+    local ok = love.window.setFullscreen(true)
+    assert(ok, "unable to enter fullscreen")
+  end
 
   game = assert(factory.create_game("game_config.json"))
   stats_storage = assert(factory.create_stats_storage("stats-db", game))
