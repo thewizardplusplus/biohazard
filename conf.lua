@@ -2,6 +2,10 @@ local function is_config(value)
   return type(value) == "table" and type(value.window) == "table"
 end
 
+local function is_positive_number(value)
+  return assert(type(value) == "number" and value > 0)
+end
+
 local function set_title(config, title)
   assert(is_config(config))
   assert(type(title) == "string")
@@ -12,8 +16,8 @@ end
 
 local function set_screen_width(config, width, aspect_ratio, prefix)
   assert(is_config(config))
-  assert(type(width) == "number" and width > 0)
-  assert(type(aspect_ratio) == "number" and aspect_ratio > 0)
+  assert(is_positive_number(width))
+  assert(is_positive_number(aspect_ratio))
   assert(type(prefix) == "string")
 
   config.window[prefix .. "width"] = width
