@@ -69,32 +69,8 @@ function factory.create_game(config_path)
   end
 
   return ClassifiedGame:new(GameSettings:new(
-    FieldSettings:new(
-      Size:new(
-        game_config.field.size.width,
-        game_config.field.size.height
-      ),
-      game_config.field.initial_offset and Point:new(
-        game_config.field.initial_offset.x,
-        game_config.field.initial_offset.y
-      ),
-      game_config.field.filling,
-      game_config.field.minimal_count,
-      game_config.field.maximal_count
-    ),
-    FieldSettings:new(
-      Size:new(
-        game_config.field_part.size.width,
-        game_config.field_part.size.height
-      ),
-      game_config.field_part.initial_offset and Point:new(
-        game_config.field_part.initial_offset.x,
-        game_config.field_part.initial_offset.y
-      ),
-      game_config.field_part.filling,
-      game_config.field_part.minimal_count,
-      game_config.field_part.maximal_count
-    )
+    factory._create_field_config(game_config.field),
+    factory._create_field_config(game_config.field_part)
   ))
 end
 
@@ -114,6 +90,27 @@ function factory.create_stats_storage(path, game)
 
   local full_path = love.filesystem.getSaveDirectory() .. "/" .. path
   return GameStatsStorage:new(full_path, game)
+end
+
+---
+-- @tparam tab field_config
+-- @treturn FieldSettings
+function factory._create_field_config(field_config)
+  assert(type(field_config) == "table" and type(field_config.size) == "table")
+
+  return FieldSettings:new(
+    Size:new(
+      field_config.size.width,
+      field_config.size.height
+    ),
+    field_config.initial_offset and Point:new(
+      field_config.initial_offset.x,
+      field_config.initial_offset.y
+    ),
+    field_config.filling,
+    field_config.minimal_count,
+    field_config.maximal_count
+  )
 end
 
 return factory
