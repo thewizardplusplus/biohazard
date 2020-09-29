@@ -1,6 +1,7 @@
 project = "biohazard"
 file = {
   "typeutils.lua",
+  "factory.lua",
   "updating.lua",
   "drawing.lua",
   "ui.lua",
@@ -11,7 +12,6 @@ file = {
   "models/uiupdate.lua",
   "stats/statsstorage.lua",
   "stats/gamestatsstorage.lua",
-  "stats/factory.lua",
 }
 topics = {
   "README.md",
