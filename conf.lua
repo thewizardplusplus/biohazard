@@ -1,5 +1,9 @@
+local function is_config(value)
+  return type(value) == "table" and type(value.window) == "table"
+end
+
 local function set_title(config, title)
-  assert(type(config) == "table" and type(config.window) == "table")
+  assert(is_config(config))
   assert(type(title) == "string")
 
   config.window.title = title
@@ -7,7 +11,7 @@ local function set_title(config, title)
 end
 
 local function set_screen_width(config, width, aspect_ratio, prefix)
-  assert(type(config) == "table" and type(config.window) == "table")
+  assert(is_config(config))
   assert(type(width) == "number" and width > 0)
   assert(type(aspect_ratio) == "number" and aspect_ratio > 0)
   assert(type(prefix) == "string")
