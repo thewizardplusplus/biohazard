@@ -1,9 +1,9 @@
-local function is_config(value)
-  return type(value) == "table" and type(value.window) == "table"
+local function is_config(config)
+  return type(config) == "table" and type(config.window) == "table"
 end
 
-local function is_positive_number(value)
-  return assert(type(value) == "number" and value > 0)
+local function is_positive_number(number)
+  return assert(type(number) == "number" and number > 0)
 end
 
 local function set_title(config, title)
@@ -26,6 +26,7 @@ end
 
 function love.conf(config)
   config.version = "11.3"
+
   config.window.resizable = true
   config.window.msaa = 8
 
