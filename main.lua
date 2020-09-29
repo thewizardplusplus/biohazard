@@ -15,17 +15,26 @@ local screen = nil -- models.Rectangle
 local stats_storage = nil -- stats.StatsStorage
 local keys = nil -- baton.Player
 
+local function enter_fullscreen()
+  local is_mobile_os = love.system.getOS() == "Android"
+    or love.system.getOS() == "iOS"
+  if not is_mobile_os then
+    return true
+  end
+
+  local ok = love.window.setFullscreen(true, "desktop")
+  if not ok then
+    return false, "unable to enter fullscreen"
+  end
+
+  return true
+end
+
 function love.load()
   math.randomseed(os.time())
   love.setDeprecationOutput(true)
   love.graphics.setBackgroundColor(0.5, 0.5, 0.5)
-
-  local is_mobile_os = love.system.getOS() == "Android"
-    or love.system.getOS() == "iOS"
-  if is_mobile_os then
-    local ok = love.window.setFullscreen(true, "desktop")
-    assert(ok, "unable to enter fullscreen")
-  end
+  assert(enter_fullscreen())
 
   game = assert(factory.create_game("game_config.json"))
   stats_storage = assert(factory.create_stats_storage("stats-db", game))
