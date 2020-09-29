@@ -23,7 +23,7 @@ function love.load()
   local is_mobile_os = love.system.getOS() == "Android"
     or love.system.getOS() == "iOS"
   if is_mobile_os then
-    local ok = love.window.setFullscreen(true)
+    local ok = love.window.setFullscreen(true, "desktop")
     assert(ok, "unable to enter fullscreen")
   end
 
