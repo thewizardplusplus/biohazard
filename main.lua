@@ -1,8 +1,6 @@
-package.path =
-  "/sdcard/lovegame/vendor/?.lua;"
-  .. "/sdcard/lovegame/vendor/?/init.lua;"
-  .. "./vendor/?.lua;"
-  .. "./vendor/?/init.lua"
+local require_paths =
+  {"?.lua", "?/init.lua", "vendor/?.lua", "vendor/?/init.lua"}
+love.filesystem.setRequirePath(table.concat(require_paths, ";"))
 
 local factory = require("factory")
 local drawing = require("drawing")
