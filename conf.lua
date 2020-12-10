@@ -3,7 +3,7 @@ local function is_config(config)
 end
 
 local function is_positive_number(number)
-  return assert(type(number) == "number" and number > 0)
+  return type(number) == "number" and number >= 0
 end
 
 local function set_title(config, title)
