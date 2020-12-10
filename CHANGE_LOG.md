@@ -15,3 +15,10 @@
 ## [v1.0](https://github.com/thewizardplusplus/biohazard/tree/v1.0) (2020-08-11)
 
 ## [v1.0-alpha](https://github.com/thewizardplusplus/biohazard/tree/v1.0-alpha) (2020-08-03)
+
+### Features
+
+- primary field:
+  - drawing;
+  - support of operations:
+    - populating according to [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) rules.
