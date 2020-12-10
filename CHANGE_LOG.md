@@ -12,6 +12,32 @@
 
 ## [v1.1](https://github.com/thewizardplusplus/biohazard/tree/v1.1) (2020-08-14)
 
+- movable field part:
+  - support of operations:
+    - rotation:
+      - clockwise rotation only.
+
+### Features
+
+- primary field:
+  - drawing;
+  - support of operations:
+    - populating according to [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) rules;
+- movable field part:
+  - drawing:
+    - drawing a frame around the movable field part;
+    - drawing collisions with the primary field with a different color;
+  - support of operations:
+    - moving:
+      - restricting moving by boundaries of the primary field;
+    - rotation:
+      - clockwise rotation only;
+    - unioning with the primary field:
+      - disabling unioning on collisions with the primary field;
+  - controls:
+    - controls via UI elements:
+      - support of touches.
+
 ## [v1.0](https://github.com/thewizardplusplus/biohazard/tree/v1.0) (2020-08-11)
 
 - movable field part:
