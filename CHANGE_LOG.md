@@ -4,6 +4,8 @@
 
 ## [v1.5](https://github.com/thewizardplusplus/biohazard/tree/v1.5) (2020-09-26)
 
+- refactoring.
+
 ## [v1.4](https://github.com/thewizardplusplus/biohazard/tree/v1.4) (2020-09-22)
 
 - movable field part:
