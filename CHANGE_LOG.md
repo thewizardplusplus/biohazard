@@ -6,6 +6,49 @@
 
 ## [v1.4](https://github.com/thewizardplusplus/biohazard/tree/v1.4) (2020-09-22)
 
+- movable field part:
+  - controls:
+    - controls via a keyboard:
+      - loading a configuration of keys from a JSON file;
+      - validation of a configuration of keys via the JSON Schema;
+- general controls:
+  - quitting by the <kbd>Esc</kbd> key.
+
+### Features
+
+- primary field:
+  - drawing;
+  - support of operations:
+    - populating according to [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) rules;
+- movable field part:
+  - drawing:
+    - drawing a frame around the movable field part;
+    - drawing collisions with the primary field with a different color;
+  - support of operations:
+    - moving:
+      - restricting moving by boundaries of the primary field;
+    - rotation:
+      - clockwise rotation only;
+    - unioning with the primary field:
+      - disabling unioning on collisions with the primary field;
+  - controls:
+    - controls via UI elements:
+      - drawing:
+        - calculation of a font size based on a screen height;
+      - support of touches;
+    - controls via a keyboard:
+      - loading a configuration of keys from a JSON file;
+      - validation of a configuration of keys via the JSON Schema;
+- game stats:
+  - metrics:
+    - current cell count;
+    - minimal cell count;
+  - drawing:
+    - calculation of a font size based on a screen height;
+  - storing in the [FlatDB](https://github.com/uleelx/FlatDB) database:
+    - saving on every turn;
+    - saving if there are changes only.
+
 ## [v1.3](https://github.com/thewizardplusplus/biohazard/tree/v1.3) (2020-09-19)
 
 - movable field part:
