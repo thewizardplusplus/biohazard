@@ -1,5 +1,11 @@
 # Change Log
 
+## [v1.6.1](https://github.com/thewizardplusplus/biohazard/tree/v1.6.1) (2020-12-18)
+
+- describe for releases:
+  - features;
+  - change log.
+
 ## [v1.6](https://github.com/thewizardplusplus/biohazard/tree/v1.6) (2020-10-19)
 
 - primary field:
