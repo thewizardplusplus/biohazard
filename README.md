@@ -2,6 +2,51 @@
 
 2D puzzle game for Android inspired by [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) and various block games.
 
+## Features
+
+- primary field:
+  - configuration:
+    - loading from a JSON file;
+    - validation via the JSON Schema;
+  - drawing:
+    - resizable mode;
+  - support of operations:
+    - populating according to [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) rules;
+- movable field part:
+  - configuration:
+    - loading from a JSON file;
+    - validation via the JSON Schema;
+  - drawing:
+    - resizable mode;
+    - drawing a frame around the movable field part;
+    - drawing collisions with the primary field with a different color;
+  - support of operations:
+    - moving:
+      - restricting moving by boundaries of the primary field;
+    - rotation:
+      - clockwise rotation only;
+    - unioning with the primary field:
+      - disabling unioning on collisions with the primary field;
+  - controls:
+    - controls via UI elements:
+      - drawing:
+        - resizable mode:
+          - calculation of a font size based on a screen height;
+      - support of touches;
+    - controls via a keyboard:
+      - loading a configuration of keys from a JSON file;
+      - validation of a configuration of keys via the JSON Schema;
+- game stats:
+  - metrics:
+    - current cell count;
+    - minimal cell count;
+  - drawing:
+    - resizable mode:
+      - calculation of a font size based on a screen height;
+  - storing in the [FlatDB](https://github.com/uleelx/FlatDB) database:
+    - saving on every turn;
+    - saving if there are changes only.
+
 ## Running
 
 See for details: <https://love2d.org/wiki/Getting_Started#Running_Games>
