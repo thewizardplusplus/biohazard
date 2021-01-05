@@ -53,9 +53,24 @@ See for details: <https://love2d.org/wiki/Getting_Started#Running_Games>
 
 ### On the Android
 
-Download the archive of this repository: <https://github.com/thewizardplusplus/biohazard/archive/master.zip>
+Clone this repository:
 
-Change its extension from ".zip" to ".love".
+```
+$ git clone https://github.com/thewizardplusplus/biohazard.git
+$ cd biohazard
+```
+
+Make a ZIP archive containing it:
+
+```
+$ git archive --format zip --output biohazard.zip HEAD
+```
+
+Change its extension from `.zip` to `.love`:
+
+```
+$ mv biohazard.zip biohazard.love
+```
 
 Transfer the resulting file to the Android device.
 
