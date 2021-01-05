@@ -1,4 +1,4 @@
-# Controls
+# Controls (EN / [RU](controls_ru.md))
 
 Operations with the movable field part:
 
