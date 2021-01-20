@@ -3,11 +3,23 @@
 Операции с перемещаемым участком поля:
 
 - перемещение:
-  - влево: <kbd>Left Arrow</kbd>, <kbd>A</kbd>;
-  - вправо: <kbd>Right Arrow</kbd>, <kbd>D</kbd>;
-  - вверх: <kbd>Up Arrow</kbd>, <kbd>W</kbd>;
-  - вниз: <kbd>Down Arrow</kbd>, <kbd>S</kbd>;
-- вращение: <kbd>Left Shift</kbd>, <kbd>Right Shift</kbd>, <kbd>R</kbd>, <kbd>E</kbd>;
-- слияние с основным полем: <kbd>Enter</kbd>, <kbd>Space</kbd>.
+  - влево:
+    - при помощи клавиатуры: <kbd>Left Arrow</kbd>, <kbd>A</kbd>;
+    - при помощи мыши/касаний: <kbd><</kbd>;
+  - вправо:
+    - при помощи клавиатуры: <kbd>Right Arrow</kbd>, <kbd>D</kbd>;
+    - при помощи мыши/касаний: <kbd>></kbd>;
+  - вверх:
+    - при помощи клавиатуры: <kbd>Up Arrow</kbd>, <kbd>W</kbd>;
+    - при помощи мыши/касаний: <kbd>^</kbd>;
+  - вниз:
+    - при помощи клавиатуры: <kbd>Down Arrow</kbd>, <kbd>S</kbd>;
+    - при помощи мыши/касаний: <kbd>v</kbd>;
+- вращение:
+  - при помощи клавиатуры: <kbd>Left Shift</kbd>, <kbd>Right Shift</kbd>, <kbd>R</kbd>, <kbd>E</kbd>;
+  - при помощи мыши/касаний: <kbd>@</kbd>;
+- слияние с основным полем:
+  - при помощи клавиатуры: <kbd>Enter</kbd>, <kbd>Space</kbd>.
+  - при помощи мыши/касаний: <kbd>+</kbd>.
 
-Клавиши могут быть изменены в конфиге `keys_config.json`. Значения выбираются на основе https://github.com/tesselode/baton#usage.
+Клавиши клавиатуры могут быть изменены в конфиге `keys_config.json`. Значения выбираются на основе https://github.com/tesselode/baton#usage.
