@@ -1,5 +1,7 @@
 # Controls (EN / [RU](controls_ru.md))
 
+[<< Back](README.md)
+
 ![](screenshot.png)
 
 Operations with the movable part of the field:
