@@ -33,3 +33,11 @@ This field remains static throughout the game except when it merges with the mov
 When the fields merge the cells of the movable part are added to the primary field and turn blue.
 
 After that, the rules of the game ["Life"](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) are applied to this field. Wherein the field is considered open and bounded by empty unchangeable cells. The conversion is only done for one generation.
+
+## Game Goals and Statistics
+
+The global goal of the game is to completely clear the primary field of blue cells. However, in practice, it is extremely difficult to achieve. Therefore the **maximum reduction** of the number of these cells is considered as an alternative.
+
+It is important to understand that the moment at which this quantity is estimated is the moment **after merging** of the fields **and application of the rules** of the game ["Life"](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) to the primary field.
+
+The game keeps some statistics memorizing the minimum value of the number of blue cells for all completed game sessions.
