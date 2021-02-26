@@ -25,3 +25,11 @@ The boundaries of this field are set by a yellow frame and do not depend on the 
 A player can **merge** this field **with the primary one**. This is possible only if there are no blue ones under green cells. Otherwise, no merge is available and conflicting cells are shown in **red**.
 
 When fields are merged (see also below) the current movable part is deleted, and a new one is created in the upper left corner **with the same number** of randomly located cells.
+
+## Functioning of the Primary Field
+
+This field remains static throughout the game except when it merges with the movable part.
+
+When the fields merge the cells of the movable part are added to the primary field and turn blue.
+
+After that, the rules of the game ["Life"](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) are applied to this field. Wherein the field is considered open and bounded by empty unchangeable cells. The conversion is only done for one generation.
