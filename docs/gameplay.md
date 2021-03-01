@@ -4,15 +4,15 @@
 
 ![](screenshot.png)
 
-## A Description of Game Fields
+## Description of Game Fields
 
 The game has two fields: **the primary one** and **the movable part**.
 
-The primary field is represented by a set of **blue** cells. A player can not control the state of this field directly.
+The primary field is represented by a set of **blue** cells. The player cannot control the state of this field directly.
 
-The movable part is represented by a set of **green** cells surrounded by a yellow frame. This field locates above the primary one and partially overlaps it. A player can control the position and orientation of this field. An initial position is **an upper left corner**.
+The movable part is represented by a set of **green** cells surrounded by the yellow frame. This field is located above the primary one and partially overlaps it. The player can control the position and orientation of this field. The initial position is **the upper left corner**.
 
-At beginning of the game, both fields are filled with **a certain number** of cells **located randomly**.
+At the beginning of the game, both fields are filled with **a certain amount** of cells **located randomly**.
 
 ## Interacting with the Movable Part of ​​the Field
 
