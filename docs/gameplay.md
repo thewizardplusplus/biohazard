@@ -14,17 +14,17 @@ The movable part is represented by a set of **green** cells surrounded by the ye
 
 At the beginning of the game, both fields are filled with **a certain amount** of cells **located randomly**.
 
-## Interacting with the Movable Part of ​​the Field
+## Interacting with the Movable Part of the Field
 
-A player can **move** this field **to the left**, **to the right**, **upward**, and **downward**. Wherein the movable part can not go beyond the limits of the primary field.
+The player can **move** this field **to the left**, **to the right**, **upward**, and **downward**. With that, the movable part cannot go beyond the limits of the primary field.
 
-A player can **rotate** this field. Rotation is carried out only **clockwise** and always **divisible by 90 degrees**.
+The player can **rotate** this field. The rotation is carried out only **clockwise** and always **divisible by 90 degrees**.
 
-The boundaries of this field are set by a yellow frame and do not depend on the presence of green cells. Thus their absence in any row or column does not reduce the size of the movable part. A situation is possible when this field rests against the edge of the primary one although the side on which it rests is devoid of any cells. This makes it possible to rotate the field at any position.
+The boundaries of this field are set by the yellow frame and are not depend on the presence of green cells. Thus, their absence in any row or column does not reduce the size of the movable part. A situation is possible when this field rests against the edge of the primary one, although the side on which it rests is devoid of any cells. It makes it possible to rotate the field at any position.
 
-A player can **merge** this field **with the primary one**. This is possible only if there are no blue ones under green cells. Otherwise, no merge is available and conflicting cells are shown in **red**.
+The player can **merge** this field **with the primary one**. It is possible only if there are no blue cells under green ones. Otherwise, no merge is available and conflicting cells are shown in **red**.
 
-When fields are merged (see also below) the current movable part is deleted, and a new one is created in the upper left corner **with the same number** of randomly located cells.
+When the fields are merged (see also below), the current movable part is deleted, and a new one is created in the upper left corner **with the same amount** of randomly located cells.
 
 ## Functioning of the Primary Field
 
