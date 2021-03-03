@@ -28,11 +28,11 @@ When the fields are merged (see also below), the current movable part is deleted
 
 ## Functioning of the Primary Field
 
-This field remains static throughout the game except when it merges with the movable part.
+This field remains static throughout the game except when it is merged with the movable part.
 
-When the fields merge the cells of the movable part are added to the primary field and turn blue.
+When the fields are merged, the cells of the movable part are added to the primary field and turn blue.
 
-After that, the rules of the game ["Life"](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) are applied to this field. Wherein the field is considered open and bounded by empty unchangeable cells. The conversion is only done for one generation.
+After that, the rules of the ["Life"](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) game are applied to this field. With that, the field is considered open (i.e. not toroidal) and surrounded by empty unchangeable cells. The transformation is done for one generation only.
 
 ## Game Goals and Statistics
 
