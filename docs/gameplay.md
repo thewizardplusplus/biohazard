@@ -36,8 +36,8 @@ After that, the rules of the ["Life"](https://en.wikipedia.org/wiki/Conway's_Gam
 
 ## Game Goals and Statistics
 
-The global goal of the game is to completely clear the primary field of blue cells. However, in practice, it is extremely difficult to achieve. Therefore the **maximum reduction** of the number of these cells is considered as an alternative.
+The global goal of the game is to clear the primary field of blue cells completely. However, in practice, it is extremely difficult to achieve. Therefore, the **maximum reduction** of the amount of these cells is considered as an alternative.
 
-It is important to understand that the moment at which this quantity is estimated is the moment **after merging** of the fields **and application of the rules** of the game ["Life"](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) to the primary field.
+It is important to understand that the moment at which this quantity is estimated is the moment **after merging** of the fields **and application of the rules** of the ["Life"](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) game to the primary field.
 
-The game keeps some statistics memorizing the minimum value of the number of blue cells for all completed game sessions.
+The game keeps some statistics by memorizing the minimum value of the amount of blue cells for all completed game sessions.
