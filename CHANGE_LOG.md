@@ -1,5 +1,18 @@
 # Change Log
 
+## [v1.6.2](https://github.com/thewizardplusplus/biohazard/tree/v1.6.2) (2021-03-04)
+
+- describe the game documentation:
+  - contents:
+    - controls;
+    - gameplay;
+  - translations:
+    - in English;
+    - in Russian;
+  - misc.:
+    - screenshot;
+    - linked table of contents.
+
 ## [v1.6.1](https://github.com/thewizardplusplus/biohazard/tree/v1.6.1) (2020-12-18)
 
 - describe for releases:
