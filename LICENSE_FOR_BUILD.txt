@@ -86,56 +86,56 @@ This distribution contains code from the following projects (full license text b
 	Copyright (C) 2018 David Reid
 
  - libmpg123
-     Website: http://www.mpg123.de/
-     Source download: http://sourceforge.net/projects/mpg123/files/latest/download
-     License: LGPL 2.1
-     Copyright (C) 1995-2013 Michael Hipp and others
-     Detailed information from the debian project:
-		 Copyright (C) 1995-2016 the mpg123 project
-		 Copyright (C) 2009-2011 Malcolm Boczek
-		 Copyright (C) 2008 Christian Weisgerber <naddy@openbsd.org>
-		 Copyright (C) 2006-2007 Zuxy Meng
-		 Copyright (C) 2000-2002 David Olofson
-		 Copyright (C) 1998 Fabrice Bellard
-		 Copyright (C) 1997 Mikko Tommila
+	Website: http://www.mpg123.de/
+	Source download: http://sourceforge.net/projects/mpg123/files/latest/download
+	License: LGPL 2.1
+	Copyright (C) 1995-2013 Michael Hipp and others
+	Detailed information from the debian project:
+	Copyright (C) 1995-2016 the mpg123 project
+	Copyright (C) 2009-2011 Malcolm Boczek
+	Copyright (C) 2008 Christian Weisgerber <naddy@openbsd.org>
+	Copyright (C) 2006-2007 Zuxy Meng
+	Copyright (C) 2000-2002 David Olofson
+	Copyright (C) 1998 Fabrice Bellard
+	Copyright (C) 1997 Mikko Tommila
 
  - OpenAL Soft
-     Website: http://kcat.strangesoft.net/openal.html
-     Source download: http://kcat.strangesoft.net/openal.html#download
-     License: Mixed, licensing information obtained from the debian project
-		- Alc/backends/opensl.c
-			License: Apache 2.0
-			Copyright (C) 2011 The Android Open Source Project
-		- examples/alhrtf.c examples/allatency.c examples/alloopback.c examples/alreverb.c examples/alstream.c examples/altonegen.c examples/common/alhelpers.c examples/common/sdl_sound.c utils/openal-info.c
-			License: MIT/Expat
-			Copyright (C) 2010, 2015 Chris Robinson <chris.kcat@gmail.com>
-		- examples/alffplay.c
-			License: unclear, presumed LGPL 2.1 or higher
-			Copyright (C) 2003 Fabrice Bellard
-			Copyright (C) Martin Bohme
-		- Alc/bs2b.c OpenAL32/Include/bs2b.h
-			License: MIT/Expat
-			Copyright (C) 2005 Boris Mikhaylov
-		- cmake/FindALSA.cmake cmake/FindFFmpeg.cmake cmake/FindJACK.cmake cmake/FindSDL2.cmake
-			License: 3-Clause BSD
-			 Copyright (C) 2006 Matthias Kretz
-			 Copyright (C) 2008 Alexander Neundorf
-			 Copyright (C) 2003-2011 Kitware, Inc.
-			 Copyright (C) 2009-2011 Philip Lowman
-			 Copyright (C) 2011 Michael Jansen
-			 Copyright (C) 2012 Benjamin Eikel
-		- utils/makehrtf.c (not included in distribution)
-			License: GPL 2 or higher (2 listed below)
-			Copyright (C) 2011-2014 Christopher Fitzgerald
-		- Everything else:
-			License: LGPL 2.0 or higher (2.1 listed below)
-			Copyright (C) 1999-2014 the OpenAL team
-			Copyright (C) 2008-2015 Christopher Fitzgerald
-			Copyright (C) 2009-2015 Chris Robinson
-			Copyright (C) 2013 Anis A. Hireche
-			Copyright (C) 2013 Nasca Octavian Paul
-			Copyright (C) 2013 Mike Gorchak
-			Copyright (C) 2014 Timothy Arceri
+	Website: http://kcat.strangesoft.net/openal.html
+	Source download: http://kcat.strangesoft.net/openal.html#download
+	License: Mixed, licensing information obtained from the debian project
+	- Alc/backends/opensl.c
+		License: Apache 2.0
+		Copyright (C) 2011 The Android Open Source Project
+	- examples/alhrtf.c examples/allatency.c examples/alloopback.c examples/alreverb.c examples/alstream.c examples/altonegen.c examples/common/alhelpers.c examples/common/sdl_sound.c utils/openal-info.c
+		License: MIT/Expat
+		Copyright (C) 2010, 2015 Chris Robinson <chris.kcat@gmail.com>
+	- examples/alffplay.c
+		License: unclear, presumed LGPL 2.1 or higher
+		Copyright (C) 2003 Fabrice Bellard
+		Copyright (C) Martin Bohme
+	- Alc/bs2b.c OpenAL32/Include/bs2b.h
+		License: MIT/Expat
+		Copyright (C) 2005 Boris Mikhaylov
+	- cmake/FindALSA.cmake cmake/FindFFmpeg.cmake cmake/FindJACK.cmake cmake/FindSDL2.cmake
+		License: 3-Clause BSD
+		Copyright (C) 2006 Matthias Kretz
+		Copyright (C) 2008 Alexander Neundorf
+		Copyright (C) 2003-2011 Kitware, Inc.
+		Copyright (C) 2009-2011 Philip Lowman
+		Copyright (C) 2011 Michael Jansen
+		Copyright (C) 2012 Benjamin Eikel
+	- utils/makehrtf.c (not included in distribution)
+		License: GPL 2 or higher (2 listed below)
+		Copyright (C) 2011-2014 Christopher Fitzgerald
+	- Everything else:
+		License: LGPL 2.0 or higher (2.1 listed below)
+		Copyright (C) 1999-2014 the OpenAL team
+		Copyright (C) 2008-2015 Christopher Fitzgerald
+		Copyright (C) 2009-2015 Chris Robinson
+		Copyright (C) 2013 Anis A. Hireche
+		Copyright (C) 2013 Nasca Octavian Paul
+		Copyright (C) 2013 Mike Gorchak
+		Copyright (C) 2014 Timothy Arceri
 
 License text
 ============
