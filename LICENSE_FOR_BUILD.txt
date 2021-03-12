@@ -3,6 +3,11 @@ Licensing information
 
 This distribution contains code from the following projects (full license text below):
 
+ - Biohazard
+	Website: https://github.com/thewizardplusplus/biohazard
+	License: MIT/Expat
+	Copyright (C) 2020-2021 thewizardplusplus <thewizardplusplus@yandex.ru>
+
  - LOVE
 	Website: https://love2d.org/
 	License: zlib
