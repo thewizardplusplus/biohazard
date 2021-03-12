@@ -26,7 +26,7 @@ This distribution contains code from the following projects (full license text b
  - glslang
 	Website: https://github.com/KhronosGroup/glslang
 	License: 3-Clause BSD
-	Copyright (C) 2002-2005  3Dlabs Inc. Ltd.
+	Copyright (C) 2002-2005 3Dlabs Inc. Ltd.
 	Copyright (C) 2013-2016 LunarG, Inc.
 
  - Kepler Project's lua-compat-5.3
@@ -58,14 +58,14 @@ This distribution contains code from the following projects (full license text b
 	Website: https://lz4.github.io/lz4/
 	License: 2-Clause BSD
 	Copyright (C) 2011-2015, Yann Collet.
-		You can contact the author at :
-		- LZ4 source repository : https://github.com/Cyan4973/lz4
-		- LZ4 public forum : https://groups.google.com/forum/#!forum/lz4c
+		You can contact the author at:
+		- LZ4 source repository: https://github.com/Cyan4973/lz4
+		- LZ4 public forum: https://groups.google.com/forum/#!forum/lz4c
 
  - TinyEXR
 	Website: https://github.com/syoyo/tinyexr
 	License: 3-Clause BSD
-	Copyright (C) 2014 - 2016, Syoyo Fujita
+	Copyright (C) 2014-2016, Syoyo Fujita
 
  - UTF8-CPP
 	Website: https://github.com/nemtrif/utfcpp
@@ -76,8 +76,8 @@ This distribution contains code from the following projects (full license text b
 	Website: https://cyan4973.github.io/xxHash/
 	License: 2-Clause BSD
 	Copyright (C) 2012-2016, Yann Collet.
-		You can contact the author at :
-		- xxHash source repository : https://github.com/Cyan4973/xxHash
+		You can contact the author at:
+		- xxHash source repository: https://github.com/Cyan4973/xxHash
 
  - dr_flac
 	Website: https://github.com/mackron/dr_libs
