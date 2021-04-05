@@ -1,5 +1,14 @@
 # Change Log
 
+## [v1.6.3](https://github.com/thewizardplusplus/biohazard/tree/v1.6.3) (2021-04-05)
+
+- misc. improvements:
+  - adding the configuration of the [makelove](https://github.com/pfirsich/makelove) tool:
+    - supporting the building of the game for the following platforms:
+      - Windows;
+      - macOS;
+      - Linux (via the [AppImage](https://appimage.org/) format).
+
 ## [v1.6.2](https://github.com/thewizardplusplus/biohazard/tree/v1.6.2) (2021-03-04)
 
 - describe the game documentation:
