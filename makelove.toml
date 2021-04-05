@@ -12,3 +12,9 @@ CompanyName = "Personal"
 LegalCopyright = "Copyright (C) 2020-2021 thewizardplusplus <thewizardplusplus@yandex.ru>"
 FileVersion = "v1.6.3"
 FileDescription = "biohazard v1.6.3"
+
+[macos]
+[macos.app_metadata]
+CFBundleIdentifier = "ru.thewizardplusplus.biohazard" # should be in reverse-DNS format
+CFBundleShortVersionString = "v1.6.3"
+NSHumanReadableCopyright = "Copyright (C) 2020-2021 thewizardplusplus <thewizardplusplus@yandex.ru>"
