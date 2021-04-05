@@ -1,0 +1,4 @@
+name = "biohazard"
+love_files = ["::git-ls-tree::"] # all files tracked by git
+default_targets = ["win64", "macos", "appimage"]
+build_directory = "builds"
