@@ -49,6 +49,23 @@
     - saving on every turn;
     - saving if there are changes only.
 
+## Building
+
+Clone this repository:
+
+```
+$ git clone https://github.com/thewizardplusplus/biohazard.git
+$ cd biohazard
+```
+
+Build the game with the [makelove](https://github.com/pfirsich/makelove) tool:
+
+```
+$ makelove ( win64 | macos | appimage )
+```
+
+Take the required build from the corresponding subdirectory of the created `builds` directory.
+
 ## Running
 
 See for details: <https://love2d.org/wiki/Getting_Started#Running_Games>
