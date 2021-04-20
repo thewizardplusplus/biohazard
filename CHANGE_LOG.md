@@ -1,5 +1,15 @@
 # Change Log
 
+## [v1.6.4](https://github.com/thewizardplusplus/biohazard/tree/v1.6.4) (2021-04-20)
+
+- describe the game documentation:
+  - contents:
+    - summary;
+  - translations:
+    - in English;
+    - in Russian;
+- re-sort the game documentation.
+
 ## [v1.6.3](https://github.com/thewizardplusplus/biohazard/tree/v1.6.3) (2021-04-05)
 
 - misc. improvements:
