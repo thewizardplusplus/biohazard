@@ -2,7 +2,7 @@
 -- @classmod Rectangle
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Point = require("lualife.models.point")
 
 local Rectangle = middleclass("Rectangle")
@@ -18,8 +18,8 @@ local Rectangle = middleclass("Rectangle")
 -- @tparam lualife.models.Point maximum
 -- @treturn Rectangle
 function Rectangle:initialize(minimum, maximum)
-  assert(types.is_instance(minimum, Point))
-  assert(types.is_instance(maximum, Point))
+  assertions.is_instance(minimum, Point)
+  assertions.is_instance(maximum, Point)
 
   self.minimum = minimum
   self.maximum = maximum
