@@ -2,7 +2,7 @@
 -- @classmod Field
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Stringifiable = require("lualife.models.stringifiable")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
@@ -21,7 +21,7 @@ Field:include(Stringifiable)
 -- @tparam Size size
 -- @treturn Field
 function Field:initialize(size)
-  assert(types.is_instance(size, Size))
+  assertions.is_instance(size, Size)
 
   self.size = size
   self._cells = {}
@@ -32,6 +32,9 @@ end
 function Field:__data()
   local cells = {}
   self:map(function(point, contains)
+    assertions.is_instance(point, Point)
+    assertions.is_boolean(contains)
+
     if contains then
       table.insert(cells, point:__data())
     end
@@ -63,17 +66,16 @@ end
 -- @tparam Point point
 -- @treturn bool
 function Field:contains(point)
-  assert(types.is_instance(point, Point))
+  assertions.is_instance(point, Point)
 
-  return self.size:_contains(point)
-    and types.to_boolean(self._cells[tostring(point)])
+  return self.size:_contains(point) and self._cells[tostring(point)] == true
 end
 
 ---
 -- @tparam Field other
 -- @treturn bool
 function Field:fits(other)
-  assert(types.is_instance(other, Field))
+  assertions.is_instance(other, Field)
 
   return self.size:_fits(other.size)
 end
@@ -81,7 +83,7 @@ end
 ---
 -- @tparam Point point
 function Field:set(point)
-  assert(types.is_instance(point, Point))
+  assertions.is_instance(point, Point)
 
   if self.size:_contains(point) then
     self._cells[tostring(point)] = true
@@ -92,7 +94,7 @@ end
 -- @tparam func mapper func(point: Point, contains: bool): bool
 -- @treturn Field
 function Field:map(mapper)
-  assert(types.is_callable(mapper))
+  assertions.is_callable(mapper)
 
   local field = Field:new(self.size)
   for y = 0, self.size.height - 1 do
