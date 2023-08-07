@@ -2,7 +2,7 @@
 -- @classmod UiUpdate
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Point = require("lualife.models.point")
 
 local UiUpdate = middleclass("UiUpdate")
@@ -33,12 +33,12 @@ function UiUpdate:initialize(
   rotated,
   unioned
 )
-  assert(type(moved_left) == "boolean")
-  assert(type(moved_right) == "boolean")
-  assert(type(moved_top) == "boolean")
-  assert(type(moved_bottom) == "boolean")
-  assert(type(rotated) == "boolean")
-  assert(type(unioned) == "boolean")
+  assertions.is_boolean(moved_left)
+  assertions.is_boolean(moved_right)
+  assertions.is_boolean(moved_top)
+  assertions.is_boolean(moved_bottom)
+  assertions.is_boolean(rotated)
+  assertions.is_boolean(unioned)
 
   self.moved_left = moved_left
   self.moved_right = moved_right
@@ -72,7 +72,7 @@ end
 -- @tparam UiUpdate other
 -- @treturn UiUpdate
 function UiUpdate:merge(other)
-  assert(types.is_instance(other, UiUpdate))
+  assertions.is_instance(other, UiUpdate)
 
   return UiUpdate:new(
     self.moved_left or other.moved_left,
