@@ -1,8 +1,9 @@
 ---
 -- @module sets
 
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Field = require("lualife.models.field")
+local Point = require("lualife.models.point")
 
 local sets = {}
 
@@ -11,10 +12,13 @@ local sets = {}
 -- @tparam Field additional
 -- @treturn Field
 function sets.union(base, additional)
-  assert(types.is_instance(base, Field))
-  assert(types.is_instance(additional, Field))
+  assertions.is_instance(base, Field)
+  assertions.is_instance(additional, Field)
 
   return base:map(function(point, contains)
+    assertions.is_instance(point, Point)
+    assertions.is_boolean(contains)
+
     return contains or additional:contains(point)
   end)
 end
@@ -24,10 +28,13 @@ end
 -- @tparam Field additional
 -- @treturn Field
 function sets.complement(base, additional)
-  assert(types.is_instance(base, Field))
-  assert(types.is_instance(additional, Field))
+  assertions.is_instance(base, Field)
+  assertions.is_instance(additional, Field)
 
   return base:map(function(point, contains)
+    assertions.is_instance(point, Point)
+    assertions.is_boolean(contains)
+
     return contains and not additional:contains(point)
   end)
 end
@@ -37,10 +44,13 @@ end
 -- @tparam Field additional
 -- @treturn Field
 function sets.intersection(base, additional)
-  assert(types.is_instance(base, Field))
-  assert(types.is_instance(additional, Field))
+  assertions.is_instance(base, Field)
+  assertions.is_instance(additional, Field)
 
   return base:map(function(point, contains)
+    assertions.is_instance(point, Point)
+    assertions.is_boolean(contains)
+
     return contains and additional:contains(point)
   end)
 end

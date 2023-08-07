@@ -1,7 +1,7 @@
 ---
 -- @module matrix
 
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 
@@ -11,13 +11,15 @@ local matrix = {}
 -- @tparam Field field
 -- @treturn Field
 function matrix.rotate(field)
-  assert(types.is_instance(field, Field))
+  assertions.is_instance(field, Field)
   assert(field.size.width == field.size.height)
 
   -- make an empty field copy (i.e. without cells)
   -- and detect the field offset
   local offset = nil
   local rotated_field = field:map(function(point)
+    assertions.is_instance(point, Point)
+
     if not offset then
       offset = point
     end

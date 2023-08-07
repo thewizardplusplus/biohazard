@@ -2,7 +2,7 @@
 -- @classmod Point
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Stringifiable = require("lualife.models.stringifiable")
 
 local Point = middleclass("Point")
@@ -19,8 +19,8 @@ Point:include(Stringifiable)
 -- @tparam number y
 -- @treturn Point
 function Point:initialize(x, y)
-  assert(types.is_number_with_limits(x))
-  assert(types.is_number_with_limits(y))
+  assertions.is_number(x)
+  assertions.is_number(y)
 
   self.x = x
   self.y = y
@@ -44,7 +44,7 @@ end
 -- @tparam Point point
 -- @treturn Point
 function Point:translate(point)
-  assert(types.is_instance(point, Point))
+  assertions.is_instance(point, Point)
 
   return Point:new(self.x + point.x, self.y + point.y)
 end
@@ -53,7 +53,7 @@ end
 -- @tparam number factor
 -- @treturn Point
 function Point:scale(factor)
-  assert(types.is_number_with_limits(factor))
+  assertions.is_number(factor)
 
   return Point:new(self.x * factor, self.y * factor)
 end
