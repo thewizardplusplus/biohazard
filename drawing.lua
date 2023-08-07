@@ -1,7 +1,7 @@
 ---
 -- @module drawing
 
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local typeutils = require("typeutils")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
@@ -17,10 +17,11 @@ local drawing = {}
 -- @tparam Rectangle screen
 -- @tparam biohazardcore.ClassifiedGame game
 function drawing.draw_game(screen, game)
-  assert(types.is_instance(screen, Rectangle))
-  assert(types.is_instance(game, ClassifiedGame))
+  assertions.is_instance(screen, Rectangle)
+  assertions.is_instance(game, ClassifiedGame)
 
-  local grid_step = screen:height() / game.settings.field.size.height
+  local grid_step =
+    math.floor(screen:height() / game.settings.field.size.height)
   local field_offset = screen.minimum
     :translate(Point:new(
       (screen:width() - grid_step * game.settings.field.size.width) / 2,
@@ -45,7 +46,7 @@ function drawing.draw_game(screen, game)
     DrawingSettings:new(field_offset, grid_step)
       :map_point(game:offset()),
     typeutils.scale_size(game.settings.field_part.size, grid_step),
-    grid_step / 10,
+    math.floor(grid_step / 10),
     Color:new(0.75, 0.75, 0)
   )
 end
@@ -54,10 +55,13 @@ end
 -- @tparam lualife.models.Field field
 -- @tparam DrawingSettings settings
 function drawing._draw_field(field, settings)
-  assert(types.is_instance(field, Field))
-  assert(types.is_instance(settings, DrawingSettings) and settings.cell_kind)
+  assertions.is_instance(field, Field)
+  assertions.is_instance(settings, DrawingSettings)
 
   field:map(function(point, contains)
+    assertions.is_instance(point, Point)
+    assertions.is_boolean(contains)
+
     if contains then
       drawing._draw_cell(point, settings)
     end
@@ -68,8 +72,8 @@ end
 -- @tparam lualife.models.Point point
 -- @tparam DrawingSettings settings
 function drawing._draw_cell(point, settings)
-  assert(types.is_instance(point, Point))
-  assert(types.is_instance(settings, DrawingSettings) and settings.cell_kind)
+  assertions.is_instance(point, Point)
+  assertions.is_instance(settings, DrawingSettings)
 
   local cell_color
   if settings.cell_kind == "old" then
@@ -84,7 +88,7 @@ function drawing._draw_cell(point, settings)
     "fill",
     settings:map_point(point),
     Size:new(settings.grid_step, settings.grid_step),
-    settings.grid_step / 4,
+    math.floor(settings.grid_step / 4),
     cell_color
   )
 end
@@ -103,11 +107,11 @@ function drawing._draw_rectangle(
   border,
   color
 )
-  assert(rectangle_kind == "line" or rectangle_kind == "fill")
-  assert(types.is_instance(position, Point))
-  assert(types.is_instance(size, Size))
-  assert(types.is_number_with_limits(border, 0))
-  assert(types.is_instance(color, Color))
+  assertions.is_enumeration(rectangle_kind, {"line", "fill"})
+  assertions.is_instance(position, Point)
+  assertions.is_instance(size, Size)
+  assertions.is_integer(border)
+  assertions.is_instance(color, Color)
 
   local border_width, border_radius = 0, 0
   if rectangle_kind == "line" then
