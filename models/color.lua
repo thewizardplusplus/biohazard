@@ -2,7 +2,7 @@
 -- @classmod Color
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 
 local Color = middleclass("Color")
 
@@ -19,9 +19,9 @@ local Color = middleclass("Color")
 -- @tparam number blue [0, 1]
 -- @treturn Color
 function Color:initialize(red, green, blue)
-  assert(types.is_number_with_limits(red, 0, 1))
-  assert(types.is_number_with_limits(green, 0, 1))
-  assert(types.is_number_with_limits(blue, 0, 1))
+  assertions.is_number(red)
+  assertions.is_number(green)
+  assertions.is_number(blue)
 
   self.red = red
   self.green = green
