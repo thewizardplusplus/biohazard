@@ -2,7 +2,7 @@
 -- @classmod GameStatsStorage
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Game = require("biohazardcore.game")
 local StatsStorage = require("stats.statsstorage")
 
@@ -19,8 +19,8 @@ local GameStatsStorage = middleclass("GameStatsStorage", StatsStorage)
 -- @tparam biohazardcore.Game game
 -- @treturn GameStatsStorage
 function GameStatsStorage:initialize(path, game)
-  assert(type(path) == "string")
-  assert(types.is_instance(game, Game))
+  assertions.is_string(path)
+  assertions.is_instance(game, Game)
 
   local field_size = game.settings.field.size
   StatsStorage.initialize(self, path, field_size.width * field_size.height)
