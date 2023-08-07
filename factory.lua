@@ -1,7 +1,7 @@
 ---
 -- @module factory
 
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local typeutils = require("typeutils")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
@@ -18,7 +18,7 @@ local factory = {}
 -- @treturn biohazardcore.ClassifiedGame
 -- @error error message
 function factory.create_game(config_path)
-  assert(type(config_path) == "string")
+  assertions.is_string(config_path)
 
   local game_config, loading_err = typeutils.load_json(config_path, {
     type = "object",
@@ -80,8 +80,8 @@ end
 -- @treturn GameStatsStorage
 -- @error error message
 function factory.create_stats_storage(path, game)
-  assert(type(path) == "string")
-  assert(types.is_instance(game, Game))
+  assertions.is_string(path)
+  assertions.is_instance(game, Game)
 
   local ok = love.filesystem.createDirectory(path)
   if not ok then
@@ -96,7 +96,7 @@ end
 -- @tparam tab field_config
 -- @treturn FieldSettings
 function factory._create_field_config(field_config)
-  assert(type(field_config) == "table" and type(field_config.size) == "table")
+  assertions.is_table(field_config)
 
   return FieldSettings:new(
     Size:new(
