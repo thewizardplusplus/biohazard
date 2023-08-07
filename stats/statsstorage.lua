@@ -3,7 +3,7 @@
 
 local middleclass = require("middleclass")
 local flatdb = require("flatdb")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Stats = require("models.stats")
 
 local StatsStorage = middleclass("StatsStorage")
@@ -18,8 +18,8 @@ local StatsStorage = middleclass("StatsStorage")
 -- @tparam int initial_minimal [0, ∞)
 -- @treturn StatsStorage
 function StatsStorage:initialize(path, initial_minimal)
-  assert(type(path) == "string")
-  assert(types.is_number_with_limits(initial_minimal, 0))
+  assertions.is_string(path)
+  assertions.is_integer(initial_minimal)
 
   self._db = flatdb(path)
   if not self._db.stats then
@@ -33,7 +33,7 @@ end
 -- @tparam int current [0, ∞)
 -- @treturn Stats
 function StatsStorage:update(current)
-  assert(types.is_number_with_limits(current, 0))
+  assertions.is_integer(current)
 
   if self._db.stats.minimal > current then
     self._db.stats.minimal = current
