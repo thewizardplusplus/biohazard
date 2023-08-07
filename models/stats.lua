@@ -2,7 +2,7 @@
 -- @classmod Stats
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 
 local Stats = middleclass("Stats")
 
@@ -17,8 +17,8 @@ local Stats = middleclass("Stats")
 -- @tparam int minimal
 -- @treturn Stats
 function Stats:initialize(current, minimal)
-  assert(types.is_number_with_limits(current, 0))
-  assert(types.is_number_with_limits(minimal, 0))
+  assertions.is_integer(current)
+  assertions.is_integer(minimal)
 
   self.current = current
   self.minimal = minimal
