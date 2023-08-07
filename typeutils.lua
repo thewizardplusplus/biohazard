@@ -3,7 +3,7 @@
 
 local json = require("json")
 local jsonschema = require("jsonschema")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Size = require("lualife.models.size")
 
 local typeutils = {}
@@ -14,7 +14,7 @@ local typeutils = {}
 -- @treturn any successful handler result
 -- @error raised handler error
 function typeutils.catch_error(handler, ...)
-  assert(type(handler) == "function")
+  assertions.is_function(handler)
 
   local arguments = table.pack(...)
   local ok, result = pcall(function()
@@ -32,8 +32,8 @@ end
 -- @tparam int factor [0, ∞)
 -- @treturn lualife.models.Size
 function typeutils.scale_size(size, factor)
-  assert(types.is_instance(size, Size))
-  assert(types.is_number_with_limits(factor))
+  assertions.is_instance(size, Size)
+  assertions.is_integer(factor)
 
   return Size:new(factor * size.width, factor * size.height)
 end
@@ -44,8 +44,8 @@ end
 -- @treturn tab
 -- @error error message
 function typeutils.load_json(path, schema)
-  assert(type(path) == "string")
-  assert(type(schema) == "table")
+  assertions.is_string(path)
+  assertions.is_table(schema)
 
   local data_in_json, reading_err = love.filesystem.read(path)
   if not data_in_json then
