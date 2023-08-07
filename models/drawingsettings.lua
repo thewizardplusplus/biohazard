@@ -2,7 +2,7 @@
 -- @classmod DrawingSettings
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Point = require("lualife.models.point")
 local CellClassification = require("biohazardcore.models.cellclassification")
 
@@ -21,9 +21,11 @@ local DrawingSettings = middleclass("DrawingSettings")
 -- @tparam[opt] "old"|"new"|"intersection" cell_kind
 -- @treturn DrawingSettings
 function DrawingSettings:initialize(field_offset, grid_step, cell_kind)
-  assert(types.is_instance(field_offset, Point))
-  assert(types.is_number_with_limits(grid_step, 0))
-  assert(cell_kind == nil or CellClassification.is_cell_kind(cell_kind))
+  assertions.is_instance(field_offset, Point)
+  assertions.is_integer(grid_step)
+  assertions.is_true(
+    cell_kind == nil or CellClassification.is_cell_kind(cell_kind)
+  )
 
   self.field_offset = field_offset
   self.grid_step = grid_step
@@ -34,7 +36,7 @@ end
 -- @tparam lualife.models.Point point
 -- @treturn lualife.models.Point
 function DrawingSettings:map_point(point)
-  assert(types.is_instance(point, Point))
+  assertions.is_instance(point, Point)
 
   return point
     :scale(self.grid_step)
