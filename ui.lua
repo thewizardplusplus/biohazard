@@ -3,7 +3,7 @@
 
 local baton = require("baton")
 local suit = require("suit")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local typeutils = require("typeutils")
 local Rectangle = require("models.rectangle")
 local Stats = require("models.stats")
@@ -17,7 +17,7 @@ local ui = {}
 -- @treturn baton.Player
 -- @error error message
 function ui.create_keys(config_path)
-  assert(type(config_path) == "string")
+  assertions.is_string(config_path)
 
   local keys_config, loading_err = typeutils.load_json(config_path, {
     type = "object",
@@ -55,7 +55,7 @@ end
 ---
 -- @tparam Rectangle screen
 function ui.draw(screen)
-  assert(types.is_instance(screen, Rectangle))
+  assertions.is_instance(screen, Rectangle)
 
   local font_size = screen:height() / 20
   love.graphics.setFont(love.graphics.newFont(font_size))
@@ -69,9 +69,9 @@ end
 -- @tparam baton.Player keys
 -- @treturn UiUpdate
 function ui.update(screen, stats, keys)
-  assert(types.is_instance(screen, Rectangle))
-  assert(types.is_instance(stats, Stats))
-  assert(type(keys) == "table")
+  assertions.is_instance(screen, Rectangle)
+  assertions.is_instance(stats, Stats)
+  assertions.is_table(keys)
 
   ui._update_labels(screen, stats)
 
@@ -84,8 +84,8 @@ end
 -- @tparam Rectangle screen
 -- @tparam Stats stats
 function ui._update_labels(screen, stats)
-  assert(types.is_instance(screen, Rectangle))
-  assert(types.is_instance(stats, Stats))
+  assertions.is_instance(screen, Rectangle)
+  assertions.is_instance(stats, Stats)
 
   local grid_step = screen:height() / 12
 
@@ -126,7 +126,7 @@ end
 -- @tparam Rectangle screen
 -- @treturn UiUpdate
 function ui._update_buttons(screen)
-  assert(types.is_instance(screen, Rectangle))
+  assertions.is_instance(screen, Rectangle)
 
   local grid_step = screen:height() / 4
   local padding = grid_step / 8
@@ -173,7 +173,7 @@ end
 -- @tparam baton.Player keys
 -- @treturn UiUpdate
 function ui._update_keys(keys)
-  assert(type(keys) == "table")
+  assertions.is_table(keys)
 
   keys:update()
 
@@ -192,8 +192,8 @@ end
 -- @tparam "left"|"right" align
 -- @treturn tab common SUIT widget options
 function ui._create_label_options(color, align)
-  assert(types.is_instance(color, Color))
-  assert(align == "left" or align == "right")
+  assertions.is_instance(color, Color)
+  assertions.is_enumeration(align, {"left", "right"})
 
   return {
     color = {normal = {fg = color:channels()}},
