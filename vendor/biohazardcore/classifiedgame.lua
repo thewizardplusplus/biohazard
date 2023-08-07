@@ -2,7 +2,7 @@
 -- @classmod ClassifiedGame
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local GameSettings = require("biohazardcore.models.gamesettings")
 local CellClassification = require("biohazardcore.models.cellclassification")
 local sets = require("lualife.sets")
@@ -21,7 +21,7 @@ local ClassifiedGame = middleclass("ClassifiedGame", Game)
 -- @tparam GameSettings settings
 -- @treturn ClassifiedGame
 function ClassifiedGame:initialize(settings)
-  assert(types.is_instance(settings, GameSettings))
+  assertions.is_instance(settings, GameSettings)
 
   Game.initialize(self, settings)
 end

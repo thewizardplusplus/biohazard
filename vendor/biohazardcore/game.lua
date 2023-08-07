@@ -2,7 +2,7 @@
 -- @classmod Game
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Point = require("lualife.models.point")
 local PlacedField = require("lualife.models.placedfield")
 local GameSettings = require("biohazardcore.models.gamesettings")
@@ -24,7 +24,7 @@ local Game = middleclass("Game")
 -- @tparam GameSettings settings
 -- @treturn Game
 function Game:initialize(settings)
-  assert(types.is_instance(settings, GameSettings))
+  assertions.is_instance(settings, GameSettings)
 
   self.settings = settings
   self._field = factory.create_field(settings.field)
@@ -47,7 +47,7 @@ end
 -- @tparam lualife.models.Point delta_offset
 -- @treturn bool
 function Game:move(delta_offset)
-  assert(types.is_instance(delta_offset, Point))
+  assertions.is_instance(delta_offset, Point)
 
   local field_part_offset_next = self._field_part.offset:translate(delta_offset)
   local field_part_next =

@@ -2,7 +2,7 @@
 -- @classmod GameSettings
 
 local middleclass = require("middleclass")
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Stringifiable = require("lualife.models.stringifiable")
 local FieldSettings = require("biohazardcore.models.fieldsettings")
 
@@ -20,8 +20,8 @@ GameSettings:include(Stringifiable)
 -- @tparam FieldSettings field_part
 -- @treturn GameSettings
 function GameSettings:initialize(field, field_part)
-  assert(types.is_instance(field, FieldSettings))
-  assert(types.is_instance(field_part, FieldSettings))
+  assertions.is_instance(field, FieldSettings)
+  assertions.is_instance(field_part, FieldSettings)
 
   self.field = field
   self.field_part = field_part
