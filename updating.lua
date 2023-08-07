@@ -1,7 +1,7 @@
 ---
 -- @module updating
 
-local types = require("lualife.types")
+local assertions = require("luatypechecks.assertions")
 local Point = require("lualife.models.point")
 local Game = require("biohazardcore.game")
 local Rectangle = require("models.rectangle")
@@ -24,8 +24,8 @@ end
 -- @tparam biohazardcore.Game game
 -- @tparam UiUpdate update
 function updating.update_game(game, update)
-  assert(types.is_instance(game, Game))
-  assert(types.is_instance(update, UiUpdate))
+  assertions.is_instance(game, Game)
+  assertions.is_instance(update, UiUpdate)
 
   game:move(update:delta_offset())
   if update.rotated then
