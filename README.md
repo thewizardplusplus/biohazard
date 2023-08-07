@@ -1,5 +1,7 @@
 # Biohazard
 
+[![doc:build](https://github.com/thewizardplusplus/biohazard/actions/workflows/doc.yaml/badge.svg)](https://github.com/thewizardplusplus/biohazard/actions/workflows/doc.yaml)
+[![doc:link](https://img.shields.io/badge/doc%3Alink-link-blue?logo=github)](https://thewizardplusplus.github.io/biohazard/)
 [![lint](https://github.com/thewizardplusplus/biohazard/actions/workflows/lint.yaml/badge.svg)](https://github.com/thewizardplusplus/biohazard/actions/workflows/lint.yaml)
 
 ![](docs/screenshot.png)
