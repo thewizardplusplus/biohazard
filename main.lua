@@ -2,6 +2,7 @@ local require_paths =
   {"?.lua", "?/init.lua", "vendor/?.lua", "vendor/?/init.lua"}
 love.filesystem.setRequirePath(table.concat(require_paths, ";"))
 
+local assertions = require("luatypechecks.assertions")
 local factory = require("factory")
 local drawing = require("drawing")
 local ui = require("ui")
@@ -13,7 +14,7 @@ local screen = nil -- models.Rectangle
 local stats_storage = nil -- stats.StatsStorage
 local keys = nil -- baton.Player
 
-local function enter_fullscreen()
+local function _enter_fullscreen()
   local is_mobile_os = love.system.getOS() == "Android"
     or love.system.getOS() == "iOS"
   if not is_mobile_os then
@@ -32,7 +33,7 @@ function love.load()
   math.randomseed(os.time())
   love.setDeprecationOutput(true)
   love.graphics.setBackgroundColor(0.5, 0.5, 0.5)
-  assert(enter_fullscreen())
+  assert(_enter_fullscreen())
 
   game = assert(factory.create_game("game_config.json"))
   stats_storage = assert(factory.create_stats_storage("stats-db", game))
@@ -53,6 +54,8 @@ function love.update()
 end
 
 function love.keypressed(key)
+  assertions.is_string(key)
+
   -- can't use the baton library here
   -- because the love.keyboard.isDown() function
   -- doesn't support the escape key
