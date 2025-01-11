@@ -1,37 +1,37 @@
-local function is_config(config)
-  return type(config) == "table" and type(config.window) == "table"
-end
+local require_paths =
+  {"?.lua", "?/init.lua", "vendor/?.lua", "vendor/?/init.lua"}
+love.filesystem.setRequirePath(table.concat(require_paths, ";"))
 
-local function is_positive_number(number)
-  return type(number) == "number" and number >= 0
-end
+local assertions = require("luatypechecks.assertions")
 
-local function set_title(config, title)
-  assert(is_config(config))
-  assert(type(title) == "string")
+local function _set_title(config, title)
+  assertions.is_table(config)
+  assertions.is_string(title)
 
   config.window.title = title
   config.identity = string.lower(title)
 end
 
-local function set_screen_width(config, width, aspect_ratio, prefix)
-  assert(is_config(config))
-  assert(is_positive_number(width))
-  assert(is_positive_number(aspect_ratio))
-  assert(type(prefix) == "string")
+local function _set_screen_width(config, width, aspect_ratio, prefix)
+  assertions.is_table(config)
+  assertions.is_number(width)
+  assertions.is_number(aspect_ratio)
+  assertions.is_string(prefix)
 
   config.window[prefix .. "width"] = width
   config.window[prefix .. "height"] = width / aspect_ratio
 end
 
 function love.conf(config)
+  assertions.is_table(config)
+
   config.version = "11.3"
 
   config.window.resizable = true
   config.window.msaa = 8
 
-  set_title(config, "Biohazard")
+  _set_title(config, "Biohazard")
   for _, prefix in ipairs({"", "min"}) do
-    set_screen_width(config, 640, 16 / 10, prefix)
+    _set_screen_width(config, 640, 16 / 10, prefix)
   end
 end
