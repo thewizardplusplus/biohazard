@@ -1,13 +1,17 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod CellClassification
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
 local checks = require("luatypechecks.checks")
-local Stringifiable = require("lualife.models.stringifiable")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local PlacedField = require("lualife.models.placedfield")
 
 local CellClassification = middleclass("CellClassification")
+CellClassification:include(Nameable)
 CellClassification:include(Stringifiable)
 
 ---
@@ -75,10 +79,11 @@ end
 
 ---
 -- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 function CellClassification:__data()
   local data = {}
   for cell_kind, cells in pairs(self) do
-    data[cell_kind] = cells:__data()
+    data[cell_kind] = cells
   end
 
   return data
@@ -87,5 +92,6 @@ end
 ---
 -- @function __tostring
 -- @treturn string stringified table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 return CellClassification

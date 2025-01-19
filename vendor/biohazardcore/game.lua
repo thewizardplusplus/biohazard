@@ -1,8 +1,12 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod Game
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local Point = require("lualife.models.point")
 local PlacedField = require("lualife.models.placedfield")
 local GameSettings = require("biohazardcore.models.gamesettings")
@@ -12,6 +16,8 @@ local life = require("lualife.life")
 local factory = require("biohazardcore.factory")
 
 local Game = middleclass("Game")
+Game:include(Nameable)
+Game:include(Stringifiable)
 
 ---
 -- @table instance
@@ -30,6 +36,22 @@ function Game:initialize(settings)
   self._field = factory.create_field(settings.field)
   self._field_part = factory.create_field(settings.field_part)
 end
+
+---
+-- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+function Game:__data()
+  return {
+    settings = self.settings,
+    field = self._field,
+    field_part = self._field_part,
+  }
+end
+
+---
+-- @function __tostring
+-- @treturn string stringified table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 ---
 -- @treturn int

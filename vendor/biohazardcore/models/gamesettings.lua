@@ -1,12 +1,16 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod GameSettings
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
-local Stringifiable = require("lualife.models.stringifiable")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local FieldSettings = require("biohazardcore.models.fieldsettings")
 
 local GameSettings = middleclass("GameSettings")
+GameSettings:include(Nameable)
 GameSettings:include(Stringifiable)
 
 ---
@@ -29,15 +33,17 @@ end
 
 ---
 -- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 function GameSettings:__data()
   return {
-    field = self.field:__data(),
-    field_part = self.field_part:__data(),
+    field = self.field,
+    field_part = self.field_part,
   }
 end
 
 ---
 -- @function __tostring
 -- @treturn string stringified table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 return GameSettings

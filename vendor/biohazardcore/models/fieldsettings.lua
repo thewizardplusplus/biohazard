@@ -1,13 +1,17 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod FieldSettings
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
-local Stringifiable = require("lualife.models.stringifiable")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 
 local FieldSettings = middleclass("FieldSettings")
+FieldSettings:include(Nameable)
 FieldSettings:include(Stringifiable)
 
 ---
@@ -53,10 +57,11 @@ end
 
 ---
 -- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 function FieldSettings:__data()
   return {
-    size = self.size:__data(),
-    initial_offset = self.initial_offset:__data(),
+    size = self.size,
+    initial_offset = self.initial_offset,
     filling = self.filling,
     minimal_count = self.minimal_count,
     maximal_count = self.maximal_count,
@@ -66,5 +71,6 @@ end
 ---
 -- @function __tostring
 -- @treturn string stringified table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 return FieldSettings
