@@ -1,11 +1,17 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod UiUpdate
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local Point = require("lualife.models.point")
 
 local UiUpdate = middleclass("UiUpdate")
+UiUpdate:include(Nameable)
+UiUpdate:include(Stringifiable)
 
 ---
 -- @table instance
@@ -47,6 +53,25 @@ function UiUpdate:initialize(
   self.rotated = rotated
   self.unioned = unioned
 end
+
+---
+-- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+function UiUpdate:__data()
+  return {
+    moved_left = self.moved_left,
+    moved_right = self.moved_right,
+    moved_top = self.moved_top,
+    moved_bottom = self.moved_bottom,
+    rotated = self.rotated,
+    unioned = self.unioned,
+  }
+end
+
+---
+-- @function __tostring
+-- @treturn string stringified table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 ---
 -- @treturn lualife.models.Point
