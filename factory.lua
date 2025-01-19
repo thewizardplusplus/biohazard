@@ -20,7 +20,7 @@ local factory = {}
 function factory.create_game(config_path)
   assertions.is_string(config_path)
 
-  local game_config, loading_err = typeutils.load_json(config_path, {
+  local game_config, err = typeutils.load_from_json(config_path, {
     type = "object",
     properties = {
       field = {["$ref"] = "#/definitions/field_config"},
@@ -65,7 +65,7 @@ function factory.create_game(config_path)
     },
   })
   if not game_config then
-    return nil, "unable to load the game config: " .. loading_err
+    return nil, "unable to load the game config: " .. err
   end
 
   return ClassifiedGame:new(GameSettings:new(

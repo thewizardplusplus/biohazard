@@ -19,7 +19,7 @@ local ui = {}
 function ui.create_keys(config_path)
   assertions.is_string(config_path)
 
-  local keys_config, loading_err = typeutils.load_json(config_path, {
+  local keys_config, err = typeutils.load_from_json(config_path, {
     type = "object",
     properties = {
       moved_left = {["$ref"] = "#/definitions/source_group"},
@@ -46,7 +46,7 @@ function ui.create_keys(config_path)
     },
   })
   if not keys_config then
-    return nil, "unable to load the keys config: " .. loading_err
+    return nil, "unable to load the keys config: " .. err
   end
 
   return baton.new({controls = keys_config})
