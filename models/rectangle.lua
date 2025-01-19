@@ -1,11 +1,17 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod Rectangle
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local Point = require("lualife.models.point")
 
 local Rectangle = middleclass("Rectangle")
+Rectangle:include(Nameable)
+Rectangle:include(Stringifiable)
 
 ---
 -- @table instance
@@ -24,6 +30,21 @@ function Rectangle:initialize(minimum, maximum)
   self.minimum = minimum
   self.maximum = maximum
 end
+
+---
+-- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
+function Rectangle:__data()
+  return {
+    minimum = self.minimum,
+    maximum = self.maximum,
+  }
+end
+
+---
+-- @function __tostring
+-- @treturn string stringified table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 ---
 -- @treturn number
