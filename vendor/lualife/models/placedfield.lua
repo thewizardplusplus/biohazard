@@ -1,15 +1,15 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod PlacedField
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
-local Stringifiable = require("lualife.models.stringifiable")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
 
 local PlacedField = middleclass("PlacedField", Field)
-PlacedField:include(Stringifiable)
 
 ---
 -- @table instance
@@ -54,9 +54,10 @@ end
 
 ---
 -- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 function PlacedField:__data()
   local data = Field.__data(self)
-  data.offset = self.offset:__data()
+  data.offset = self.offset
 
   return data
 end
@@ -64,7 +65,7 @@ end
 ---
 -- @function __tostring
 -- @treturn string stringified table with instance fields
--- @see Stringifiable
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 ---
 -- @function count

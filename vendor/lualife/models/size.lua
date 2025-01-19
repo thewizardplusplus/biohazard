@@ -1,12 +1,16 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod Size
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
-local Stringifiable = require("lualife.models.stringifiable")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local Point = require("lualife.models.point")
 
 local Size = middleclass("Size")
+Size:include(Nameable)
 Size:include(Stringifiable)
 
 ---
@@ -29,6 +33,7 @@ end
 
 ---
 -- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 function Size:__data()
   return {
     width = self.width,
@@ -39,7 +44,7 @@ end
 ---
 -- @function __tostring
 -- @treturn string stringified table with instance fields
--- @see Stringifiable
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 ---
 -- @tparam Point point

@@ -1,13 +1,17 @@
+-- luacheck: no max comment line length
+
 ---
 -- @classmod Field
 
 local middleclass = require("middleclass")
 local assertions = require("luatypechecks.assertions")
-local Stringifiable = require("lualife.models.stringifiable")
+local Nameable = require("luaserialization.nameable")
+local Stringifiable = require("luaserialization.stringifiable")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 
 local Field = middleclass("Field")
+Field:include(Nameable)
 Field:include(Stringifiable)
 
 ---
@@ -29,6 +33,7 @@ end
 
 ---
 -- @treturn tab table with instance fields
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 function Field:__data()
   local cells = {}
   self:map(function(point, contains)
@@ -36,12 +41,12 @@ function Field:__data()
     assertions.is_boolean(contains)
 
     if contains then
-      table.insert(cells, point:__data())
+      table.insert(cells, point)
     end
   end)
 
   return {
-    size = self.size:__data(),
+    size = self.size,
     cells = cells,
   }
 end
@@ -49,7 +54,7 @@ end
 ---
 -- @function __tostring
 -- @treturn string stringified table with instance fields
--- @see Stringifiable
+--   (see the [luaserialization](https://github.com/thewizardplusplus/luaserialization) library)
 
 ---
 -- @treturn int [0, self.size.width * self.size.height]
