@@ -4,7 +4,7 @@
 local baton = require("baton")
 local suit = require("suit")
 local assertions = require("luatypechecks.assertions")
-local typeutils = require("typeutils")
+local jsonutils = require("jsonutils")
 local Rectangle = require("models.rectangle")
 local Stats = require("models.stats")
 local UiUpdate = require("models.uiupdate")
@@ -19,7 +19,7 @@ local ui = {}
 function ui.create_keys(config_path)
   assertions.is_string(config_path)
 
-  local keys_config, err = typeutils.load_from_json(config_path, {
+  local keys_config, err = jsonutils.load_from_json(config_path, {
     type = "object",
     properties = {
       moved_left = {["$ref"] = "#/definitions/source_group"},

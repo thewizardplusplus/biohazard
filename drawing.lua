@@ -2,7 +2,7 @@
 -- @module drawing
 
 local assertions = require("luatypechecks.assertions")
-local typeutils = require("typeutils")
+local mathutils = require("mathutils")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local Field = require("lualife.models.field")
@@ -30,7 +30,7 @@ function drawing.draw_game(screen, game)
   drawing._draw_rectangle(
     "fill",
     field_offset,
-    typeutils.scale_size(game.settings.field.size, grid_step),
+    mathutils.scale_size(game.settings.field.size, grid_step),
     0,
     Color:new(1, 1, 1)
   )
@@ -45,7 +45,7 @@ function drawing.draw_game(screen, game)
     "line",
     DrawingSettings:new(field_offset, grid_step)
       :map_point(game:offset()),
-    typeutils.scale_size(game.settings.field_part.size, grid_step),
+    mathutils.scale_size(game.settings.field_part.size, grid_step),
     math.floor(grid_step / 10),
     Color:new(0.75, 0.75, 0)
   )

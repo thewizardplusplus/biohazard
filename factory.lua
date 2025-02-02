@@ -2,7 +2,7 @@
 -- @module factory
 
 local assertions = require("luatypechecks.assertions")
-local typeutils = require("typeutils")
+local jsonutils = require("jsonutils")
 local Size = require("lualife.models.size")
 local Point = require("lualife.models.point")
 local FieldSettings = require("biohazardcore.models.fieldsettings")
@@ -20,7 +20,7 @@ local factory = {}
 function factory.create_game(config_path)
   assertions.is_string(config_path)
 
-  local game_config, err = typeutils.load_from_json(config_path, {
+  local game_config, err = jsonutils.load_from_json(config_path, {
     type = "object",
     properties = {
       field = {["$ref"] = "#/definitions/field_config"},
